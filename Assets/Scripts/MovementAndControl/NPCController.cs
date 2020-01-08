@@ -5,14 +5,14 @@ using Prime31;
 public class NPCController : MonoBehaviour
 {
     public bool dialogueTriggered;
-    public bool wander = true;
-    public bool followPlayer;
+
     public int intervalMin = 1;
     public int intervalMax = 4;
 	public float gravity = -10f;
 	public float runSpeed = 1f;
+    public bool standStill = true;
 
-	private CharacterMovement2D _characterMovement;
+    private CharacterMovement2D _characterMovement;
 	private Animator _animator;
 	private RaycastHit2D _lastControllerColliderHit;
 	private Vector3 _velocity;
@@ -23,6 +23,8 @@ public class NPCController : MonoBehaviour
     private int _interval;
     private float _lastMoveTime;
     private bool _nearPlayer;
+    private bool _followPlayer;
+    private bool _wander = true;
 
     void Awake()
     {
@@ -39,23 +41,17 @@ public class NPCController : MonoBehaviour
 
         if (dialogueTriggered || DialogueManager.CurrentDialogue == _interactableController.dialogue.name)
         {
-            if (!_nearPlayer)
+            if (DialogueManager.CurrentDialogue != _interactableController.dialogue.name && _nearPlayer)
             {
-                followPlayer = true;
-            } else if (_nearPlayer)
-            {
-                if (DialogueManager.CurrentDialogue != _interactableController.dialogue.name)
-                {
-                    _interactableController.TriggerDialogue();
-                    dialogueTriggered = false;
-                }
-                followPlayer = false;
+                _interactableController.TriggerDialogue();
+                dialogueTriggered = false;
             }
-            wander = false;
+            _followPlayer = !_nearPlayer;
+            _wander = false;
         } else
         {
-            wander = true;
-            followPlayer = false;
+            _followPlayer = false;
+            _wander = !standStill;
         }
 
         if (Mathf.RoundToInt(_player.transform.position.x) == Mathf.RoundToInt(transform.position.x))
@@ -63,18 +59,18 @@ public class NPCController : MonoBehaviour
         else
             _nearPlayer = false;
 
-        if (wander && Time.realtimeSinceStartup - _lastMoveTime > _interval)
+        if (_wander && Time.realtimeSinceStartup - _lastMoveTime > _interval)
         {
             _direction = Random.Range(-1, 2); // The second argument minus one is the range's maximum value
             _interval = Random.Range(intervalMin, intervalMax + 1);
             _lastMoveTime = Time.realtimeSinceStartup;
-        } else if (followPlayer && !_nearPlayer)
+        } else if (_followPlayer && !_nearPlayer)
         {
             if (_player.transform.position.x > transform.position.x)
                 _direction = 1;
             else if (_player.transform.position.x < transform.position.x)
                 _direction = -1;
-        } else if (!wander)
+        } else if (!_wander)
         {
             _direction = 0;
             _interval = 0;
@@ -90,7 +86,7 @@ public class NPCController : MonoBehaviour
                 transform.localScale = new Vector3( -transform.localScale.x, transform.localScale.y, transform.localScale.z );
             if( _characterMovement.isGrounded )
                 _animator.Play( Animator.StringToHash( "Run" ) );
-            if(_characterMovement.velocity.x != 1 && wander)
+            if(_characterMovement.velocity.x != 1 && _wander)
                 _direction = -1;
         }
         else if( _direction == -1 )
@@ -99,7 +95,7 @@ public class NPCController : MonoBehaviour
                 transform.localScale = new Vector3( -transform.localScale.x, transform.localScale.y, transform.localScale.z );
             if( _characterMovement.isGrounded )
                 _animator.Play( Animator.StringToHash( "Run" ) );
-            if(_characterMovement.velocity.x != -1 && wander)
+            if(_characterMovement.velocity.x != -1 && _wander)
                 _direction = 1;
         }
         else

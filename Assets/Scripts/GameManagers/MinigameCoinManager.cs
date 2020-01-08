@@ -17,6 +17,7 @@ public class MinigameCoinManager : MonoBehaviour
     private float _instantiateDelay;
     private int _timer;
     
+    public int cooldownTime = 2;
     public GameObject pennyPrefab, nickelPrefab, dimePrefab, quarterPrefab;
     # region public config classes
     [System.Serializable]
@@ -152,6 +153,8 @@ public class MinigameCoinManager : MonoBehaviour
         {
             _timerText.SetText($"Time left: {i} seconds");
             yield return new WaitForSeconds(1);
+            if (i == cooldownTime)
+                StopCoroutine(InstantiateLoop());
         }
         CheckPass();
     }
