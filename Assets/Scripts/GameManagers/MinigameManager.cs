@@ -25,6 +25,7 @@ public class MinigameManager : MonoBehaviour
     public static string Minigame = ""; // Full id of minigame e.g., Minigame_Grandma_Easy
     public static string MinigameName = ""; // First two parts of the minigame id e.g., Minigame_Grandma
     public static string MinigameDifficulty = ""; // Just the last part of the minigame id containing the difficulty
+    public static bool MinigameDone;
 
     public static string ResolveEmptyMinigame() // For debug purposes
     {
@@ -81,6 +82,7 @@ public class MinigameManager : MonoBehaviour
             PlayerController.Points += MinigamePoints[Minigame];
             LevelManager.Scoreboard["minigameBonus"] += MinigamePoints[Minigame];
             Minigame = ""; // Clears the variable so the minigame cannot be replayed
+            MinigameDone = true;
             SaveManager.Save();
         }
     }

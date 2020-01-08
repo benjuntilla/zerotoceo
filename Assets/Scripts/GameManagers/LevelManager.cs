@@ -36,6 +36,7 @@ public class LevelManager : MonoBehaviour
     public static void InitializeNextLevel()
     {
         GameObject.Find("Manager").GetComponent<NPCController>().dialogueTriggered = true;
+        MinigameManager.MinigameDone = false;
         SaveManager.Save();
         NextLevelFlag = false;
     }

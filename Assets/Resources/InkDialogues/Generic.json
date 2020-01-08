@@ -1,0 +1,1 @@
+﻿{"inkVersion":19,"root":[[["done",{"#f":5,"#n":"g-0"}],null],"done",{"GetGameLevel":["ev",1,"/ev","~ret",{"#f":1}],"GetPlayerXP":["ev",0,"/ev","~ret",{"#f":1}],"global decl":["ev",0,{"VAR=":"xp"},"str","^","/str",{"VAR=":"pendingMinigame"},0,{"VAR=":"minigameDone"},0,{"VAR=":"talkedToAndy"},"/ev","end",null],"#f":1}],"listDefs":{}}

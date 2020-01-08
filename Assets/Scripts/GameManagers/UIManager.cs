@@ -18,6 +18,8 @@ public class UIManager : MonoBehaviour
 
     public GUIStyle debugStyle;
     public UnityEvent uiReadyEvent = new UnityEvent();
+    [TextArea(3, 10)]
+    public string closingMenuText, openingMenuText, gameOverText, grandmaMinigameText, coinMinigameText, trashMinigameText;
     
     void OnGUI()
     {
@@ -380,12 +382,12 @@ public class UIManager : MonoBehaviour
                     Time.timeScale = 0f;
                 }));
                 _menuFullTitle.SetText("The beginning");
-                _menuFullText.SetText("You are 16 years old, a sophomore in high school. Your father is the CEO of a relatively well-known accounting company, BusinessTek. He invites you to work in his company, where he believes you will acquire important life skills. As an aspiring student in FBLA, you think of this as a pretty good opportunity, so you accept the offer. Today is your first day...");
+                StartCoroutine(TypeText(_menuFullText, openingMenuText));
                 _menuFullButtonText.SetText("Continue");
                 break;
             case "death":
                 _menuFullTitle.SetText("Game Over");
-                _menuFullText.SetText("You lost all your lives, losing your job in your father's company.");
+                StartCoroutine(TypeText(_menuFullText, gameOverText));
                 _menuFullButtonText.SetText("Main Menu");
                 break;
             case "closing":
@@ -397,7 +399,7 @@ public class UIManager : MonoBehaviour
                     Time.timeScale = 0f;
                 }));                
                 _menuFullTitle.SetText("You Beat the Game!");
-                _menuFullText.SetText("Your father sees you as worthy of his position, and he relinquishes his spot as CEO to you. He retires to a private island in an undisclosed location, leaving the rest of his fortune and his shares in the company to you. It seems like this was his plan all along! You use the skills you learned in your journey to successfully manage the company in the rest of your time as CEO.\nThe end.");
+                StartCoroutine(TypeText(_menuFullText, closingMenuText));
                 _menuFullButtonText.SetText("Main Menu");
                 break;
             case "Minigame_Grandma":
@@ -408,7 +410,7 @@ public class UIManager : MonoBehaviour
                     Time.timeScale = 0f;
                 }));                
                 _menuFullTitle.SetText("Minigame: Cross the street");
-                _menuFullText.SetText("Escort the grandma to the other sidewalk without getting hit by speeding cars. You must use timing and reflexes to your advantage. Good luck!");
+                StartCoroutine(TypeText(_menuFullText, grandmaMinigameText));
                 _menuFullButtonText.SetText("Continue");
                 break;
             case "Minigame_Trash":
@@ -419,7 +421,7 @@ public class UIManager : MonoBehaviour
                     Time.timeScale = 0f;
                 }));                
                 _menuFullTitle.SetText("Minigame: Collect the trash");
-                _menuFullText.SetText("Catch the falling trash from the sky without it hitting the ground. Remember to keep your eyes up! Good luck!");
+                StartCoroutine(TypeText(_menuFullText, trashMinigameText));
                 _menuFullButtonText.SetText("Continue");
                 break;
             case "Minigame_Coin":
@@ -430,7 +432,7 @@ public class UIManager : MonoBehaviour
                     Time.timeScale = 0f;
                 }));                
                 _menuFullTitle.SetText("Minigame: Sort the coins");
-                _menuFullText.SetText("Quickly sort the various coins into their correct spots before time runs out! This is a test of agility and quick-thinking. Good luck!");
+                StartCoroutine(TypeText(_menuFullText, coinMinigameText));
                 _menuFullButtonText.SetText("Continue");
                 break;
         }
@@ -438,6 +440,7 @@ public class UIManager : MonoBehaviour
 
     public void DismissMenuFull()
     {
+        StopCoroutine("TypeText");
         _menuFullCanvasGroup.blocksRaycasts = false;
         switch (_menuFullAction)
         {
@@ -481,6 +484,18 @@ public class UIManager : MonoBehaviour
                 GameObject.FindWithTag("UI").transform.Find("HUD").gameObject.SetActive(true);
                 LevelManager.LoadLevelIndex(SaveManager.GetSavedLevelIndex());
             }));
+    }
+    
+    private IEnumerator TypeText(TextMeshProUGUI textObject, string text)
+    {
+        var t = "";
+        textObject.SetText("");
+        foreach (var letter in text.ToCharArray())
+        {
+            t += letter;
+            textObject.SetText(t);
+            yield return null; // Wait a frame
+        }
     }
 
     void Update ()

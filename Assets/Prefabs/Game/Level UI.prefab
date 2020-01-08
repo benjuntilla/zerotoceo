@@ -2188,6 +2188,23 @@ MonoBehaviour:
   uiReadyEvent:
     m_PersistentCalls:
       m_Calls: []
+  closingMenuText: Your father sees you as worthy of his position, and he relinquishes
+    his spot as CEO to you. He retires to a private island in an undisclosed location,
+    leaving the rest of his fortune and his shares in the company to you. It seems
+    like this was his plan all along! You use the skills you learned in your journey
+    to successfully manage the company in the rest of your time as CEO.\nThe end.
+  openingMenuText: You are 16 years old, a sophomore in high school. Your father
+    is the CEO of a relatively well-known accounting company, BusinessTek. He invites
+    you to work in his company, where he believes you will acquire important life
+    skills. As an aspiring student in FBLA, you think of this as a pretty good opportunity,
+    so you accept the offer. Today is your first day...
+  gameOverText: You lost all your lives, losing your job in your father's company.
+  grandmaMinigameText: Escort the grandma to the other sidewalk without getting hit
+    by speeding cars. You must use timing and reflexes to your advantage. Good luck!
+  coinMinigameText: Quickly sort the various coins into their correct spots before
+    time runs out! This is a test of agility and quick-thinking. Good luck!
+  trashMinigameText: Catch the falling trash from the sky without it hitting the
+    ground. Remember to keep your eyes up! Good luck!
 --- !u!1 &2321688844693075661
 GameObject:
   m_ObjectHideFlags: 0
@@ -8779,7 +8796,7 @@ MonoBehaviour:
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
-  m_textAlignment: 258
+  m_textAlignment: 257
   m_characterSpacing: 0
   m_wordSpacing: -10
   m_lineSpacing: 0
@@ -8810,7 +8827,7 @@ MonoBehaviour:
   m_firstVisibleCharacter: 0
   m_useMaxVisibleDescender: 0
   m_pageToDisplay: 1
-  m_margin: {x: 10, y: 30, z: 10, w: 0}
+  m_margin: {x: 20, y: 30, z: 20, w: 0}
   m_textInfo:
     textComponent: {fileID: 1915086202079755603}
     characterCount: 6
