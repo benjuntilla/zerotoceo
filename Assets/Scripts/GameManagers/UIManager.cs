@@ -380,7 +380,7 @@ public class UIManager : MonoBehaviour
                     Time.timeScale = 0f;
                 }));
                 _menuFullTitle.SetText("The beginning");
-                _menuFullText.SetText("[Opening dialogue]");
+                _menuFullText.SetText("You are 16 years old, a sophomore in high school. Your father is the CEO of a relatively well-known accounting company, BusinessTek. He invites you to work in his company, where he believes you will acquire important life skills. As an aspiring student in FBLA, you think of this as a pretty good opportunity, so you accept the offer. Today is your first day...");
                 _menuFullButtonText.SetText("Continue");
                 break;
             case "death":
@@ -397,7 +397,7 @@ public class UIManager : MonoBehaviour
                     Time.timeScale = 0f;
                 }));                
                 _menuFullTitle.SetText("You Beat the Game!");
-                _menuFullText.SetText("Thanks for playing!");
+                _menuFullText.SetText("Your father sees you as worthy of his position, and he relinquishes his spot as CEO to you. He retires to a private island in an undisclosed location, leaving the rest of his fortune and his shares in the company to you. It seems like this was his plan all along! You use the skills you learned in your journey to successfully manage the company in the rest of your time as CEO.\nThe end.");
                 _menuFullButtonText.SetText("Main Menu");
                 break;
             case "Minigame_Grandma":
@@ -408,7 +408,7 @@ public class UIManager : MonoBehaviour
                     Time.timeScale = 0f;
                 }));                
                 _menuFullTitle.SetText("Minigame: Cross the street");
-                _menuFullText.SetText("[Minigame info]");
+                _menuFullText.SetText("Escort the grandma to the other sidewalk without getting hit by speeding cars. You must use timing and reflexes to your advantage. Good luck!");
                 _menuFullButtonText.SetText("Continue");
                 break;
             case "Minigame_Trash":
@@ -419,7 +419,7 @@ public class UIManager : MonoBehaviour
                     Time.timeScale = 0f;
                 }));                
                 _menuFullTitle.SetText("Minigame: Collect the trash");
-                _menuFullText.SetText("[Minigame info]");
+                _menuFullText.SetText("Catch the falling trash from the sky without it hitting the ground. Remember to keep your eyes up! Good luck!");
                 _menuFullButtonText.SetText("Continue");
                 break;
             case "Minigame_Coin":
@@ -430,7 +430,7 @@ public class UIManager : MonoBehaviour
                     Time.timeScale = 0f;
                 }));                
                 _menuFullTitle.SetText("Minigame: Sort the coins");
-                _menuFullText.SetText("[Minigame info]");
+                _menuFullText.SetText("Quickly sort the various coins into their correct spots before time runs out! This is a test of agility and quick-thinking. Good luck!");
                 _menuFullButtonText.SetText("Continue");
                 break;
         }
