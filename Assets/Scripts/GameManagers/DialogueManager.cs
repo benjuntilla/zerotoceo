@@ -69,7 +69,6 @@ public class DialogueManager : MonoBehaviour
                 {
                     MinigameManager.Minigame = (string) newValue;
                     UIManager.TriggerPopup("minigame");
-                    // _dialogue.variablesState["pendingMinigame"] = ""; Causes a stack overflow
                 });
         }
         if (_dialogue.variablesState["talkedToAndy"] != null)

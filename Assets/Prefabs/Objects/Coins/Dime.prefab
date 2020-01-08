@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 3574427099055660814}
   - component: {fileID: 8748514941008154485}
   - component: {fileID: -3107945629804597427}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Dime
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -222,7 +222,11 @@ MonoBehaviour:
       m_Calls: []
   targetObject: {fileID: 0}
   secondaryTargetObject: {fileID: 0}
-  collisionEnabled: 1
+  targetObjectList: []
+  targetLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  collisionEventsEnabled: 1
 --- !u!61 &-3107945629804597427
 BoxCollider2D:
   m_ObjectHideFlags: 0

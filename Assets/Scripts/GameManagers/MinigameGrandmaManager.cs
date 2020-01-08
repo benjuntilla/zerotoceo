@@ -140,10 +140,7 @@ public class MinigameGrandmaManager : MonoBehaviour
 		// Instantiate car
 		var car = Instantiate(carPrefab, new Vector3(roadPosX, roadPosY, 0f), Quaternion.identity);
 		car.transform.parent = _characters.transform;
-		car.GetComponent<CollidableController>().targetObject = _player;
-		car.GetComponent<CollidableController>().collisionMethod.AddListener(_minigameManager.Fail);
-		car.GetComponent<CollidableController>().collisionMethod.AddListener(DisablePlayerCollider);
-		
+
 		// Set random color
 		car.GetComponent<SpriteRenderer>().color = Random.ColorHSV(0f, 1f, 1f, 1f, 0.5f, 1f);
 
@@ -174,9 +171,9 @@ public class MinigameGrandmaManager : MonoBehaviour
 		}
 	}
 
-	public void DisablePlayerCollider()
+	public void DisablePlayerCollision()
 	{
-		_player.GetComponent<Collider2D>().enabled = false;
+		_player.GetComponent<CollidableController>().collisionEventsEnabled = false;
 	}
 
 	void Update()

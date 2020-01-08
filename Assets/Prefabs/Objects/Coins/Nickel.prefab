@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 6805655865492852930}
   - component: {fileID: 6427326618321033014}
   - component: {fileID: -5027293930866005292}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Nickel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -222,7 +222,11 @@ MonoBehaviour:
       m_Calls: []
   targetObject: {fileID: 0}
   secondaryTargetObject: {fileID: 0}
-  collisionEnabled: 1
+  targetObjectList: []
+  targetLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  collisionEventsEnabled: 1
 --- !u!61 &-5027293930866005292
 BoxCollider2D:
   m_ObjectHideFlags: 0

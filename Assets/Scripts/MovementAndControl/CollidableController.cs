@@ -10,6 +10,7 @@ public class CollidableController : MonoBehaviour
     public UnityEvent collisionMethod, secondaryCollisionMethod;
     public GameObject targetObject, secondaryTargetObject;
     public List<GameObject> targetObjectList;
+    public LayerMask targetLayer;
     public bool collisionEventsEnabled = true;
 
     private CharacterMovement2D _characterMovement;
@@ -17,7 +18,6 @@ public class CollidableController : MonoBehaviour
     private void Awake()
     {
         _characterMovement = GetComponent<CharacterMovement2D>();
-        // _characterMovement.onTriggerEnterEvent += Collision;
         _characterMovement.onTriggerStayEvent += Collision;
     }
 
@@ -27,6 +27,8 @@ public class CollidableController : MonoBehaviour
         if (targetObject != null && collision.gameObject == targetObject)
             collisionMethod.Invoke();
         if (targetObjectList.Contains(collision.gameObject))
+            collisionMethod.Invoke();
+        if ((targetLayer & 1 << collision.gameObject.layer) == 1 << collision.gameObject.layer)
             collisionMethod.Invoke();
         if (secondaryTargetObject != null && collision.gameObject == secondaryTargetObject)
             secondaryCollisionMethod.Invoke();
