@@ -29,7 +29,7 @@ public class SaveManager : MonoBehaviour
         public Dictionary<string, int> scoreboard;
         public string minigame;
         public int minigameProgression;
-        // public InkList gameFlags;
+        public Dictionary<InkListItem, int> gameFlags;
     }
 
     private void CheckLoadOrNew()
@@ -60,6 +60,13 @@ public class SaveManager : MonoBehaviour
             characterPosition[2] = controllerVector.z;
             characterPositions.Add(controllerGameObject.name, characterPosition);
         }
+        
+        // Convert Ink list object to a dictionary
+        var gameFlags = new Dictionary<InkListItem, int>();
+        foreach (var item in DialogueManager.gameFlags)
+        {
+            gameFlags.Add(item.Key, item.Value);
+        }
 
         // Create new Data object with more retrieved data
         var data = new Data
@@ -72,7 +79,7 @@ public class SaveManager : MonoBehaviour
             characterPositions = characterPositions,
             minigame = MinigameManager.Minigame,
             minigameProgression = MinigameManager.MinigameProgression,
-            // gameFlags = DialogueManager.gameFlags
+            gameFlags = gameFlags
         };
 
         // Save data into system
@@ -104,7 +111,14 @@ public class SaveManager : MonoBehaviour
         DialogueManager.SessionDialogueData = data.dialogueData;
         MinigameManager.Minigame = data.minigame;
         MinigameManager.MinigameProgression = data.minigameProgression;
-        // DialogueManager.gameFlags = data.gameFlags;
+
+        // Convert dictionary to InkList and apply
+        var gameFlags = new InkList();
+        foreach (var item in data.gameFlags)
+        {
+            gameFlags.Add(item.Key, item.Value);
+        }
+        DialogueManager.gameFlags = gameFlags;
 
         // Apply character positions
         foreach (KeyValuePair<string, float[]> entry in data.characterPositions)
@@ -138,5 +152,6 @@ public class SaveManager : MonoBehaviour
         DialogueManager.SessionDialogueData = new Dictionary<string, string>();
         MinigameManager.Minigame = "";
         MinigameManager.MinigameProgression = 0;
-    }
+        DialogueManager.gameFlags = new InkList();
+}
 }
