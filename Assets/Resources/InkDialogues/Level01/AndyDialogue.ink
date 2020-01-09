@@ -27,7 +27,7 @@ Hello, I'm Andy.
     *   (correct) [Correct]
         ~ xp += 10
         All right, that was correct. (Gained 10 xp)
-        ~ talkedToAndy = true
+        ~ gameFlags += talkedToAndy
         I don't actually have your task, but go speak to Jeff. He has one for you. -> END
     *   (wrong) [Wrong]
         ~ xp -= 10

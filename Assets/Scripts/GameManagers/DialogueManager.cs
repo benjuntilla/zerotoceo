@@ -8,16 +8,14 @@ using UnityEngine.UI;
 public class DialogueManager : MonoBehaviour
 {
     public static string CurrentDialogue = "";
-    public static Dictionary<string, string> SessionDialogueData = new Dictionary<string, string>();
+    public static Dictionary<string, string> SessionDialogueData = new Dictionary<string, string>(); // This field stores individual dialogue progression data
+    public static InkList gameFlags = new InkList(); // This field stores data used by all dialogues
 
     private static Story _dialogue, _genericDialogue;
     private static GameObject _ui, _dialogueUI, _primaryButtonObject, _secondaryButtonObject, _tertiaryButtonObject;
     private static TextMeshProUGUI _primaryButtonText, _secondaryButtonText, _tertiaryButtonText, _titleText, _dialogueText;
     private static Button _primaryButton, _secondaryButton, _tertiaryButton;
     private static DialogueManager _instance; // This allows non-static methods (e.g. coroutines) to be called in static methods via an instance of this class
-    # region dialogue variables
-    private static int _talkedToAndy = -1;
-    #endregion
 
     void Awake()
     {
@@ -52,39 +50,36 @@ public class DialogueManager : MonoBehaviour
         _dialogue.BindExternalFunction("GetGameLevel", () => LevelManager.Level);
         _dialogue.BindExternalFunction("GetPlayerXP", () => PlayerController.Points);
         _dialogue.BindExternalFunction("GetRequiredPoints", () => LevelManager.NextLevelRequirements[LevelManager.Level]);
+        _dialogue.BindExternalFunction("GetMinigameProgression", () => MinigameManager.MinigameProgression);
         if (_dialogue.variablesState["xp"] != null)
         {
             _dialogue.ObserveVariable("xp", (varName, newValue) =>
-                {
-                    if ((int) newValue > PlayerController.Points)
-                        LevelManager.Scoreboard["dialogueBonus"] += (int) newValue - PlayerController.Points;
-                    else
-                        LevelManager.Scoreboard["dialoguePenalty"] += PlayerController.Points - (int) newValue;
-                    PlayerController.Points = (int) newValue;
-                });
+            {
+                if ((int) newValue > PlayerController.Points)
+                    LevelManager.Scoreboard["dialogueBonus"] += (int) newValue - PlayerController.Points;
+                else
+                    LevelManager.Scoreboard["dialoguePenalty"] += PlayerController.Points - (int) newValue;
+                PlayerController.Points = (int) newValue;
+            });
         }
         if (_dialogue.variablesState["pendingMinigame"] != null)
         {
             _dialogue.ObserveVariable("pendingMinigame", (varName, newValue) =>
-                {
-                    MinigameManager.Minigame = (string) newValue;
-                    UIManager.TriggerPopup("minigame");
-                });
-        }
-        if (_dialogue.variablesState["talkedToAndy"] != null)
-        {
-            if (_talkedToAndy != -1)
-                _dialogue.variablesState["talkedToAndy"] = _talkedToAndy;
-            _dialogue.ObserveVariable("talkedToAndy", (varName, newValue) =>
             {
-                _talkedToAndy = (int) newValue;
+                MinigameManager.Minigame = (string) newValue;
+                UIManager.TriggerPopup("minigame");
             });
         }
-        if (MinigameManager.MinigameDone)
+        if (_dialogue.variablesState["gameFlags"] != null)
         {
-            _dialogue.variablesState["minigameDone"] = "true";
+            if (gameFlags.Count != 0)
+                _dialogue.variablesState["gameFlags"] = gameFlags;
+            _dialogue.ObserveVariable("gameFlags", (varName, newValue) =>
+            {
+                gameFlags = (InkList) newValue;
+            });
         }
-        
+
         // Enable dialogue UI and fill title
         _dialogueUI.SetActive(true);
         _titleText.SetText(_dialogue.globalTags[0]);

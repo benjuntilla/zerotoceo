@@ -9,14 +9,14 @@ INCLUDE ../Generic.ink
 
 === level_one ===
 { 
-    - talkedToAndy:
+    - gameFlags ? talkedToAndy:
         -> quest
     - else:
         {~Do you belong here?|You don't look like a businessman.|Please stop talking to me.} -> END
 }
 = quest
 { 
-- minigameDone:
+- GetMinigameProgression() >= 1:
     Thank you for helping my grandma!
 - quest.accepted:
     Are you on it?

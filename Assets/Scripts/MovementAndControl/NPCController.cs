@@ -46,7 +46,7 @@ public class NPCController : MonoBehaviour
                 _interactableController.TriggerDialogue();
                 dialogueTriggered = false;
             }
-            _followPlayer = !_nearPlayer;
+            _followPlayer = !standStill && !_nearPlayer;
             _wander = false;
         } else
         {

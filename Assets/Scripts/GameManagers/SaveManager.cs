@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
+using Ink.Runtime;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -27,6 +28,8 @@ public class SaveManager : MonoBehaviour
         public Dictionary<string, string> dialogueData;
         public Dictionary<string, int> scoreboard;
         public string minigame;
+        public int minigameProgression;
+        // public InkList gameFlags;
     }
 
     private void CheckLoadOrNew()
@@ -68,6 +71,8 @@ public class SaveManager : MonoBehaviour
             dialogueData = DialogueManager.SessionDialogueData,
             characterPositions = characterPositions,
             minigame = MinigameManager.Minigame,
+            minigameProgression = MinigameManager.MinigameProgression,
+            // gameFlags = DialogueManager.gameFlags
         };
 
         // Save data into system
@@ -98,6 +103,8 @@ public class SaveManager : MonoBehaviour
         PlayerController.Lives = data.lives;
         DialogueManager.SessionDialogueData = data.dialogueData;
         MinigameManager.Minigame = data.minigame;
+        MinigameManager.MinigameProgression = data.minigameProgression;
+        // DialogueManager.gameFlags = data.gameFlags;
 
         // Apply character positions
         foreach (KeyValuePair<string, float[]> entry in data.characterPositions)
@@ -130,5 +137,6 @@ public class SaveManager : MonoBehaviour
         PlayerController.Lives = 3;
         DialogueManager.SessionDialogueData = new Dictionary<string, string>();
         MinigameManager.Minigame = "";
+        MinigameManager.MinigameProgression = 0;
     }
 }
