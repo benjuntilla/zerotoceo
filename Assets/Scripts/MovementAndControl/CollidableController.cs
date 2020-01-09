@@ -26,13 +26,13 @@ public class CollidableController : MonoBehaviour
         if (!collisionEventsEnabled) return;
         if (targetObject != null && collision.gameObject == targetObject)
             collisionMethod.Invoke();
-        if (targetObjectList.Contains(collision.gameObject))
+        else if (targetObjectList.Contains(collision.gameObject))
             collisionMethod.Invoke();
-        if ((targetLayer & 1 << collision.gameObject.layer) == 1 << collision.gameObject.layer)
+        else if ((targetLayer & 1 << collision.gameObject.layer) == 1 << collision.gameObject.layer)
             collisionMethod.Invoke();
-        if (secondaryTargetObject != null && collision.gameObject == secondaryTargetObject)
+        else if (secondaryTargetObject != null && collision.gameObject == secondaryTargetObject)
             secondaryCollisionMethod.Invoke();
-        if (targetObject == null && secondaryTargetObject == null)
+        else if (targetObject == null && secondaryTargetObject == null)
             collisionMethod.Invoke();
     }
 }

@@ -90,13 +90,13 @@ public class MinigameCoinManager : MonoBehaviour
     private void InstantiateCoin()
     {
         // Instantiate trash
-        GameObject coin = null;
-        switch (Random.Range(0, 4))
+        GameObject coin;
+        switch (Random.Range(0, 1))
         {
             default: // case 0
                 coin = Instantiate(pennyPrefab, new Vector3(Random.Range(-8f, 8f), 4f, 0f), Quaternion.identity);
                 coin.GetComponent<CollidableController>().secondaryTargetObject = _pennyRegion;
-                coin.GetComponent<CollidableController>().targetObjectList.Add(_pennyRegion);
+                coin.GetComponent<CollidableController>().targetObjectList.Add(_nickelRegion);
                 coin.GetComponent<CollidableController>().targetObjectList.Add(_dimeRegion);
                 coin.GetComponent<CollidableController>().targetObjectList.Add(_quarterRegion);
                 break;
