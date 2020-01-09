@@ -91,7 +91,7 @@ public class MinigameCoinManager : MonoBehaviour
     {
         // Instantiate trash
         GameObject coin;
-        switch (Random.Range(0, 1))
+        switch (Random.Range(0, 4))
         {
             default: // case 0
                 coin = Instantiate(pennyPrefab, new Vector3(Random.Range(-8f, 8f), 4f, 0f), Quaternion.identity);
