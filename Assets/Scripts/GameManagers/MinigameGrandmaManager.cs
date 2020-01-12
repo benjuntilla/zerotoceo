@@ -20,6 +20,7 @@ public class MinigameGrandmaManager : MonoBehaviour
 	private float _carWaitTime;
 
 	public GameObject carPrefab;
+	public List<Sprite> carSprites;
 	#region public config classes
 	[System.Serializable]
 	public class EasyDifficultyConfig
@@ -141,14 +142,15 @@ public class MinigameGrandmaManager : MonoBehaviour
 		var car = Instantiate(carPrefab, new Vector3(roadPosX, roadPosY, 0f), Quaternion.identity);
 		car.transform.parent = _characters.transform;
 
-		// Set random color
-		car.GetComponent<SpriteRenderer>().color = Random.ColorHSV(0f, 1f, 1f, 1f, 0.5f, 1f);
-
-		// Move car
+		// Set random sprite
+		car.GetComponent<SpriteRenderer>().sprite = carSprites[Random.Range(0, carSprites.Count)];
+		
+		// Move car & flip according to direction
 		var time = 0f;
 		switch (_roadDirections[road])
 		{
 			case "up":
+				car.transform.localScale = new Vector3(car.transform.localScale.x, -car.transform.localScale.y, car.transform.localScale.z);
 				while (time < _carDecayTime)
 				{
 					time += Time.deltaTime;

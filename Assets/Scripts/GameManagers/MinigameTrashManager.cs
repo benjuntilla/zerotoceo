@@ -18,8 +18,7 @@ public class MinigameTrashManager : MonoBehaviour
     private float _instantiateDelay;
     private int _timer;
     
-    public List<Sprite> trashSprites;
-    public GameObject trashPrefab;
+    public List<GameObject> trashPrefabs;
     # region public config classes
     [System.Serializable]
     public class EasyDifficultyConfig
@@ -100,7 +99,7 @@ public class MinigameTrashManager : MonoBehaviour
     private void InstantiateTrash()
     {
         // Instantiate trash
-        var trash = Instantiate(trashPrefab, new Vector3(Random.Range(-8f, 8f), 6f, 0f), Quaternion.identity);
+        var trash = Instantiate(trashPrefabs[Random.Range(0, trashPrefabs.Count)], new Vector3(Random.Range(-8f, 8f), 6f, 0f), Quaternion.identity);
         trash.transform.parent = _characters.transform;
         trash.GetComponent<CollidableController>().targetObject = _ground;
         trash.GetComponent<CollidableController>().collisionMethod.AddListener(_minigameManager.Fail);
@@ -108,9 +107,6 @@ public class MinigameTrashManager : MonoBehaviour
         trash.GetComponent<CollidableController>().secondaryTargetObject = _player;
         trash.GetComponent<CollidableController>().secondaryCollisionMethod.AddListener(delegate{Destroy(trash);});
         trash.GetComponent<Rigidbody2D>().gravityScale = _trashGravity;
-        
-        // Set random sprite
-        trash.GetComponent<SpriteRenderer>().sprite = trashSprites[Random.Range(0, trashSprites.Count)];
     }
 
     private IEnumerator InstantiateLoop()

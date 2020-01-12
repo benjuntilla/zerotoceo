@@ -1,5 +1,5 @@
 ﻿# worker
-EXTERNAL GetGameLevel()
+INCLUDE Generic.ink
 
 === start ===
 { GetGameLevel():
@@ -9,7 +9,30 @@ EXTERNAL GetGameLevel()
 }
 
 === level_one ===
-{~Do you belong here?|You don't look like a businessman.|Please stop talking to me.} -> END
+{~Welcome to BusinessTek, recruit! -> END|Did you know that <fact> -> END|-> question} 
+= question
+{
+    - !question1:
+        -> question1
+    - !question2:
+        -> question2
+}
+- (question1) question1
+    * [correct]
+        ~ xp += 10
+        ok.
+    * [incorrect]
+        ~ xp -= 10
+        ok.
+    - -> END
+- (question2) question2
+    * [correct]
+        ~ xp += 10
+        ok.
+    * [incorrect]
+        ~ xp -= 10
+        ok.
+    - -> END
 
 === level_two ===
-{~Nice shirt.|Wanna get some refreshments after work?|Looking good.} -> END
+{~I like your shirt.|Wanna get some refreshments after work?|Looking good.} -> END

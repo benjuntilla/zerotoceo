@@ -8,8 +8,6 @@ INCLUDE ../Generic.ink
 -> level_one
 
 === level_one ===
--> greeting
-= greeting
 Hello, I'm Andy.
     *   [Hello!]
         Hello to you, too.
@@ -19,11 +17,10 @@ Hello, I'm Andy.
         Ah, you're here! (Gained 10xp)
     *   [No.]
         Well, too bad.
--   Before I can trust you with this important task, I need you to answer some questions.
+-   So, I have a task for you.
+-   But, before I can trust you with it, I need you to answer some questions.
     *   [Okay?]
-        -> question
-= question
--   [Question]
+-   (question) "question"
     *   (correct) [Correct]
         ~ xp += 10
         All right, that was correct. (Gained 10 xp)

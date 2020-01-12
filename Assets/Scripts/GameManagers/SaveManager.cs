@@ -29,7 +29,7 @@ public class SaveManager : MonoBehaviour
         public Dictionary<string, int> scoreboard;
         public string minigame;
         public int minigameProgression;
-        public Dictionary<InkListItem, int> gameFlags;
+        // public Dictionary<InkListItem, int> gameFlags;
     }
 
     private void CheckLoadOrNew()
@@ -79,7 +79,7 @@ public class SaveManager : MonoBehaviour
             characterPositions = characterPositions,
             minigame = MinigameManager.Minigame,
             minigameProgression = MinigameManager.MinigameProgression,
-            gameFlags = gameFlags
+            // gameFlags = gameFlags
         };
 
         // Save data into system
@@ -113,12 +113,12 @@ public class SaveManager : MonoBehaviour
         MinigameManager.MinigameProgression = data.minigameProgression;
 
         // Convert dictionary to InkList and apply
-        var gameFlags = new InkList();
+        /*var gameFlags = new InkList();
         foreach (var item in data.gameFlags)
         {
             gameFlags.Add(item.Key, item.Value);
         }
-        DialogueManager.gameFlags = gameFlags;
+        DialogueManager.gameFlags = gameFlags;*/
 
         // Apply character positions
         foreach (KeyValuePair<string, float[]> entry in data.characterPositions)
