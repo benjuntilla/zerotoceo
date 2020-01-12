@@ -19,6 +19,7 @@ public class MinigameTrashManager : MonoBehaviour
     private int _timer;
     
     public List<GameObject> trashPrefabs;
+    public float trashTorque = 90f;
     # region public config classes
     [System.Serializable]
     public class EasyDifficultyConfig
@@ -107,6 +108,7 @@ public class MinigameTrashManager : MonoBehaviour
         trash.GetComponent<CollidableController>().secondaryTargetObject = _player;
         trash.GetComponent<CollidableController>().secondaryCollisionMethod.AddListener(delegate{Destroy(trash);});
         trash.GetComponent<Rigidbody2D>().gravityScale = _trashGravity;
+        trash.GetComponent<Rigidbody2D>().AddTorque(trashTorque, ForceMode2D.Impulse);
     }
 
     private IEnumerator InstantiateLoop()

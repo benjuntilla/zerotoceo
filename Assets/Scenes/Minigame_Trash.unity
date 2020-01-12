@@ -98,7 +98,7 @@ LightmapSettings:
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 0
+  m_UseShadowmask: 1
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -568,14 +568,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc755fca7743f1e809176b61d2e7f9e2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  trashSprites:
-  - {fileID: 21300000, guid: d02e80ee7e065634eb577a112c4d4b31, type: 3}
-  - {fileID: 21300000, guid: d35e8b62486d9f2e89d56171bbe602f6, type: 3}
-  trashPrefab: {fileID: 3266701523232281154, guid: ac3ae2202c91137c9873d6eee844b356,
-    type: 3}
   trashPrefabs:
   - {fileID: 3184626863952347077, guid: 9b93ca024357abc84ad0937f7c64a306, type: 3}
   - {fileID: 904394260891592953, guid: e3e0206ce72e7372b890e03ce4f30a00, type: 3}
+  - {fileID: 6977521501964469805, guid: 5fafa6d89522b02d989565d5437ea727, type: 3}
+  - {fileID: 8102090394943287169, guid: ba560b50a65b6e1008a13e4f601fdb79, type: 3}
+  trashTorque: 360
   easyDifficultyConfig:
     trashGravity: 0.75
     playerMovementSpeed: 8
@@ -940,7 +938,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1167249385
   m_SortingLayer: -1
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: 19fb8310cb21090d7b90bd21f75f1f71, type: 3}
   m_Color: {r: 0.056247775, g: 0.745283, b: 0.28945976, a: 1}
   m_FlipX: 0
