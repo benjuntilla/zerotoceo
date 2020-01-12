@@ -8,7 +8,7 @@ using UnityEngine.Events;
 public class DraggableController : MonoBehaviour
 {
 	public UnityEvent dropMethod, dragMethod;
-	public float speed = 99f;
+	public float speed = 20f;
 	
 	private Vector3 _screenPoint;
 	private Vector3 _offset;

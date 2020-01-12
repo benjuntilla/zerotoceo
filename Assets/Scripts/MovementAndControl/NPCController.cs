@@ -16,9 +16,8 @@ public class NPCController : MonoBehaviour
 	private Animator _animator;
 	private RaycastHit2D _lastControllerColliderHit;
 	private Vector3 _velocity;
-    private GameObject _player;
+    private GameObject _player, _exclamation, _dots;
     private InteractableController _interactableController;
-    private GameObject _exclamation;
     private int _direction;
     private int _interval;
     private float _lastMoveTime;
@@ -33,11 +32,13 @@ public class NPCController : MonoBehaviour
         _interactableController = GetComponent<InteractableController>();
         _player = GameObject.FindWithTag("Player");
         _exclamation = transform.Find("Exclamation").gameObject;
+        _dots = transform.Find("Dots").gameObject;
     }
 
     void Update()
     {
         _exclamation.SetActive(dialogueTriggered);
+        _dots.SetActive(DialogueManager.CurrentDialogue == _interactableController.dialogue.name);
 
         if (dialogueTriggered || DialogueManager.CurrentDialogue == _interactableController.dialogue.name)
         {
