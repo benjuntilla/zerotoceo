@@ -98,7 +98,7 @@ LightmapSettings:
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 0
+  m_UseShadowmask: 1
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -663,6 +663,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3046080634022233680, guid: 16b39eda7bf8271fe920206a440f5e88,
+        type: 3}
+      propertyPath: standStill
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3046080634022233682, guid: 16b39eda7bf8271fe920206a440f5e88,
         type: 3}
       propertyPath: m_Name
@@ -692,6 +697,21 @@ PrefabInstance:
         type: 3}
       propertyPath: interactionMethods.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: TestIfCanLevelUp
+      objectReference: {fileID: 0}
+    - target: {fileID: 2146051372374932008, guid: 9f063b9fd93145180b7c8b01bf6d7071,
+        type: 3}
+      propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2146051372374932008, guid: 9f063b9fd93145180b7c8b01bf6d7071,
+        type: 3}
+      propertyPath: m_Color.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2146051372374932008, guid: 9f063b9fd93145180b7c8b01bf6d7071,
+        type: 3}
+      propertyPath: m_Color.b
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2146051372434611746, guid: 9f063b9fd93145180b7c8b01bf6d7071,
         type: 3}
@@ -839,6 +859,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1774696088}
     m_Modifications:
+    - target: {fileID: 82966882163075464, guid: b4b30730692aaf18e9dcb2bc797b842b,
+        type: 3}
+      propertyPath: standStill
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 82966882163075466, guid: b4b30730692aaf18e9dcb2bc797b842b,
         type: 3}
       propertyPath: m_Name
