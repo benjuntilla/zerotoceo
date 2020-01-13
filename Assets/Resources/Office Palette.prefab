@@ -54,7 +54,7 @@ Tilemap:
     second:
       serializedVersion: 2
       m_TileIndex: 0
-      m_TileSpriteIndex: 0
+      m_TileSpriteIndex: 9
       m_TileMatrixIndex: 0
       m_TileColorIndex: 0
       m_TileObjectToInstantiateIndex: 65535
@@ -151,9 +151,11 @@ Tilemap:
     m_Data: {fileID: 11400000, guid: c81904291dda919f39d26caecd48027a, type: 2}
   - m_RefCount: 1
     m_Data: {fileID: 11400000, guid: b36af5c4c554389738f09f9ae8d9606b, type: 2}
+  - m_RefCount: 0
+    m_Data: {fileID: 0}
   m_TileSpriteArray:
-  - m_RefCount: 1
-    m_Data: {fileID: 21300000, guid: 49171eb3d37f46587ae56c0e73c900a8, type: 3}
+  - m_RefCount: 0
+    m_Data: {fileID: 0}
   - m_RefCount: 2
     m_Data: {fileID: 21300000, guid: cde6234643726bc35b24973f5d46e856, type: 3}
   - m_RefCount: 1
@@ -170,6 +172,8 @@ Tilemap:
     m_Data: {fileID: 21300000, guid: c2aba9f58656f1384b36ad662916cc3b, type: 3}
   - m_RefCount: 1
     m_Data: {fileID: 21300000, guid: d16ed093170f1414ea8f734fb47d7242, type: 3}
+  - m_RefCount: 1
+    m_Data: {fileID: 21300000, guid: 49171eb3d37f46587ae56c0e73c900a8, type: 3}
   m_TileMatrixArray:
   - m_RefCount: 10
     m_Data:
@@ -197,8 +201,8 @@ Tilemap:
   m_TileObjectToInstantiateArray: []
   m_AnimationFrameRate: 1
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Origin: {x: -3, y: 0, z: 0}
-  m_Size: {x: 6, y: 4, z: 1}
+  m_Origin: {x: -7, y: 0, z: 0}
+  m_Size: {x: 10, y: 4, z: 1}
   m_TileAnchor: {x: 0.5, y: 0.5, z: 0}
   m_TileOrientation: 0
   m_TileOrientationMatrix:
@@ -225,7 +229,7 @@ TilemapRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 566958365635226592}
-  m_Enabled: 0
+  m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 0
@@ -236,7 +240,7 @@ TilemapRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
