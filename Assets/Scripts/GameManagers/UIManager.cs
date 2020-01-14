@@ -180,7 +180,7 @@ public class UIManager : MonoBehaviour
         switch (id)
         {
             case "minigame":
-                _modalText.SetText("Do you want to load the minigame?");
+                _modalText.SetText("Do you want to start the minigame?");
                 _modalUI.SetActive(true);
                 break;
             case "save":

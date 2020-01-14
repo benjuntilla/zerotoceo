@@ -122,10 +122,10 @@ public class MinigameGrandmaManager : MonoBehaviour
 		switch (_roadDirections[road])
 		{
 			case "up":
-				roadPosY = -6f;
+				roadPosY = -10f;
 				break;
 			case "down":
-				roadPosY = 6f;
+				roadPosY = 10f;
 				break;
 		}
 

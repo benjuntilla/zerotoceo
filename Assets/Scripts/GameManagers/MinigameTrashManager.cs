@@ -13,10 +13,9 @@ public class MinigameTrashManager : MonoBehaviour
     private TextMeshProUGUI _timerText;
     private MinigameManager _minigameManager;
     // Config
-    private float _trashGravity;
-    private int _playerMovementSpeed;
-    private float _instantiateDelay;
-    private int _timer;
+    private float _trashGravity, _instantiateDelay;
+    private int _playerMovementSpeed, _timer;
+    private bool _gameOver;
     
     public List<GameObject> trashPrefabs;
     public float trashTorque = 90f;
@@ -103,7 +102,7 @@ public class MinigameTrashManager : MonoBehaviour
         var trash = Instantiate(trashPrefabs[Random.Range(0, trashPrefabs.Count)], new Vector3(Random.Range(-8f, 8f), 6f, 0f), Quaternion.identity);
         trash.transform.parent = _characters.transform;
         trash.GetComponent<CollidableController>().targetObject = _ground;
-        trash.GetComponent<CollidableController>().collisionMethod.AddListener(_minigameManager.Fail);
+        trash.GetComponent<CollidableController>().collisionMethod.AddListener(TryFail);
         trash.GetComponent<CollidableController>().collisionMethod.AddListener(delegate{ trash.GetComponent<CollidableController>().collisionEventsEnabled = false; });
         trash.GetComponent<CollidableController>().secondaryTargetObject = _player;
         trash.GetComponent<CollidableController>().secondaryCollisionMethod.AddListener(delegate{Destroy(trash);});
@@ -127,7 +126,14 @@ public class MinigameTrashManager : MonoBehaviour
             _timerText.SetText($"Time left: {i} seconds");
             yield return new WaitForSeconds(1);
         }
+        _gameOver = true;
         _minigameManager.Pass();
+    }
+
+    private void TryFail()
+    {
+        if (!_gameOver)
+            _minigameManager.Fail();
     }
 
     void Update()

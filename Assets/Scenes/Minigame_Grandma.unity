@@ -2554,7 +2554,7 @@ MonoBehaviour:
     maxRoadPopulation: 8
     playerMovementSpeed: 4
     carMovementSpeed: 4
-    carDecayTime: 3
+    carDecayTime: 5
     carWaitTime: 1
   mediumDifficultyConfig:
     maxRoadPopulation: 8
