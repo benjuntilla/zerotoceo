@@ -7,7 +7,7 @@ using UnityEngine.SceneManagement;
 
 public class UIManager : MonoBehaviour
 {
-    private static GameObject _ui, _pauseMenuUI, _hudUI, _modalUI, _modalLayout, _levelEndMenuUI, _levelEndMenuLayout, _levelEndMenuImages, _popupUI, _heartOne, _heartTwo, _heartThree, _futureToken, _businessToken, _leaderToken, _americaToken, _hudLives, _hudTokens, _saveAlert, _minigameEndMenuUI, _menuFullUI;
+    private static GameObject _ui, _pauseMenuUI, _hudUI, _modalUI, _modalLayout, _levelEndMenuUI, _levelEndMenuLayout, _levelEndMenuImages, _popupUI, _heartOne, _heartTwo, _heartThree, _futureToken, _businessToken, _leaderToken, _americaToken, _hudLives, _hudTokens, _saveAlert, _minigameEndMenuUI, _menuFullUI, _mainMenuUI;
     private static TextMeshProUGUI _hudPointsText, _modalText, _levelEndMenuText, _levelEndMenuTitle, _popupText, _menuFullTitle, _menuFullText, _menuFullButtonText;
     private static Animator _fadeAnimator, _popupAnimator, _menuFullAnimator;
     private static CanvasGroup _menuFullCanvasGroup;
@@ -39,10 +39,11 @@ public class UIManager : MonoBehaviour
         try
         {
             _ui = GameObject.FindWithTag("UI");
+            _mainMenuUI = _ui.transform.Find("Main Menu").gameObject;
         }
         catch (Exception e)
         {
-            Debug.Log($"Couldn't find UI object. Exception: {e}");
+            Debug.Log($"Couldn't find UI objects. Exception: {e}");
         }
         try
         {
@@ -102,7 +103,7 @@ public class UIManager : MonoBehaviour
                 Debug.Log($"Couldn't find other menu objects. Exception: {e}");
             }
         }
-
+        
         _instance = this;
         TriggerApplicableMenus();
         uiReadyEvent.Invoke();
@@ -110,6 +111,7 @@ public class UIManager : MonoBehaviour
 
     private void TriggerApplicableMenus()
     {
+        _mainMenuUI.SetActive(SceneManager.GetActiveScene().buildIndex == 0);
         if (SceneManager.GetActiveScene().buildIndex == 1 && !SaveManager.LoadFlag)
             TriggerMenuFull("opening");
         else if (SceneManager.GetActiveScene().buildIndex >= 5 && MinigameManager.Minigame != "")
@@ -501,7 +503,7 @@ public class UIManager : MonoBehaviour
     void Update ()
     {
         // Detect when to pause game
-        if (_pauseMenuUI && Input.GetKeyDown(KeyCode.Escape))
+        if (_pauseMenuUI && Input.GetKeyDown(KeyCode.Escape) && SceneManager.GetActiveScene().buildIndex != 0)
         {
             if (Time.timeScale == 0f)
                 ResumeGame();
