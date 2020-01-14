@@ -37,9 +37,11 @@ public class NPCController : MonoBehaviour
 
     void Update()
     {
+        // Set indicators based on certain conditions
         _exclamation.SetActive(dialogueTriggered);
         _dots.SetActive(DialogueManager.CurrentDialogue == _interactableController.dialogue.name);
 
+        // Controls when the NPC follows the player, stands still, or wanders depending on the current dialogue status
         if (dialogueTriggered || DialogueManager.CurrentDialogue == _interactableController.dialogue.name)
         {
             if (DialogueManager.CurrentDialogue != _interactableController.dialogue.name && _nearPlayer)
@@ -55,11 +57,13 @@ public class NPCController : MonoBehaviour
             _wander = !standStill;
         }
 
+        // Determines whether the NPC is near the player
         if (Mathf.RoundToInt(_player.transform.position.x) == Mathf.RoundToInt(transform.position.x))
             _nearPlayer = true;
         else
             _nearPlayer = false;
 
+        // Randomly sets the movement direction when wandering
         if (_wander && Time.realtimeSinceStartup - _lastMoveTime > _interval)
         {
             _direction = Random.Range(-1, 2); // The second argument minus one is the range's maximum value
@@ -77,7 +81,14 @@ public class NPCController : MonoBehaviour
             _interval = 0;
             _lastMoveTime = Time.realtimeSinceStartup;
         }
-
+        
+        // Looks at the player when talking to it
+        if (DialogueManager.CurrentDialogue == _interactableController.dialogue.name && _player.transform.position.x > transform.position.x && transform.localScale.x < 0f && Time.timeScale == 1f)
+            transform.localScale = new Vector3( -transform.localScale.x, transform.localScale.y, transform.localScale.z );
+        else if (DialogueManager.CurrentDialogue == _interactableController.dialogue.name && _player.transform.position.x < transform.position.x && transform.localScale.x > 0f && Time.timeScale == 1f)
+            transform.localScale = new Vector3( -transform.localScale.x, transform.localScale.y, transform.localScale.z );
+        
+        # region NPC movement
         if( _characterMovement.isGrounded )
                 _velocity.y = 0;
 
@@ -115,5 +126,6 @@ public class NPCController : MonoBehaviour
 
         // grab our current _velocity to use as a base for all calculations
 		_velocity = _characterMovement.velocity;
+        #endregion
     }
 }

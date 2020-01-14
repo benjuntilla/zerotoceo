@@ -2,6 +2,7 @@
 INCLUDE Generic.ink
 
 === start ===
+~ xp = GetPlayerXP()
 { GetGameLevel():
 - 1: -> level_one
 - 2: -> level_two
