@@ -1838,7 +1838,7 @@ Transform:
   m_GameObject: {fileID: 2066217146}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.15, y: 1.15, z: 1}
   m_Children:
   - {fileID: 422708283}
   - {fileID: 1388052152}
@@ -2043,6 +2043,26 @@ PrefabInstance:
     - target: {fileID: 6832252661823022274, guid: 4c74365b01f5ccae78980ba08dc1ee89,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6832252661823022277, guid: 4c74365b01f5ccae78980ba08dc1ee89,
+        type: 3}
+      propertyPath: orthographic size
+      value: 5.625
+      objectReference: {fileID: 0}
+    - target: {fileID: 6832252661823022277, guid: 4c74365b01f5ccae78980ba08dc1ee89,
+        type: 3}
+      propertyPath: m_ForceIntoRT
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6832252661823022277, guid: 4c74365b01f5ccae78980ba08dc1ee89,
+        type: 3}
+      propertyPath: m_NormalizedViewPortRect.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6832252661823022277, guid: 4c74365b01f5ccae78980ba08dc1ee89,
+        type: 3}
+      propertyPath: m_NormalizedViewPortRect.y
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6832252661823022278, guid: 4c74365b01f5ccae78980ba08dc1ee89,

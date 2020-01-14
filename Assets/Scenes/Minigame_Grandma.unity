@@ -1241,7 +1241,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1046190969}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -8.05, y: -0.46, z: 0}
+  m_LocalPosition: {x: -9.38, y: -0.46, z: 0}
   m_LocalScale: {x: 2, y: 2, z: 1}
   m_Children: []
   m_Father: {fileID: 599653697}
@@ -2208,6 +2208,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 234048844285070245, guid: 4c74365b01f5ccae78980ba08dc1ee89,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6832252661823022274, guid: 4c74365b01f5ccae78980ba08dc1ee89,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -2261,6 +2266,36 @@ PrefabInstance:
     - target: {fileID: 6832252661823022274, guid: 4c74365b01f5ccae78980ba08dc1ee89,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6832252661823022277, guid: 4c74365b01f5ccae78980ba08dc1ee89,
+        type: 3}
+      propertyPath: m_NormalizedViewPortRect.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6832252661823022277, guid: 4c74365b01f5ccae78980ba08dc1ee89,
+        type: 3}
+      propertyPath: m_NormalizedViewPortRect.width
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6832252661823022277, guid: 4c74365b01f5ccae78980ba08dc1ee89,
+        type: 3}
+      propertyPath: m_NormalizedViewPortRect.height
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6832252661823022277, guid: 4c74365b01f5ccae78980ba08dc1ee89,
+        type: 3}
+      propertyPath: orthographic size
+      value: 5.625
+      objectReference: {fileID: 0}
+    - target: {fileID: 6832252661823022277, guid: 4c74365b01f5ccae78980ba08dc1ee89,
+        type: 3}
+      propertyPath: m_ForceIntoRT
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6832252661823022277, guid: 4c74365b01f5ccae78980ba08dc1ee89,
+        type: 3}
+      propertyPath: m_NormalizedViewPortRect.x
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6832252661823022278, guid: 4c74365b01f5ccae78980ba08dc1ee89,
@@ -2558,7 +2593,7 @@ Transform:
   m_GameObject: {fileID: 2066217146}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.2, y: 1.2, z: 1}
   m_Children:
   - {fileID: 1083826948}
   - {fileID: 534640574}
