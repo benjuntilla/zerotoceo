@@ -1,8 +1,8 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.SocialPlatforms.Impl;
 
 public class LevelManager : MonoBehaviour
 {
@@ -10,6 +10,7 @@ public class LevelManager : MonoBehaviour
     public static int Level;
     public static bool NextLevelFlag;
     public static Dictionary<int, int> NextLevelRequirements;
+    private static NPCController _managerNPCController;
 
     [Header("Level XP Requirements")]
     public int levelOne = 100;
@@ -19,6 +20,7 @@ public class LevelManager : MonoBehaviour
     
     void Awake()
     {
+        _managerNPCController = GameObject.Find("Manager").GetComponent<NPCController>();
         ClearScoreboard();
         Level = SceneManager.GetActiveScene().buildIndex;
         NextLevelRequirements = new Dictionary<int, int>()
@@ -35,7 +37,7 @@ public class LevelManager : MonoBehaviour
     
     public static void InitializeNextLevel()
     {
-        GameObject.Find("Manager").GetComponent<NPCController>().dialogueTriggered = true;
+        _managerNPCController.dialogueTriggered = true;
         MinigameManager.MinigameProgression = 0;
         SaveManager.Save();
         NextLevelFlag = false;

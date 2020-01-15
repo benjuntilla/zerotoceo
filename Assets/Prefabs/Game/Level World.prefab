@@ -1981,7 +1981,7 @@ GameObject:
   - component: {fileID: 1226799206974303080}
   - component: {fileID: 2200131895986640988}
   - component: {fileID: 4456729949858519428}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Boundaries
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -10,7 +10,10 @@ INCLUDE Generic.ink
 }
 
 === level_one ===
-{~Welcome to BusinessTek, recruit! -> END|Did you know that <fact> -> END|-> question} 
+{~Welcome to BusinessTek, recruit! -> END|Did you know that <fact> -> END} 
+
+=== level_two ===
+{~I like your shirt. -> END|Wanna get some refreshments after work? -> END|Looking good. -> END|-> question}
 = question
 {
     - !question1:
@@ -34,6 +37,3 @@ INCLUDE Generic.ink
         ~ xp -= 10
         ok.
     - -> END
-
-=== level_two ===
-{~I like your shirt.|Wanna get some refreshments after work?|Looking good.} -> END

@@ -8,13 +8,14 @@ using UnityEngine.SceneManagement;
 public class UIManager : MonoBehaviour
 {
     private static GameObject _ui, _pauseMenuUI, _hudUI, _modalUI, _modalLayout, _levelEndMenuUI, _levelEndMenuLayout, _levelEndMenuImages, _popupUI, _heartOne, _heartTwo, _heartThree, _futureToken, _businessToken, _leaderToken, _americaToken, _hudLives, _hudTokens, _saveAlert, _minigameEndMenuUI, _menuFullUI, _mainMenuUI;
-    private static TextMeshProUGUI _hudPointsText, _modalText, _levelEndMenuText, _levelEndMenuTitle, _popupText, _menuFullTitle, _menuFullText, _menuFullButtonText;
+    private static TextMeshProUGUI _hudPointsText, _modalText, _levelEndMenuText, _levelEndMenuTitle, _popupText, _menuFullTitle, _menuFullText, _menuFullButtonText, _menuFullControlsText;
     private static Animator _fadeAnimator, _popupAnimator, _menuFullAnimator;
     private static CanvasGroup _menuFullCanvasGroup;
     private static string _modalAction, _menuFullAction;
     private static bool _debug;
-    private static int _levelEndMenuCounter;
+    private static int _levelEndMenuCounter, _menuFullCounter;
     private static UIManager _instance; // This allows non-static methods (e.g. coroutines) to be called in static methods via an instance of this class
+    private bool _triggeredPointsPopup;
 
     public GUIStyle debugStyle;
     public UnityEvent uiReadyEvent = new UnityEvent();
@@ -68,6 +69,7 @@ public class UIManager : MonoBehaviour
                 _menuFullCanvasGroup = _menuFullUI.GetComponent<CanvasGroup>();
                 _menuFullTitle = _menuFullUI.transform.Find("Title").GetComponent<TextMeshProUGUI>();
                 _menuFullText = _menuFullUI.transform.Find("Text").GetComponent<TextMeshProUGUI>();
+                _menuFullControlsText = _menuFullUI.transform.Find("Controls Text").GetComponent<TextMeshProUGUI>();
                 _menuFullButtonText = _menuFullUI.transform.Find("Button").GetComponentInChildren<TextMeshProUGUI>();
                 _pauseMenuUI = _ui.transform.Find("Pause Menu").gameObject;
                 _levelEndMenuUI = _ui.transform.Find("Level End Menu").gameObject;
@@ -103,7 +105,7 @@ public class UIManager : MonoBehaviour
                 Debug.Log($"Couldn't find other menu objects. Exception: {e}");
             }
         }
-        
+
         _instance = this;
         TriggerApplicableMenus();
         uiReadyEvent.Invoke();
@@ -359,6 +361,10 @@ public class UIManager : MonoBehaviour
                 _popupText.SetText("Saved game.");
                 _instance.StartCoroutine(PopupInThenOut(2));
                 break;
+            case "levelup":
+                _popupText.SetText("You can now level up! Go to the level door to advance.");
+                _instance.StartCoroutine(PopupInThenOut(5));
+                break;
         }
     }
 
@@ -371,6 +377,7 @@ public class UIManager : MonoBehaviour
     
     private void TriggerMenuFull(string id)
     {
+        _menuFullCounter = 0;
         _menuFullCanvasGroup.blocksRaycasts = true;
         _menuFullUI.SetActive(true);
         _menuFullAction = id;
@@ -456,9 +463,26 @@ public class UIManager : MonoBehaviour
                 FadeInAndLoadLevelIndex(0);
                 break;
             case "opening":
-                Time.timeScale = 1f;
-                StartCoroutine(PlayOutThenAction(_menuFullAnimator, () => _menuFullUI.SetActive(false)));
-                LevelManager.InitializeNextLevel();
+                switch (_menuFullCounter)
+                {
+                    case 0:
+                        _menuFullCanvasGroup.blocksRaycasts = true;
+                        _menuFullTitle.SetText("Controls");
+                        _menuFullText.enabled = false;
+                        _menuFullControlsText.enabled = true;
+                        break;
+                    case 1:
+                        Time.timeScale = 1f;
+                        StartCoroutine(PlayOutThenAction(_menuFullAnimator, () =>
+                        {
+                            _menuFullUI.SetActive(false);
+                            _menuFullText.enabled = true;
+                            _menuFullControlsText.enabled = false;
+                        }));
+                        LevelManager.InitializeNextLevel();
+                        break;
+                }
+                _menuFullCounter++;
                 break;
             case "Minigame_Coin":
             case "Minigame_Trash":
@@ -515,6 +539,13 @@ public class UIManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.F3))
         {
             _debug = !_debug;
+        }
+        
+        // Detect when to level up the player
+        if (PlayerController.Points == LevelManager.NextLevelRequirements[LevelManager.Level] && !_triggeredPointsPopup)
+        {
+            _triggeredPointsPopup = true;
+            TriggerPopup("levelup");
         }
 
         # region Update HUD
