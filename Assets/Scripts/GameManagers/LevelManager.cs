@@ -8,7 +8,7 @@ public class LevelManager : MonoBehaviour
 {
     public static Dictionary<string, int> Scoreboard;
     public static int Level;
-    public static bool NextLevelFlag;
+    public static bool NextLevelFlag, IsMainGameLevel;
     public static Dictionary<int, int> NextLevelRequirements;
     private static NPCController _managerNPCController;
 
@@ -20,7 +20,6 @@ public class LevelManager : MonoBehaviour
     
     void Awake()
     {
-        _managerNPCController = GameObject.Find("Manager").GetComponent<NPCController>();
         ClearScoreboard();
         Level = SceneManager.GetActiveScene().buildIndex;
         NextLevelRequirements = new Dictionary<int, int>()
@@ -30,6 +29,13 @@ public class LevelManager : MonoBehaviour
             {3, levelThree},
             {4, levelFour}
         };
+
+        var level = SceneManager.GetActiveScene().buildIndex;
+        if (level == 1 || level == 2 || level == 3 || level == 4)
+        {
+            _managerNPCController = GameObject.Find("Manager").GetComponent<NPCController>();
+            IsMainGameLevel = true;
+        }
         
         if (!NextLevelFlag) return;
         InitializeNextLevel();

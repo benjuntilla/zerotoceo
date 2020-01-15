@@ -18,9 +18,9 @@ public class MinigameManager : MonoBehaviour
         {"Minigame_Trash_Easy", 50},
         {"Minigame_Trash_Medium", 75},
         {"Minigame_Trash_Hard", 100},
-        {"Minigame_Word_Easy", 50},
-        {"Minigame_Word_Medium", 75},
-        {"Minigame_Word_Hard", 100},
+        {"Minigame_Coin_Easy", 50},
+        {"Minigame_Coin_Medium", 75},
+        {"Minigame_Coin_Hard", 100},
     };
     public static string Minigame = ""; // Full id of minigame e.g., Minigame_Grandma_Easy
     public static string MinigameName = ""; // First two parts of the minigame id e.g., Minigame_Grandma

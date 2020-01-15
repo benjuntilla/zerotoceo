@@ -542,63 +542,65 @@ public class UIManager : MonoBehaviour
         }
         
         // Detect when to level up the player
-        if (PlayerController.Points == LevelManager.NextLevelRequirements[LevelManager.Level] && !_triggeredPointsPopup)
+        if (LevelManager.IsMainGameLevel && PlayerController.Points == LevelManager.NextLevelRequirements[LevelManager.Level] && !_triggeredPointsPopup)
         {
             _triggeredPointsPopup = true;
             TriggerPopup("levelup");
         }
 
+
         # region Update HUD
-        if (!_hudUI) return;
-        
-        _hudPointsText.SetText($"Points: {PlayerController.Points}");
-        
-        foreach (Transform child in _hudLives.transform)
-            child.gameObject.SetActive(false);
-        switch (PlayerController.Lives)
+        if (_hudUI)
         {
-            case -1:
-                break;
-            case 0:
-                TriggerMenuFull("death");
-                PlayerController.Lives = -1;
-                break;
-            case 1:
-                _heartOne.SetActive(true);
-                break;
-            case 2:
-                _heartOne.SetActive(true);
-                _heartTwo.SetActive(true);
-                break;
-            default:
-                _heartOne.SetActive(true);
-                _heartTwo.SetActive(true);
-                _heartThree.SetActive(true);
-                break;
-        }
+            _hudPointsText.SetText($"Points: {PlayerController.Points}");
         
-        foreach (Transform child in _hudTokens.transform)
-            child.gameObject.SetActive(false);
-        switch (LevelManager.Level)
-        {
-            case 2:
-                _futureToken.SetActive(true);
-                break;
-            case 3:
-                _futureToken.SetActive(true);
-                _businessToken.SetActive(true);
-                break;
-            case 4:
-                _futureToken.SetActive(true);
-                _businessToken.SetActive(true);
-                _leaderToken.SetActive(true);
-                break;
-            case 5:
-                _futureToken.SetActive(true);
-                _businessToken.SetActive(true);
-                _leaderToken.SetActive(true);
-                _americaToken.SetActive(true);
-                break;
+            foreach (Transform child in _hudLives.transform)
+                child.gameObject.SetActive(false);
+            switch (PlayerController.Lives)
+            {
+                case -1:
+                    break;
+                case 0:
+                    TriggerMenuFull("death");
+                    PlayerController.Lives = -1;
+                    break;
+                case 1:
+                    _heartOne.SetActive(true);
+                    break;
+                case 2:
+                    _heartOne.SetActive(true);
+                    _heartTwo.SetActive(true);
+                    break;
+                default:
+                    _heartOne.SetActive(true);
+                    _heartTwo.SetActive(true);
+                    _heartThree.SetActive(true);
+                    break;
+            }
+        
+            foreach (Transform child in _hudTokens.transform)
+                child.gameObject.SetActive(false);
+            switch (LevelManager.Level)
+            {
+                case 2:
+                    _futureToken.SetActive(true);
+                    break;
+                case 3:
+                    _futureToken.SetActive(true);
+                    _businessToken.SetActive(true);
+                    break;
+                case 4:
+                    _futureToken.SetActive(true);
+                    _businessToken.SetActive(true);
+                    _leaderToken.SetActive(true);
+                    break;
+                case 5:
+                    _futureToken.SetActive(true);
+                    _businessToken.SetActive(true);
+                    _leaderToken.SetActive(true);
+                    _americaToken.SetActive(true);
+                    break;
+            }
         }
         #endregion
     }
