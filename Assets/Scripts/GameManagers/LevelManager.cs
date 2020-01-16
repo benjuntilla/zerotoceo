@@ -36,6 +36,10 @@ public class LevelManager : MonoBehaviour
             _managerNPCController = GameObject.Find("Manager").GetComponent<NPCController>();
             IsMainGameLevel = true;
         }
+        else
+        {
+            IsMainGameLevel = false;
+        }
         
         if (!NextLevelFlag) return;
         InitializeNextLevel();
