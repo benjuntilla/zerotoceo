@@ -1,6 +1,8 @@
 ﻿# worker
 INCLUDE Generic.ink
 
+-> start
+
 === start ===
 ~ xp = GetPlayerXP()
 { GetGameLevel():
@@ -10,7 +12,7 @@ INCLUDE Generic.ink
 }
 
 === level_one ===
-{~Welcome to BusinessTek, recruit! -> END|Did you know that <fact> -> END} 
+{~Welcome to BizTek, recruit! -> END|Did you know that we are the third biggest business producer in the country? -> END} 
 
 === level_two ===
 {~I like your shirt. -> END|Wanna get some refreshments after work? -> END|Looking good. -> END|-> question}

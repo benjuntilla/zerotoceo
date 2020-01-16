@@ -2568,20 +2568,20 @@ MonoBehaviour:
   easyDifficultyConfig:
     maxRoadPopulation: 8
     playerMovementSpeed: 4
-    carMovementSpeed: 4
-    carDecayTime: 5
+    carMovementSpeed: 3
+    carDecayTime: 6
     carWaitTime: 1
   mediumDifficultyConfig:
     maxRoadPopulation: 8
     playerMovementSpeed: 4
     carMovementSpeed: 4
-    carDecayTime: 3
+    carDecayTime: 5
     carWaitTime: 1
   hardDifficultyConfig:
     maxRoadPopulation: 8
     playerMovementSpeed: 4
     carMovementSpeed: 4
-    carDecayTime: 3
+    carDecayTime: 5
     carWaitTime: 1
 --- !u!1 &2066217146
 GameObject:

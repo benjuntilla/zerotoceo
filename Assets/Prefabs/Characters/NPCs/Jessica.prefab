@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1001 &261197743544130590
+--- !u!1001 &3719234559098487492
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -16,16 +16,16 @@ PrefabInstance:
         type: 3}
       propertyPath: dialogue
       value: 
-      objectReference: {fileID: 4900000, guid: b788337b90a9e57978a9fdaebd903108, type: 3}
+      objectReference: {fileID: 4900000, guid: 25583e45097d2d8ed80fa5bdcc0859f5, type: 3}
     - target: {fileID: 5968443053714933410, guid: 6046af2432b4f0fbf85238ba202c5054,
         type: 3}
       propertyPath: m_Name
-      value: Father
+      value: Jessica
       objectReference: {fileID: 0}
     - target: {fileID: 5968443053714933434, guid: 6046af2432b4f0fbf85238ba202c5054,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 1.22
+      value: 1.47
       objectReference: {fileID: 0}
     - target: {fileID: 5968443053714933434, guid: 6046af2432b4f0fbf85238ba202c5054,
         type: 3}
@@ -77,21 +77,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 5968443053714933434, guid: 6046af2432b4f0fbf85238ba202c5054,
-        type: 3}
-      propertyPath: m_LocalScale.x
-      value: -1
-      objectReference: {fileID: 0}
     - target: {fileID: 5968443053714933435, guid: 6046af2432b4f0fbf85238ba202c5054,
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 2f5ae4fcb64cc28aa9e9a9eaf892e674,
+      objectReference: {fileID: 21300000, guid: b4021e9364035a826b2f36fdeb61c291,
         type: 3}
-    - target: {fileID: 5968443053714933435, guid: 6046af2432b4f0fbf85238ba202c5054,
-        type: 3}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6046af2432b4f0fbf85238ba202c5054, type: 3}

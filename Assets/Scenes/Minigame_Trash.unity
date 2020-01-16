@@ -819,7 +819,7 @@ MonoBehaviour:
   trashTorque: 360
   easyDifficultyConfig:
     trashGravity: 0.75
-    playerMovementSpeed: 8
+    playerMovementSpeed: 10
     instantiateDelay: 2
     timer: 30
   mediumDifficultyConfig:
