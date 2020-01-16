@@ -15,7 +15,7 @@ public class UIManager : MonoBehaviour
     private static bool _debug;
     private static int _levelEndMenuCounter, _menuFullCounter;
     private static UIManager _instance; // This allows non-static methods (e.g. coroutines) to be called in static methods via an instance of this class
-    private bool _triggeredPointsPopup;
+    private bool _triggeredLevelUpPopup;
 
     public GUIStyle debugStyle;
     public UnityEvent uiReadyEvent = new UnityEvent();
@@ -542,9 +542,9 @@ public class UIManager : MonoBehaviour
         }
         
         // Detect when to level up the player
-        if (LevelManager.IsMainGameLevel && PlayerController.Points == LevelManager.NextLevelRequirements[LevelManager.Level] && !_triggeredPointsPopup)
+        if (LevelManager.IsMainGameLevel && PlayerController.Points >= LevelManager.NextLevelRequirements[LevelManager.Level] && !_triggeredLevelUpPopup)
         {
-            _triggeredPointsPopup = true;
+            _triggeredLevelUpPopup = true;
             TriggerPopup("levelup");
         }
 
