@@ -14,10 +14,7 @@ public class MinigameGrandmaManager : MonoBehaviour
 	private string[] _roadDirections;
 	private float[] _roadWaitingTimes;
 	private int _maxRoadPopulation;
-	private int _playerMovementSpeed;
-	private int _carMovementSpeed;
-	private float _carDecayTime;
-	private float _carWaitTime;
+	private float _carDecayTime, _carWaitTime, _carMovementSpeed, _playerMovementSpeed;
 
 	public GameObject carPrefab;
 	public List<Sprite> carSprites;
@@ -26,8 +23,8 @@ public class MinigameGrandmaManager : MonoBehaviour
 	public class EasyDifficultyConfig
 	{
 		public int maxRoadPopulation = 8;
-		public int playerMovementSpeed = 4;
-		public int carMovementSpeed = 4;
+		public float playerMovementSpeed = 4;
+		public float carMovementSpeed = 4;
 		public float carDecayTime = 3f;
 		public float carWaitTime = 1f;
 	}
@@ -37,8 +34,8 @@ public class MinigameGrandmaManager : MonoBehaviour
 	public class MediumDifficultyConfig
 	{
 		public int maxRoadPopulation = 8;
-		public int playerMovementSpeed = 4;
-		public int carMovementSpeed = 4;
+		public float playerMovementSpeed = 4;
+		public float carMovementSpeed = 4;
 		public float carDecayTime = 3f;
 		public float carWaitTime = 1f;
 	}
@@ -48,8 +45,8 @@ public class MinigameGrandmaManager : MonoBehaviour
 	public class HardDifficultyConfig
 	{
 		public int maxRoadPopulation = 8;
-		public int playerMovementSpeed = 4;
-		public int carMovementSpeed = 4;
+		public float playerMovementSpeed = 4;
+		public float carMovementSpeed = 4;
 		public float carDecayTime = 3f;
 		public float carWaitTime = 1f;
 	}

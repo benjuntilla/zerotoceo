@@ -5,4 +5,5 @@ INCLUDE ../Generic.ink
 
 === start ===
 ~ xp = GetPlayerXP()
+Enjoying the view?
 Hello. -> END
