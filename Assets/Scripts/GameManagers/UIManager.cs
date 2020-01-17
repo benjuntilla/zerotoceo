@@ -16,6 +16,7 @@ public class UIManager : MonoBehaviour
     private static int _levelEndMenuCounter, _menuFullCounter;
     private static UIManager _instance; // This allows non-static methods (e.g. coroutines) to be called in static methods via an instance of this class
     private bool _triggeredLevelUpPopup;
+    private MinigameManager _minigameManager;
 
     public GUIStyle debugStyle;
     public UnityEvent uiReadyEvent = new UnityEvent();
@@ -106,6 +107,9 @@ public class UIManager : MonoBehaviour
             }
         }
 
+        if (SceneManager.GetActiveScene().buildIndex >= 5)
+            _minigameManager = GameObject.Find("Minigame Managers").GetComponent<MinigameManager>();
+
         _instance = this;
         TriggerApplicableMenus();
         uiReadyEvent.Invoke();
@@ -119,7 +123,7 @@ public class UIManager : MonoBehaviour
         else if (SceneManager.GetActiveScene().buildIndex >= 5 && MinigameManager.Minigame != "")
             TriggerMenuFull(MinigameManager.MinigameName);
         else if (SceneManager.GetActiveScene().buildIndex >= 5 && MinigameManager.Minigame == "")
-            TriggerMenuFull(MinigameManager.ResolveEmptyMinigame()); 
+            TriggerMenuFull(_minigameManager.ResolveEmptyMinigame()); 
     }
 
     private static void PauseGame ()

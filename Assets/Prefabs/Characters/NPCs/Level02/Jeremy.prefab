@@ -16,7 +16,7 @@ PrefabInstance:
         type: 3}
       propertyPath: dialogue
       value: 
-      objectReference: {fileID: 4900000, guid: 2b04d1daf987e4f0cbb4232469121efb, type: 3}
+      objectReference: {fileID: 4900000, guid: 55ef4007f90f4fbfdae3d8e6d3882cd3, type: 3}
     - target: {fileID: 5968443053714933410, guid: 6046af2432b4f0fbf85238ba202c5054,
         type: 3}
       propertyPath: m_Name

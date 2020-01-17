@@ -31,16 +31,12 @@ public class LevelManager : MonoBehaviour
         };
 
         var level = SceneManager.GetActiveScene().buildIndex;
-        if (level == 1 || level == 2 || level == 3 || level == 4)
+        IsMainGameLevel = (level == 1 || level == 2 || level == 3 || level == 4);
+        if (level == 1 || level == 2 || level == 3)
         {
             _managerNPCController = GameObject.Find("Manager").GetComponent<NPCController>();
-            IsMainGameLevel = true;
         }
-        else
-        {
-            IsMainGameLevel = false;
-        }
-        
+
         if (!NextLevelFlag) return;
         InitializeNextLevel();
     }

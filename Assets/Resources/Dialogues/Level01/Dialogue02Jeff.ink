@@ -7,7 +7,7 @@ INCLUDE ../Generic.ink
 ~ xp = GetPlayerXP()
 { 
     - GetMinigameProgression() >= 1:
-        Thank you for helping my grandma!
+        Thank you for helping my grandma! This is definitely going into your service hours.
     - quest.accepted:
         Are you on it?
     - gameFlags ? talkedToAndy:
@@ -24,7 +24,7 @@ INCLUDE ../Generic.ink
     That's where you come in.
     Plus, you're in FBLA, right?
         *   [Yes.]
-- (question) {Prove it. How many BAA awards are there?|How many BAA awards are there?}
+- (question) {Prove it, then. How many BAA awards are there?|How many BAA awards are there?}
     *   [Five.]
         ~ xp -= 10
         Not quite right. (Lost 10 XP)
@@ -38,7 +38,7 @@ INCLUDE ../Generic.ink
         Correct. Now I know I can probably trust you. (Gained 20 XP)
     -   All right, you'll help my Grandma cross the street, right?
         *   (accepted) [Yes.]
-            Cool, great! Get on it.
+            Cool, great! Get on it. See me when you've finished.
             ~ pendingMinigame = "Minigame_Grandma_Easy"
             -> END
         *   [No.]

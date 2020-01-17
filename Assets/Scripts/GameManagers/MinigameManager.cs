@@ -9,7 +9,7 @@ public class MinigameManager : MonoBehaviour
 {
     private static bool _failFlag;
     private static bool _passFlag;
-    
+
     public static readonly Dictionary<string, int> MinigamePoints = new Dictionary<string, int>()
     {
         {"Minigame_Grandma_Easy", 50},
@@ -26,19 +26,26 @@ public class MinigameManager : MonoBehaviour
     public static string MinigameName = ""; // First two parts of the minigame id e.g., Minigame_Grandma
     public static string MinigameDifficulty = ""; // Just the last part of the minigame id containing the difficulty
     public static int MinigameProgression; // Count of minigames passed on a level by level basis
+    public Difficulty defaultDifficulty = Difficulty.Easy;
+    public enum Difficulty
+    {
+        Easy, 
+        Medium, 
+        Hard
+    };
 
-    public static string ResolveEmptyMinigame() // For debug purposes
+    public string ResolveEmptyMinigame() // For debug purposes
     {
         switch (SceneManager.GetActiveScene().buildIndex)
         {
             case 5:
-                Minigame = "Minigame_Grandma_Easy";
+                Minigame = $"Minigame_Grandma_{defaultDifficulty.ToString()}";
                 break;
             case 6:
-                Minigame = "Minigame_Trash_Easy";
+                Minigame = $"Minigame_Trash_{defaultDifficulty.ToString()}";
                 break;
             case 7:
-                Minigame = "Minigame_Coin_Easy";
+                Minigame = $"Minigame_Coin_{defaultDifficulty.ToString()}";
                 break;
         }
         InitializeMinigame();

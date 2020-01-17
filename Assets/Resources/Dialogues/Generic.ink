@@ -4,7 +4,7 @@ EXTERNAL GetRequiredPoints()
 EXTERNAL GetMinigameProgression()
 VAR xp = 0
 VAR pendingMinigame = ""
-LIST gameFlags = minigameDone, talkedToAndy, talkedToJessica, talkedToJeremy
+LIST gameFlags = minigameDone, talkedToAndy, talkedToJessica, talkedToJeremy, talkedToJacquise
 
 == function GetGameLevel() ==
 ~ return 1

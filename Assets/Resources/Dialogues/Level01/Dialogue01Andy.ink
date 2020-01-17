@@ -16,33 +16,33 @@ INCLUDE ../Generic.ink
 = intro
 Hello, I'm Andy.
     *   [Hello!]
--   (introquestion) You're the new recruit, right?
+- (introquestion) You're the new recruit, right?
     *   [Yes.]
         ~ xp += 20
         Ah, you're here! (Gained 20 xp)
     *   [No.]
         Really? <> -> introquestion
--   Anyway, I know your dad! He told me about you once.
--   He mentioned that you're in FBLA!
--   Well, you're still in it, right?
+- Anyway, I know your dad! He mentioned you once.
+- He said that you're in FBLA!
+- Well, you're still in it, right?
     *   [Yes.]
--   Ok, cool! I was in the club when I was your age.
--   Are you in the process of achieving your Business Achievement Awards at the moment?
+- Ok, cool! I was in the club when I was your age.
+- Are you in the process of achieving your Business Achievement Awards at the moment?
     *   [What?]
         You don't know what BAA is?
-        -   (info) OK, well, BAA is a program designed to help FBLA members enhance their business and leadership skills.
-        BAA has 4 levels, Future, Business, Leader, and America.
-        Completing each involves doing projects that develop yourself and your community.
+        - (info) OK, well, BAA is a program designed by FBLA to help members enhance their business and leadership skills.
+        BAA has 4 levels: Future, Business, Leader, and America.
+        Completing each involves doing projects that develop both yourself and your community.
         The difficulty of the projects increase as you progress through the 4 levels.
-- Now do you understand what BAA is?
+- With that said, do you understand what BAA is?
     +   [Yes.]
     +   [No.]
         -> info
--   All right. I have a task for you. This can help with your community service hours.
--   But, before I can trust you with it, I need to know one thing.
+- All right, good. Now, I have a task for you. This can help with your community service hours.
+- But, before I can trust you with it, I need to know one thing.
     *   [Okay?]
--   (question) Are you willing to put in the work necessary to achieve your ambitions?
--   Your ambitions being receiving all of your four BAAs?
+- (question) Are you willing to put in the work necessary to achieve your ambitions?
+- Your ambitions being receiving all of your four BAAs?
     *   (correct) [Yes.]
         ~ xp += 20
         All right, nice! (Gained 20 xp)
