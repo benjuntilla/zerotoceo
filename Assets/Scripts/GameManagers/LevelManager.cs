@@ -43,6 +43,8 @@ public class LevelManager : MonoBehaviour
     
     public static void InitializeNextLevel()
     {
+        if (PlayerController.Lives < 3)
+            PlayerController.Lives++;
         _managerNPCController.dialogueTriggered = true;
         MinigameManager.MinigameProgression = 0;
         SaveManager.Save();

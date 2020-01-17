@@ -43,13 +43,13 @@ Hello, I'm Andy.
     *   [Okay?]
 - (question) Are you willing to put in the work necessary to achieve your ambitions?
 - Your ambitions being receiving all of your four BAAs?
-    *   (correct) [Yes.]
+    +   (correct) [Yes.]
         ~ xp += 20
         All right, nice! (Gained 20 xp)
         ~ gameFlags += talkedToAndy
         You're on your way to receiving your first achievement, the Future award.
         One problem, though. I don't actually have your task, but Jeff probably has one for you.
         He's by the water cooler over there. Go talk to him about it.  -> END
-    *   [No.]
+    +   [No.]
         Well, it doesn't seem like you're the right person for the job then.
         Goodbye. -> END

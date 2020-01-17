@@ -41,12 +41,12 @@ How long ago was that? Five weeks? Two days? Help me to recollect.
 - What did I tell you? Working here is an incredibly great opportunity.
 - (question1) {As is being in that school club of yours. What was it called?|What was that school club of yours called?}
     *   [NJHS.]
-        I was testing you, son; of course I know what kind of clubs you're in. But do you yourself really not know?
+        I was testing you, son; of course I know what kinds of clubs you're in. But do you yourself really not know?
         -> question1
     *   [FBLA.]
         Ah, yes. Future Business Leaders of America. Truly the dream of this country.
     *   [DECA.]
-        I was testing you, son; of course I know what kind of clubs you're in. But do you yourself really not know?
+        I was testing you, son; of course I know what kinds of clubs you're in. But do you yourself really not know?
         -> question1
 - Anyway, I want to see your improvement in action. Get down there and clean up that trash.
 What are you waiting for? Go!

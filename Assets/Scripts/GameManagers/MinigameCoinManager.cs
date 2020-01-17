@@ -13,6 +13,7 @@ public class MinigameCoinManager : MonoBehaviour
     private GameObject _ui, _characters, _dropRegions, _pennyRegion, _nickelRegion, _dimeRegion, _quarterRegion;
     private TextMeshProUGUI _timerText;
     private MinigameManager _minigameManager;
+    private IEnumerator _instantiateLoop;
     // Config
     private float _instantiateDelay;
     private int _timer;
@@ -56,7 +57,8 @@ public class MinigameCoinManager : MonoBehaviour
         _nickelRegion = _dropRegions.transform.Find("Nickel Region").gameObject;
         _dimeRegion = _dropRegions.transform.Find("Dime Region").gameObject;
         _quarterRegion = _dropRegions.transform.Find("Quarter Region").gameObject;
-        
+
+        _instantiateLoop = InstantiateLoop();
         _timerText.SetText($"Time left: {_timer} seconds");
         LoadDifficultyConfig();
         Invoke(nameof(StartGame), 3f);
@@ -64,7 +66,7 @@ public class MinigameCoinManager : MonoBehaviour
 
     private void StartGame()
     {
-        StartCoroutine(InstantiateLoop());
+        StartCoroutine(_instantiateLoop);
         StartCoroutine(Timer());
     }
     
@@ -154,7 +156,7 @@ public class MinigameCoinManager : MonoBehaviour
             _timerText.SetText($"Time left: {i} seconds");
             yield return new WaitForSeconds(1);
             if (i == cooldownTime)
-                StopCoroutine(InstantiateLoop());
+                StopCoroutine(_instantiateLoop);
         }
         CheckPass();
     }

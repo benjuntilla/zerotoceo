@@ -10,8 +10,7 @@ INCLUDE ../Generic.ink
         Thanks you for your help.
         Unfortunately, I have no monetary compensation for you; however, I am willing to write any good words for you.
         As I can see from your pin, you are in FBLA; therefore, you need service hours.
-        Thanks to me, you have them. You're welcome.
-        You seem like a very upright young man. I hope to see your face around the office. Good day. -> END
+        Thanks to me, you have them. You're welcome, and good day. -> END
         -> END
     - quest.accepted:
         Are you working on it?
@@ -31,11 +30,11 @@ INCLUDE ../Generic.ink
 = quest
 I am on the verge of a breakthrough right now! For what purpose are you distracting me?
 Did one of my colleagues make you do this?
+    *   [No.]
+        I appreciate your honesty. Now, if you will, please leave me. -> END
     *   [Don.]
         There is no one named Don working in this facility. I can see through your lies.
         Get out of my sight. -> END
-    *   [No.]
-        I appreciate your honesty. Now, if you will, please leave me. -> END
     *   [Jeremy.]
         Oh, I see. It's probably important then.
 - Hmm, I wonder. Why would Jeremy direct you to me?

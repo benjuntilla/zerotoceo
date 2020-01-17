@@ -28,7 +28,7 @@ INCLUDE ../Generic.ink
         {~Um, hello.|Please don't bother me.|I'm doing work at the moment.} -> END
 }
 = quest
-blah blah blah
+So
 Are you up to it?
     *   (accepted) [Yes.]
             Cool, great! Get on it.
