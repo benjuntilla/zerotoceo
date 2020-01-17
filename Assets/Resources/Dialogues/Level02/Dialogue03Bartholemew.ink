@@ -26,7 +26,7 @@ INCLUDE ../Generic.ink
     - gameFlags ? talkedToJeremy:
         -> quest
     - else:
-        {~Um, hello.|Please don't bother me.|I'm doing work at the moment.} -> END
+        {~Go away.|Do not bother me.|I am in the middle of deep thought at the moment.} -> END
 }
 = quest
 I am on the verge of a breakthrough right now! For what purpose are you distracting me?

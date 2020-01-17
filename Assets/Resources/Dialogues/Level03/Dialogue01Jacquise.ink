@@ -7,7 +7,7 @@ INCLUDE ../Generic.ink
 ~ xp = GetPlayerXP()
 {
     - gameFlags ? talkedToJacquise:
-        Did you talk to Jeremy yet? -> END
+        Did you talk to Amelie yet? -> END
 }
 Oh, my! Look at those two pins! What are those for?
     *   [FBLA.]
@@ -23,6 +23,11 @@ Oh, my! Look at those two pins! What are those for?
 - Remember: It's not about the physical reward you gain. It's about the self-improvement.
 - That is your goal, right?
     *   [Yes.]
+        ~ xp += 20
+        Very good. (Gained 10 xp)
+    *   [No.]
+        ~ xp -= 10
+        Hmm. Disappointing. (Lost 10 xp)
 ~ gameFlags += talkedToJacquise
-- Well, then. I have work for you.
+- Anyway, There's work for you. Go talk to Amelie. She's typing up some report so be quiet and don't scare her.
 -> END

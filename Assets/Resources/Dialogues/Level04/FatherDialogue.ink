@@ -34,9 +34,11 @@ Enjoying the view?
         You will learn to appreciate these kinds of luxuries some day.
 - You seemed to have matured very much since I last saw you.
 How long ago was that? Five weeks? Two days? Help me to recollect.
+    *   [Um.]
+        It's ok, it's ok. At least you've gained more confidence in your voice!
     *   [No.]
-- Standing up to the big man! Very nice. You've also grown more confident in yourself.
-What did I tell you? Working here is an incredibly great opportunity.
+        Standing up to the big man! Very nice. You've also grown more confident in yourself.
+- What did I tell you? Working here is an incredibly great opportunity.
 - (question1) {As is being in that school club of yours. What was it called?|What was that school club of yours called?}
     *   [NJHS.]
         I was testing you, son; of course I know what kind of clubs you're in. But do you yourself really not know?
@@ -52,10 +54,16 @@ What are you waiting for? Go!
 -> END
 
 = part_two
+blah blah blah coin
+~ pendingMinigame = "Minigame_Coin_Medium"
 -> END
 
 = part_three
+blah blah blah grandma
+~ pendingMinigame = "Minigame_Grandma_Hard"
 -> END
 
 = part_four
+blah blah blah
+concluding remarks
 -> END

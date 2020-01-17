@@ -199,6 +199,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: Virtual Camera
       objectReference: {fileID: 0}
+    - target: {fileID: 4243312917396941267, guid: 69bcd9e22bf123a5d9efdace32b4f370,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4243312917396941267, guid: 69bcd9e22bf123a5d9efdace32b4f370,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 69bcd9e22bf123a5d9efdace32b4f370, type: 3}
 --- !u!1001 &1726436033
@@ -1208,6 +1218,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Andy
       objectReference: {fileID: 0}
+    - target: {fileID: 3046080634022233687, guid: 16b39eda7bf8271fe920206a440f5e88,
+        type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: d98ec1c20f1b94b90a59294a17be3d4b, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 16b39eda7bf8271fe920206a440f5e88, type: 3}
 --- !u!4 &193091449385861216 stripped
@@ -5324,6 +5339,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Jeff
       objectReference: {fileID: 0}
+    - target: {fileID: 82966882163075471, guid: b4b30730692aaf18e9dcb2bc797b842b,
+        type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: d98ec1c20f1b94b90a59294a17be3d4b, type: 2}
     - target: {fileID: 82966882163075474, guid: b4b30730692aaf18e9dcb2bc797b842b,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -5614,6 +5634,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Worker
       objectReference: {fileID: 0}
+    - target: {fileID: 3309222363621280853, guid: ecd1332ea1bb17e5bac1bd34a7b000f7,
+        type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: d98ec1c20f1b94b90a59294a17be3d4b, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ecd1332ea1bb17e5bac1bd34a7b000f7, type: 3}
 --- !u!4 &7013860552925565620 stripped
