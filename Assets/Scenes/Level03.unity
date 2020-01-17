@@ -6669,7 +6669,7 @@ PrefabInstance:
     - target: {fileID: 8425213928752008418, guid: 9f063b9fd93145180b7c8b01bf6d7071,
         type: 3}
       propertyPath: m_TileSpriteArray.Array.data[1].m_RefCount
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8425213928752008418, guid: 9f063b9fd93145180b7c8b01bf6d7071,
         type: 3}
@@ -6898,11 +6898,22 @@ PrefabInstance:
     - target: {fileID: 8425213928752008418, guid: 9f063b9fd93145180b7c8b01bf6d7071,
         type: 3}
       propertyPath: m_TileSpriteArray.Array.data[4].m_RefCount
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8425213928752008418, guid: 9f063b9fd93145180b7c8b01bf6d7071,
         type: 3}
       propertyPath: m_TileSpriteArray.Array.data[4].m_Data
+      value: 
+      objectReference: {fileID: 21300000, guid: cde6234643726bc35b24973f5d46e856,
+        type: 3}
+    - target: {fileID: 8425213928752008418, guid: 9f063b9fd93145180b7c8b01bf6d7071,
+        type: 3}
+      propertyPath: m_Tiles.Array.data[2].second.m_TileSpriteIndex
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 8425213928752008418, guid: 9f063b9fd93145180b7c8b01bf6d7071,
+        type: 3}
+      propertyPath: m_TileSpriteArray.Array.data[1].m_Data
       value: 
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -6914,6 +6925,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 508753369}
     m_Modifications:
+    - target: {fileID: 6926487251322642852, guid: a1b6566d5c4102622a05658d867d9b4e,
+        type: 3}
+      propertyPath: dialogue
+      value: 
+      objectReference: {fileID: 4900000, guid: b021835c4fed2d2f198860dde6cec8e3, type: 3}
+    - target: {fileID: 6926487251322642853, guid: a1b6566d5c4102622a05658d867d9b4e,
+        type: 3}
+      propertyPath: standStill
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6926487251322642855, guid: a1b6566d5c4102622a05658d867d9b4e,
         type: 3}
       propertyPath: m_Name
@@ -7053,6 +7074,11 @@ PrefabInstance:
       propertyPath: dialogue
       value: 
       objectReference: {fileID: 4900000, guid: 9fcf121c62e52b4a1a1b22878fe0266b, type: 3}
+    - target: {fileID: 5851437062925878523, guid: a10c42c59d9cce3bc8850b927b58fd14,
+        type: 3}
+      propertyPath: standStill
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a10c42c59d9cce3bc8850b927b58fd14, type: 3}
 --- !u!4 &4004428174844436599 stripped
@@ -7223,6 +7249,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Ricardo
       objectReference: {fileID: 0}
+    - target: {fileID: 8818228936954617558, guid: dd8534e41e40513738d6278f8aafb576,
+        type: 3}
+      propertyPath: standStill
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8818228936954617559, guid: dd8534e41e40513738d6278f8aafb576,
         type: 3}
       propertyPath: dialogue
@@ -7317,6 +7348,11 @@ PrefabInstance:
       propertyPath: dialogue
       value: 
       objectReference: {fileID: 4900000, guid: 10997e8fac9aa4d9a871d9ec3f149be8, type: 3}
+    - target: {fileID: 6478541699316880813, guid: ea5fd7950105fd68aa5ef2a451f42909,
+        type: 3}
+      propertyPath: standStill
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6478541699316880815, guid: ea5fd7950105fd68aa5ef2a451f42909,
         type: 3}
       propertyPath: m_Name
@@ -7326,7 +7362,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: b4021e9364035a826b2f36fdeb61c291,
+      objectReference: {fileID: 21300000, guid: 4664b02ec0e55a7629fbe5bdbb4b3e87,
         type: 3}
     - target: {fileID: 6478541699316880823, guid: ea5fd7950105fd68aa5ef2a451f42909,
         type: 3}
