@@ -818,17 +818,17 @@ MonoBehaviour:
   - {fileID: 8102090394943287169, guid: ba560b50a65b6e1008a13e4f601fdb79, type: 3}
   trashTorque: 360
   easyDifficultyConfig:
-    trashGravity: 1
+    trashGravity: 0.75
     playerMovementSpeed: 16
     instantiateDelay: 1.25
     timer: 30
   mediumDifficultyConfig:
-    trashGravity: 1.25
+    trashGravity: 1
     playerMovementSpeed: 20
     instantiateDelay: 1
     timer: 30
   hardDifficultyConfig:
-    trashGravity: 1.5
+    trashGravity: 1.25
     playerMovementSpeed: 25
     instantiateDelay: 0.75
     timer: 30
@@ -1836,7 +1836,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 670b9bd34594a8bd4bea14a036a7db4b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  defaultDifficulty: 1
+  defaultDifficulty: 0
 --- !u!1 &1955308929
 GameObject:
   m_ObjectHideFlags: 0

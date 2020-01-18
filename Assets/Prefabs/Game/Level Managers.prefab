@@ -71,9 +71,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   levelOne: 100
-  levelTwo: 300
+  levelTwo: 250
   levelThree: 500
-  levelFour: 700
+  levelFour: 800
 --- !u!114 &5990509898109174935
 MonoBehaviour:
   m_ObjectHideFlags: 0

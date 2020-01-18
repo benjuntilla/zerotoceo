@@ -74,5 +74,6 @@ Again, I don't even know who you are anymore...
 I don't want to tear up in front of you.
 I think my time in this company is over. 
 We need to discuss the future of BizTek in my office's back room.
-Let's go.
+~ xp += 100
+Let's go. (Gained 100 XP)
 -> END
