@@ -79,12 +79,14 @@ public class MinigameManager : MonoBehaviour
     {
         if (_failFlag)
         {
+            LevelManager.NextLevelFlag = false;
             _failFlag = false;
             PlayerController.Lives -= 1;
             if (PlayerController.Lives != 0)
                 SaveManager.Save();
         } else if (_passFlag)
         {
+            LevelManager.NextLevelFlag = false;
             _passFlag = false;
             PlayerController.Points += MinigamePoints[Minigame];
             LevelManager.Scoreboard["minigameBonus"] += MinigamePoints[Minigame];
