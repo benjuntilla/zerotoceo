@@ -13,8 +13,8 @@ Hey, I'm Jessica.
     *   [Hello!]
 - Nice pin. You're in FBLA, huh?
     *   [Yep.]
-- Figures. I was in that club as well.
-- (question) Um, which award are you wearing again?
+- Figures. I was in that club as well when I was your age.
+- (question) Which award is that you have?
     *   [Business.]
         ~ xp -= 10
         No, I don't think that's quite right. (Lost 10 XP)
@@ -26,8 +26,8 @@ Hey, I'm Jessica.
         ~ xp -= 10
         No, I don't think that's quite right. (Lost 10 XP)
         -> question
-- Very cool. Seems like your next step for BAA is the Business award.
-- Hm, well since you're wearing your pin so brazenly, it seems like you're looking for work.
+- Very cool. I believe your next step in the BAA is the Business award.
+- From that, I will assume that you're looking for work.
 - Am I correct?
     *   [Yes.]
 ~ gameFlags += talkedToJessica

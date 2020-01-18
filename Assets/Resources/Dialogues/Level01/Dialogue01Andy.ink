@@ -22,7 +22,7 @@ Hello, I'm Andy.
         Ah, you're here! (Gained 20 xp)
     *   [No.]
         Really? <> -> introquestion
-- Anyway, I know your dad! He mentioned you once.
+- Your dad mentioned you once.
 - He said that you're in FBLA!
 - Well, you're still in it, right?
     *   [Yes.]

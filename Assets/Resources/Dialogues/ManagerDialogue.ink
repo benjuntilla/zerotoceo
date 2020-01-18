@@ -24,7 +24,7 @@ Good luck. I hope you will find your place in this company!
 === level_two ===
 Welcome to the second floor!
 When management sees potential in you, they move you up here.
-You should feel accomplished for having moved up the ladder so soon!
+You should feel accomplished for having moved up the ladder so quickly!
 Enough of this chit-chat, though. Back to work.
 -> END
 
