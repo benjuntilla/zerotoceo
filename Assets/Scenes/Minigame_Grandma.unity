@@ -2571,19 +2571,19 @@ MonoBehaviour:
     playerMovementSpeed: 4
     carMovementSpeed: 4
     carDecayTime: 6
-    carWaitTime: 1
+    carWaitTime: 1.5
   mediumDifficultyConfig:
     maxRoadPopulation: 6
     playerMovementSpeed: 5
     carMovementSpeed: 5
     carDecayTime: 5
-    carWaitTime: 0.75
+    carWaitTime: 1
   hardDifficultyConfig:
     maxRoadPopulation: 8
     playerMovementSpeed: 6
     carMovementSpeed: 6
     carDecayTime: 5
-    carWaitTime: 0.65
+    carWaitTime: 0.75
 --- !u!1 &2066217146
 GameObject:
   m_ObjectHideFlags: 0

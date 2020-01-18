@@ -783,13 +783,13 @@ MonoBehaviour:
   quarterPrefab: {fileID: 5807828111723631931, guid: 6f7668a0f3a9b83858cff45602f66b6b,
     type: 3}
   easyDifficultyConfig:
-    instantiateDelay: 0.9
+    instantiateDelay: 1.25
     timer: 30
   mediumDifficultyConfig:
-    instantiateDelay: 0.8
+    instantiateDelay: 1.15
     timer: 30
   hardDifficultyConfig:
-    instantiateDelay: 0.7
+    instantiateDelay: 1
     timer: 30
 --- !u!1 &947410104
 GameObject:

@@ -820,17 +820,17 @@ MonoBehaviour:
   easyDifficultyConfig:
     trashGravity: 1
     playerMovementSpeed: 16
-    instantiateDelay: 0.9
+    instantiateDelay: 1.25
     timer: 30
   mediumDifficultyConfig:
     trashGravity: 1.25
     playerMovementSpeed: 20
-    instantiateDelay: 0.8
+    instantiateDelay: 1
     timer: 30
   hardDifficultyConfig:
     trashGravity: 1.5
     playerMovementSpeed: 25
-    instantiateDelay: 0.7
+    instantiateDelay: 0.75
     timer: 30
 --- !u!1001 &791841416
 PrefabInstance:
@@ -1836,7 +1836,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 670b9bd34594a8bd4bea14a036a7db4b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  defaultDifficulty: 0
+  defaultDifficulty: 1
 --- !u!1 &1955308929
 GameObject:
   m_ObjectHideFlags: 0
