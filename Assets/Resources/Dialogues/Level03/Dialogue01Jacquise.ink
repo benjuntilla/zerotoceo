@@ -28,6 +28,6 @@ Oh, my! Look at those two pins! What are those for?
     *   [No.]
         ~ xp -= 10
         Hmm. An odd response. (Lost 10 xp)
+- Anyway, There's work for you. Go talk to Amelie. She's typing up some report, so be quiet and don't scare her.
 ~ gameFlags += talkedToJacquise
-- Anyway, There's work for you. Go talk to Amelie. She's typing up some report so be quiet and don't scare her.
 -> END

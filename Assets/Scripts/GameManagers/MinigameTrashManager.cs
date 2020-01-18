@@ -104,6 +104,8 @@ public class MinigameTrashManager : MonoBehaviour
         trash.GetComponent<CollidableController>().targetObject = _ground;
         trash.GetComponent<CollidableController>().collisionMethod.AddListener(TryFail);
         trash.GetComponent<CollidableController>().collisionMethod.AddListener(delegate{ trash.GetComponent<CollidableController>().collisionEventsEnabled = false; });
+        trash.GetComponent<CollidableController>().collisionMethod.AddListener(delegate{ trash.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezePositionY; });
+        trash.GetComponent<CollidableController>().collisionMethod.AddListener(delegate{ trash.GetComponent<Rigidbody2D>().freezeRotation = true; });
         trash.GetComponent<CollidableController>().secondaryTargetObject = _player;
         trash.GetComponent<CollidableController>().secondaryCollisionMethod.AddListener(delegate{Destroy(trash);});
         trash.GetComponent<Rigidbody2D>().gravityScale = _trashGravity;

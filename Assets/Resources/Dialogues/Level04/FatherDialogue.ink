@@ -54,16 +54,25 @@ What are you waiting for? Go!
 -> END
 
 = part_two
-blah blah blah coin
+You've definitely become a hard worker. The exterior of this building is sparkly clean! Very nice job.
+Now, I want to see your financial skills. We have more March of Dimes coins to sort. Get on it.
 ~ pendingMinigame = "Minigame_Coin_Medium"
 -> END
 
 = part_three
-blah blah blah grandma
+You're good with money. You're incredibly efficient as well. Who are you? Are you my son?
+Haha, anyway... 
+You see that grandma down there? She's trying to cross the street.
+Help her out, and quickly! We don't want her getting run over.
+You better clear those four flights of stairs hastefully.
 ~ pendingMinigame = "Minigame_Grandma_Hard"
 -> END
 
 = part_four
-blah blah blah
-concluding remarks
+You... are a completely different person.
+Again, I don't even know who you are anymore...
+I don't want to tear up in front of you.
+I think my time in this company is over. 
+We need to discuss the future of BizTek in my office's back room.
+Let's go.
 -> END

@@ -7,29 +7,35 @@ INCLUDE ../Generic.ink
 ~ xp = GetPlayerXP()
 { 
     - GetMinigameProgression() >= 3:
-        final
+        Thank you for helping. It is greatly appreciated. I will surely write you any letters of recommendation.
         -> END
     - quest.accepted:
-        Are you on it?
+        Please address the problem at hand.
     - quest.declined:
-        Are you up to the task now?
+        Are you willing to help me now?
             *   [Yes.]
                 Cool, great! Get on it.
                 ~ pendingMinigame = "Minigame_Grandma_Hard"
                 -> END
             *   [No.]
-                Well, then frankly, I don't know why I'm talking to you. Goodbye. -> END
+                Goodbye, then. -> END
     - gameFlags ? talkedToJoey:
         -> quest
     - else:
         {~Um, hello.|Please don't bother me.|I'm doing work at the moment.} -> END
 }
 = quest
-blah blah blah
-Are you up to it?
+I saw you talking to that meathead Joey. He probably yapped about the issue I'm having at the moment.
+I apologize if he put you off. He isn't at all representative of the standards of this company.
+I'm going to assume that you are aware of my problem.
+My grandmother called, saying that she needs someone to escort her across some street.
+She refuses to use public transportation, instead walking everywhere she goes.
+Frankly, it's frustrating, but she's family, so I need someone to help her.
+I am currently dealing with pesky clients at the moment, so I don't have any time to do so.
+Will you help?
     *   (accepted) [Yes.]
-            Cool, great! Get on it.
-            ~ pendingMinigame = "Minigame_Grandma_Hard"
-            -> END
+        Thank you very much. Come see me when she's across that street.
+        ~ pendingMinigame = "Minigame_Grandma_Hard"
+        -> END
     *   (declined) [No.]
-        Well, then frankly, I don't know why I'm talking to you. Goodbye. -> END
+        Understandable. Goodbye. -> END

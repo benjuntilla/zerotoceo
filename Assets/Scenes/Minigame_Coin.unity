@@ -783,13 +783,13 @@ MonoBehaviour:
   quarterPrefab: {fileID: 5807828111723631931, guid: 6f7668a0f3a9b83858cff45602f66b6b,
     type: 3}
   easyDifficultyConfig:
-    instantiateDelay: 1.5
+    instantiateDelay: 0.9
     timer: 30
   mediumDifficultyConfig:
-    instantiateDelay: 1
+    instantiateDelay: 0.8
     timer: 30
   hardDifficultyConfig:
-    instantiateDelay: 1
+    instantiateDelay: 0.7
     timer: 30
 --- !u!1 &947410104
 GameObject:
@@ -2155,7 +2155,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 670b9bd34594a8bd4bea14a036a7db4b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  defaultDifficulty: 1
+  defaultDifficulty: 2
 --- !u!1 &1906310639
 GameObject:
   m_ObjectHideFlags: 0
