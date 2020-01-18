@@ -27,7 +27,7 @@ Hello, I'm Andy.
 - Well, you're still in it, right?
     *   [Yes.]
 - Ok, cool! I was in the club when I was your age.
-- Are you in the process of achieving your Business Achievement Awards at the moment?
+- Are you trying to get your Business Achievement Awards at the moment?
     *   [What?]
         You don't know what BAA is?
         - (info) OK, well, BAA is a program designed by FBLA to help members enhance their business and leadership skills.
