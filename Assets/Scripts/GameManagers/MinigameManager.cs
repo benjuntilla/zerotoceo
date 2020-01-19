@@ -62,12 +62,14 @@ public class MinigameManager : MonoBehaviour
 
     public void Pass()
     {
+        LevelManager.NextLevelFlag = false;
         _passFlag = true;
         UIManager.TriggerMinigameEndMenu(true);
     }
 
     public void Fail()
     {
+        LevelManager.NextLevelFlag = false;
         _failFlag = true;
         UIManager.TriggerMinigameEndMenu(false);
     }
