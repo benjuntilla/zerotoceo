@@ -1,6 +1,6 @@
-﻿using Prime31;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Runtime.Serialization.Formatters.Binary;
 using Ink.Runtime;
 using UnityEngine;
@@ -48,9 +48,11 @@ public class SaveManager : MonoBehaviour
     public static void Save ()
     {
         // Retrieve character positions
-        var characterControllers = GameObject.FindObjectsOfType<CharacterMovement2D>();
+        var characters = new List<GameObject>();
+        characters.AddRange(GameObject.FindGameObjectsWithTag("Player").ToList());
+        characters.AddRange(GameObject.FindGameObjectsWithTag("NPC").ToList());
         var characterPositions = new Dictionary<string, float[]>();
-        foreach (var controller in characterControllers)
+        foreach (var controller in characters)
         {
             var controllerGameObject = controller.gameObject;
             var controllerVector = controllerGameObject.transform.position;

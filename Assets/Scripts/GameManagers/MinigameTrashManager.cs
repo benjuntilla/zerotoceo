@@ -1,8 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using System.Runtime.Remoting;
 using System.Timers;
-using TMPro;
 using UnityEngine;
 
 [RequireComponent(typeof(MinigameManager))]
