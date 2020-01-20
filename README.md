@@ -12,13 +12,12 @@ This game is designed to teach everyone of all ages, FBLA member or not, about F
  * Dialogue offering several paths for the player to choose
  * Four levels
 
- # Tools, Code, and Libraries Used
+ # Tools, Software, & Libraries Used
  * [Unity](https://unity.com/)
  * [Visual Studio Code](https://code.visualstudio.com/)
  * [Jetbrains Rider](https://www.jetbrains.com/rider/)
  * [Paint.net](https://www.getpaint.net/)
  * [Ink](https://github.com/inkle/ink)
- * [CharacterController2D by prime31](https://github.com/prime31/CharacterController2D)
 
  # Credits
  Chelston Juntilla - Programmer <br>
