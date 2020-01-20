@@ -97,39 +97,37 @@ public class NPCController : MonoBehaviour
         
         if( _velocity.x == 1 )
         {
-            // Change appearance
+            // Flips the sprite based on which direction it's going
             if( transform.localScale.x < 0f && Time.timeScale == 1f)
                 transform.localScale = new Vector3( -transform.localScale.x, transform.localScale.y, transform.localScale.z );
+            // Plays run animation when moving & grounded
             if( _isGrounded )
                 _animator.Play( Animator.StringToHash( "Run" ) );
-            // Switches direction if running into a wall
-            /*if( _rb.velocity.x != 1 && _wander)
-                _velocity.x = -1;*/
         }
         else if( _velocity.x == -1 )
         {
-            // Change appearance
+            // Flips the sprite based on which direction it's going
             if( transform.localScale.x > 0f && Time.timeScale == 1f)
                 transform.localScale = new Vector3( -transform.localScale.x, transform.localScale.y, transform.localScale.z );
+            // Plays run animation when moving & grounded
             if( _isGrounded )
                 _animator.Play( Animator.StringToHash( "Run" ) );
-            // Switches direction if running into a wall
-            /*if( _rb.velocity.x != -1 && _wander)
-                _velocity.x = 1;*/
         }
         else
         {
-            // Change appearance
+            // Plays idle animation when still && grounded
             if( _isGrounded )
                 _animator.Play( Animator.StringToHash( "Idle" ) );
         }
+
+        // Flips direction if running into a wall
+        if (_rb.velocity.x == 0 && _wander)
+            _velocity.x *= -1;
     }
 
     private void FixedUpdate()
     {
-        _velocity.x *= runSpeed;
-        
         // transform.Translate(_velocity * Time.deltaTime * runSpeed);
-        _rb.velocity = _velocity;
+        _rb.velocity = new Vector2(_velocity.x * runSpeed, _rb.velocity.y);
     }
 }

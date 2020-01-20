@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net.WebSockets;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
@@ -66,6 +64,47 @@ public class PlayerController : MonoBehaviour
     {
 	    UpdateIndicator();
 	    
+	    if( Input.GetAxisRaw("Horizontal") == 1 )
+	    {
+		    velocity.x = 1;
+		    // Flips sprite when necessary
+		    if( transform.localScale.x < 0f && Time.timeScale == 1f)
+			    transform.localScale = new Vector3( -transform.localScale.x, transform.localScale.y, transform.localScale.z );
+		    // Plays run animation when grounded
+		    if( velocity.x != 0 && _isGrounded )
+			    _animator.Play( Animator.StringToHash( "Run" ) );
+	    }
+	    else if( Input.GetAxisRaw("Horizontal") == -1 )
+	    {
+		    velocity.x = -1;
+		    // Flips sprite when necessary
+		    if( transform.localScale.x > 0f && Time.timeScale == 1f)
+			    transform.localScale = new Vector3( -transform.localScale.x, transform.localScale.y, transform.localScale.z );
+		    // Plays run animation when grounded
+		    if(  _isGrounded )
+			    _animator.Play( Animator.StringToHash( "Run" ) );
+	    }
+	    else
+	    {
+		    velocity.x = 0;
+		    // Plays idle animation when grounded
+		    if( _isGrounded )
+			    _animator.Play( Animator.StringToHash( "Idle" ) );
+	    }
+	    
+	    // Only jump when grounded
+	    if( (_isGrounded && Input.GetAxisRaw("Vertical") == 1) || (_isGrounded && Input.GetButtonDown("Jump")) )
+	    {
+		    _isGrounded = false;
+		    _rb.AddForce(new Vector2(0.0f, 2.0f) * jumpHeight, ForceMode2D.Impulse);		
+	    }
+
+	    // Plays jumping animation when off the ground
+	    if( !_isGrounded )
+	    {
+		    _animator.Play( Animator.StringToHash( "Jump" ) );
+	    }
+	    
 	    if (!godMode) return;
 	    Points = 9999;
 	    Lives = 9999;
@@ -73,56 +112,6 @@ public class PlayerController : MonoBehaviour
 
     void FixedUpdate()
     {
-	    #region player movement
-        if( Input.GetAxisRaw("Horizontal") == 1 )
-		{
-			velocity.x = 1;
-			// Modify appearance
-			if( transform.localScale.x < 0f && Time.timeScale == 1f)
-				transform.localScale = new Vector3( -transform.localScale.x, transform.localScale.y, transform.localScale.z );
-			if( _isGrounded )
-				_animator.Play( Animator.StringToHash( "Run" ) );
-		}
-		else if( Input.GetAxisRaw("Horizontal") == -1 )
-		{
-			velocity.x = -1;
-			// Modify appearance
-			if( transform.localScale.x > 0f && Time.timeScale == 1f)
-				transform.localScale = new Vector3( -transform.localScale.x, transform.localScale.y, transform.localScale.z );
-			if( _isGrounded )
-				_animator.Play( Animator.StringToHash( "Run" ) );
-		}
-		else
-		{
-			velocity.x = 0;
-			// Modify appearance
-			if( _isGrounded )
-				_animator.Play( Animator.StringToHash( "Idle" ) );
-		}
-
-		// we can only jump whilst grounded
-		if( (_isGrounded && Input.GetAxisRaw("Vertical") == 1) || (_isGrounded && Input.GetButtonDown("Jump")) )
-		{
-			_isGrounded = false;
-			_rb.AddForce(new Vector3(0.0f, 2.0f, 0.0f) * jumpHeight, ForceMode2D.Impulse);		
-		}
-		else
-		{
-			velocity.y = 0;
-		}
-
-		// play jumping animation when visibly moving upwards
-		if( !_isGrounded )
-		{
-			_animator.Play( Animator.StringToHash( "Jump" ) );
-		}
-
-		velocity.x *= runSpeed;
-		
-		// transform.Translate(velocity * Time.deltaTime * runSpeed);
-		_rb.AddForce( velocity );
-		// _rb.velocity = velocity;
-		// _rb.MovePosition( velocity );
-		#endregion
+	    _rb.velocity = new Vector2(velocity.x * runSpeed, _rb.velocity.y);
     }
 }
