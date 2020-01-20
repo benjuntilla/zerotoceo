@@ -69,6 +69,7 @@ public class MinigameManager : MonoBehaviour
 
     public static void InitializeMinigame()
     {
+        MinigameStatus = Status.InProgress;
         var splitName = MinigameID.Split('_');
         MinigameName = $"{splitName[0]}_{splitName[1]}";
         MinigameDifficulty = splitName[2];
