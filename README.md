@@ -1,3 +1,5 @@
+![screenshot](screenshot.png) 
+ 
  # Zero to CEO
  A 2D sidescrolling video game for the FBLA Computer Game & Simulation Programming event. It is set from the perspective of a young, aspiring FBLA member hired to work in his father's company. There, he learns important business skills that will stick with him for the rest of his life.
 
