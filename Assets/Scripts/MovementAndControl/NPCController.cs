@@ -1,38 +1,41 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using System.Collections;
-using Prime31;
+using Random = UnityEngine.Random;
 
 public class NPCController : MonoBehaviour
 {
     public bool dialogueTriggered;
 
-    public int intervalMin = 1;
-    public int intervalMax = 4;
-	public float gravity = -10f;
+    [Header("Movement config")]
+    public int wanderIntervalMin = 1;
+    public int wanderIntervalMax = 4;
 	public float runSpeed = 1f;
     public bool standStill = true;
 
-    private CharacterMovement2D _characterMovement;
 	private Animator _animator;
+    private Rigidbody2D _rb;
 	private RaycastHit2D _lastControllerColliderHit;
 	private Vector3 _velocity;
     private GameObject _player, _exclamation, _dots;
     private InteractableController _interactableController;
-    private int _direction;
     private int _interval;
     private float _lastMoveTime;
-    private bool _nearPlayer;
-    private bool _followPlayer;
-    private bool _wander = true;
+    private bool _wander = true, _isGrounded, _followPlayer, _nearPlayer;
 
     void Awake()
     {
+        _rb = GetComponent<Rigidbody2D>();
         _animator = GetComponent<Animator>();
-		_characterMovement = GetComponent<CharacterMovement2D>();
         _interactableController = GetComponent<InteractableController>();
         _player = GameObject.FindWithTag("Player");
         _exclamation = transform.Find("Exclamation").gameObject;
         _dots = transform.Find("Dots").gameObject;
+    }
+
+    private void OnCollisionStay2D()
+    {
+        _isGrounded = true;
     }
 
     void Update()
@@ -66,66 +69,65 @@ public class NPCController : MonoBehaviour
         // Randomly sets the movement direction when wandering
         if (_wander && Time.realtimeSinceStartup - _lastMoveTime > _interval)
         {
-            _direction = Random.Range(-1, 2); // The second argument minus one is the range's maximum value
-            _interval = Random.Range(intervalMin, intervalMax + 1);
+            _velocity.x = Random.Range(-1, 2); // The second argument minus one is the range's maximum value
+            _interval = Random.Range(wanderIntervalMin, wanderIntervalMax + 1);
             _lastMoveTime = Time.realtimeSinceStartup;
-        } else if (_followPlayer && !_nearPlayer)
+        } 
+        // Sets the movement direction when following the player
+        else if (_followPlayer && !_nearPlayer)
         {
             if (_player.transform.position.x > transform.position.x)
-                _direction = 1;
+                _velocity.x = 1;
             else if (_player.transform.position.x < transform.position.x)
-                _direction = -1;
-        } else if (!_wander)
+                _velocity.x = -1;
+        } 
+        // Stands still when neither wandering nor following the player
+        else if (!_wander)
         {
-            _direction = 0;
+            _velocity.x = 0;
             _interval = 0;
             _lastMoveTime = Time.realtimeSinceStartup;
         }
         
-        // Looks at the player when talking to it
+        // Looks at the player when dialoguing
         if (DialogueManager.CurrentDialogue == _interactableController.dialogue.name && _player.transform.position.x > transform.position.x && transform.localScale.x < 0f && Time.timeScale == 1f)
             transform.localScale = new Vector3( -transform.localScale.x, transform.localScale.y, transform.localScale.z );
         else if (DialogueManager.CurrentDialogue == _interactableController.dialogue.name && _player.transform.position.x < transform.position.x && transform.localScale.x > 0f && Time.timeScale == 1f)
             transform.localScale = new Vector3( -transform.localScale.x, transform.localScale.y, transform.localScale.z );
         
-        # region NPC movement
-        if( _characterMovement.isGrounded )
-                _velocity.y = 0;
-
-        if( _direction == 1 )
+        if( _velocity.x == 1 )
         {
+            // Flips the sprite based on which direction it's going
             if( transform.localScale.x < 0f && Time.timeScale == 1f)
                 transform.localScale = new Vector3( -transform.localScale.x, transform.localScale.y, transform.localScale.z );
-            if( _characterMovement.isGrounded )
+            // Plays run animation when moving & grounded
+            if( _isGrounded )
                 _animator.Play( Animator.StringToHash( "Run" ) );
-            if(_characterMovement.velocity.x != 1 && _wander)
-                _direction = -1;
         }
-        else if( _direction == -1 )
+        else if( _velocity.x == -1 )
         {
+            // Flips the sprite based on which direction it's going
             if( transform.localScale.x > 0f && Time.timeScale == 1f)
                 transform.localScale = new Vector3( -transform.localScale.x, transform.localScale.y, transform.localScale.z );
-            if( _characterMovement.isGrounded )
+            // Plays run animation when moving & grounded
+            if( _isGrounded )
                 _animator.Play( Animator.StringToHash( "Run" ) );
-            if(_characterMovement.velocity.x != -1 && _wander)
-                _direction = 1;
         }
         else
         {
-            if( _characterMovement.isGrounded )
+            // Plays idle animation when still && grounded
+            if( _isGrounded )
                 _animator.Play( Animator.StringToHash( "Idle" ) );
         }
 
-        // apply horizontal speed smoothing it. dont really do this with Lerp. Use SmoothDamp or something that provides more control
-        _velocity.x = _direction * runSpeed;
+        // Flips direction if running into a wall
+        if (_rb.velocity.x == 0 && _wander)
+            _velocity.x *= -1;
+    }
 
-        // apply gravity before moving
-        _velocity.y += gravity * Time.deltaTime;
-
-        _characterMovement.move(_velocity * Time.deltaTime);
-
-        // grab our current _velocity to use as a base for all calculations
-		_velocity = _characterMovement.velocity;
-        #endregion
+    private void FixedUpdate()
+    {
+        // transform.Translate(_velocity * Time.deltaTime * runSpeed);
+        _rb.velocity = new Vector2(_velocity.x * runSpeed, _rb.velocity.y);
     }
 }

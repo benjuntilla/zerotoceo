@@ -2,9 +2,8 @@
 using UnityEngine.Events;
 using System;
 using System.Collections.Generic;
-using Prime31;
 
-[RequireComponent(typeof(Rigidbody2D), typeof(CharacterMovement2D))] // Collisions require rigidbody & collidables require CharacterMovement2D to make collision events work
+[RequireComponent(typeof(Rigidbody2D))] // Collisions require rigidbody
 public class CollidableController : MonoBehaviour
 {
     public UnityEvent collisionMethod, secondaryCollisionMethod;
@@ -13,15 +12,7 @@ public class CollidableController : MonoBehaviour
     public LayerMask targetLayer;
     public bool collisionEventsEnabled = true;
 
-    private CharacterMovement2D _characterMovement;
-
-    private void Awake()
-    {
-        _characterMovement = GetComponent<CharacterMovement2D>();
-        _characterMovement.onTriggerStayEvent += Collision;
-    }
-
-    void Collision(Collider2D collision)
+    void OnTriggerStay2D(Collider2D collision)
     {
         if (!collisionEventsEnabled) return;
         if (targetObject != null && collision.gameObject == targetObject)
