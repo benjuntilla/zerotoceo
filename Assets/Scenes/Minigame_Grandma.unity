@@ -326,7 +326,7 @@ GameObject:
   - component: {fileID: 363928710}
   - component: {fileID: 363928709}
   - component: {fileID: 363928708}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Top Wall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -678,38 +678,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 7
---- !u!1 &750462567
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 750462568}
-  - component: {fileID: 1901009213}
-  - component: {fileID: 1901009214}
-  m_Layer: 0
-  m_Name: Minigame Managers
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &750462568
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 750462567}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &860395997
 GameObject:
   m_ObjectHideFlags: 0
@@ -722,7 +690,7 @@ GameObject:
   - component: {fileID: 860396001}
   - component: {fileID: 860396000}
   - component: {fileID: 860395999}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Right Wall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1317,8 +1285,8 @@ MonoBehaviour:
   collisionMethod:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1901009213}
-        m_MethodName: Fail
+      - m_Target: {fileID: 1206647303}
+        m_MethodName: DisablePlayerCollision
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1328,8 +1296,8 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 1901009214}
-        m_MethodName: DisablePlayerCollision
+      - m_Target: {fileID: 282207552840054063}
+        m_MethodName: Fail
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1342,8 +1310,8 @@ MonoBehaviour:
   secondaryCollisionMethod:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1901009213}
-        m_MethodName: Pass
+      - m_Target: {fileID: 1206647303}
+        m_MethodName: DisablePlayerCollision
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1353,8 +1321,8 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 1901009214}
-        m_MethodName: DisablePlayerCollision
+      - m_Target: {fileID: 282207552840054063}
+        m_MethodName: Pass
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1408,6 +1376,43 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 17.802, y: 10.142}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1206647303
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 282207554082343541}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 74acd1dcf8da5bdd98d4cfa33c347061, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  carPrefab: {fileID: 2856826835805653673, guid: ed08fbe11580f2269881801ec6f02238,
+    type: 3}
+  carSprites:
+  - {fileID: 21300000, guid: 6bddf439e238a8801afbf9059e3f35a3, type: 3}
+  - {fileID: 21300000, guid: 602d2dfee43578ac6b9e9ed484f6e2e6, type: 3}
+  - {fileID: 21300000, guid: e8686006a426b5f82a5cbf89337867b9, type: 3}
+  - {fileID: 21300000, guid: c62478319332c111cbc3383259cc4196, type: 3}
+  easyDifficultyConfig:
+    maxRoadPopulation: 8
+    playerMovementSpeed: 4
+    carMovementSpeed: 4
+    carDecayTime: 6
+    carWaitTime: 1.5
+  mediumDifficultyConfig:
+    maxRoadPopulation: 6
+    playerMovementSpeed: 5
+    carMovementSpeed: 5
+    carDecayTime: 5
+    carWaitTime: 1
+  hardDifficultyConfig:
+    maxRoadPopulation: 8
+    playerMovementSpeed: 6
+    carMovementSpeed: 6
+    carDecayTime: 5
+    carWaitTime: 0.75
 --- !u!1 &1384476060
 GameObject:
   m_ObjectHideFlags: 0
@@ -1865,7 +1870,7 @@ GameObject:
   - component: {fileID: 1711030525}
   - component: {fileID: 1711030524}
   - component: {fileID: 1711030523}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Left Wall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1995,7 +2000,7 @@ GameObject:
   - component: {fileID: 1766273470}
   - component: {fileID: 1766273469}
   - component: {fileID: 1766273468}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Bottom Wall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2446,56 +2451,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &1901009213
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 750462567}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 670b9bd34594a8bd4bea14a036a7db4b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  defaultDifficulty: 2
---- !u!114 &1901009214
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 750462567}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 74acd1dcf8da5bdd98d4cfa33c347061, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  carPrefab: {fileID: 2856826835805653673, guid: ed08fbe11580f2269881801ec6f02238,
-    type: 3}
-  carSprites:
-  - {fileID: 21300000, guid: 6bddf439e238a8801afbf9059e3f35a3, type: 3}
-  - {fileID: 21300000, guid: 602d2dfee43578ac6b9e9ed484f6e2e6, type: 3}
-  - {fileID: 21300000, guid: e8686006a426b5f82a5cbf89337867b9, type: 3}
-  - {fileID: 21300000, guid: c62478319332c111cbc3383259cc4196, type: 3}
-  easyDifficultyConfig:
-    maxRoadPopulation: 8
-    playerMovementSpeed: 4
-    carMovementSpeed: 4
-    carDecayTime: 6
-    carWaitTime: 1.5
-  mediumDifficultyConfig:
-    maxRoadPopulation: 6
-    playerMovementSpeed: 5
-    carMovementSpeed: 5
-    carDecayTime: 5
-    carWaitTime: 1
-  hardDifficultyConfig:
-    maxRoadPopulation: 8
-    playerMovementSpeed: 6
-    carMovementSpeed: 6
-    carDecayTime: 5
-    carWaitTime: 0.75
 --- !u!1 &2066217146
 GameObject:
   m_ObjectHideFlags: 0
@@ -2532,3 +2487,65 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &282207552840054063
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 282207554082343541}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 670b9bd34594a8bd4bea14a036a7db4b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  defaultDifficulty: 2
+--- !u!1 &282207554082343541
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 282207554082343546}
+  - component: {fileID: 282207552840054063}
+  - component: {fileID: 7130301915463784038}
+  - component: {fileID: 1206647303}
+  m_Layer: 0
+  m_Name: Minigame Managers
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &282207554082343546
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 282207554082343541}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1.2, y: 1.2, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7130301915463784038
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 282207554082343541}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 145fe73b4b6f0cd4881d9b667bb73c83, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  levelOne: 100
+  levelTwo: 200
+  levelThree: 300
+  levelFour: 400

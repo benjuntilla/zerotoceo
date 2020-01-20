@@ -47,9 +47,9 @@ public class DialogueManager : MonoBehaviour
         _dialogue.ChoosePathString("start");
 
         // Set external functions and observe xp variable if possible
-        _dialogue.BindExternalFunction("GetGameLevel", () => LevelManager.Level);
+        _dialogue.BindExternalFunction("GetGameLevel", () => LevelManager.LevelIndex);
         _dialogue.BindExternalFunction("GetPlayerXP", () => PlayerController.Points);
-        _dialogue.BindExternalFunction("GetRequiredPoints", () => LevelManager.NextLevelRequirements[LevelManager.Level]);
+        _dialogue.BindExternalFunction("GetRequiredPoints", () => LevelManager.NextLevelRequirements[LevelManager.LevelIndex]);
         _dialogue.BindExternalFunction("GetMinigameProgression", () => MinigameManager.MinigameProgression);
         if (_dialogue.variablesState["xp"] != null)
         {

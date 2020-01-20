@@ -39,7 +39,7 @@ public class SaveManager : MonoBehaviour
             Load();
             LoadFlag = false;
         } 
-        else if (LevelManager.IsMainGameLevel) // FOR DEBUG PURPOSES
+        else if (LevelManager.LevelType == LevelManager.Level.Game) // FOR DEBUG PURPOSES
         {
             New();
         }
@@ -73,7 +73,7 @@ public class SaveManager : MonoBehaviour
         // Create new Data object with more retrieved data
         var data = new Data
         {
-            level = LevelManager.Level,
+            level = LevelManager.LevelIndex,
             scoreboard = LevelManager.Scoreboard,
             points = PlayerController.Points,
             lives = PlayerController.Lives,
@@ -106,7 +106,7 @@ public class SaveManager : MonoBehaviour
         if (data == null) return;
         
         // Apply data
-        LevelManager.Level = data.level;
+        LevelManager.LevelIndex = data.level;
         LevelManager.Scoreboard = data.scoreboard;
         PlayerController.Points = data.points;
         PlayerController.Lives = data.lives;
@@ -147,7 +147,7 @@ public class SaveManager : MonoBehaviour
     
     private void New ()
     {
-        LevelManager.Level = 1;
+        LevelManager.LevelIndex = 1;
         LevelManager.ClearScoreboard();
         PlayerController.Points = 0;
         PlayerController.Lives = 3;
