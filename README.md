@@ -1,7 +1,7 @@
 ![screenshot](screenshot.png) 
  
  # Zero to CEO
- A 2D pixel art sidescrolling video game for the FBLA Computer Game & Simulation Programming event. It is set from the perspective of a young, aspiring FBLA member hired to work in his father's company. There, he learns important business skills that will stick with him for the rest of his life.
+ A 2D pixel art sidescrolling video game for the [FBLA Computer Game & Simulation Programming event.](https://www.fbla-pbl.org/competitive-event/computer-game-simulation-programming/) It is set from the perspective of a young, aspiring FBLA member hired to work in his father's company. There, he learns important business skills that will stick with him for the rest of his life.
 
  # Purpose
 This game is designed to teach everyone of all ages, FBLA member or not, about FBLA's leadership development program, BAA. This game is engaging, informative, and a great tool to teach people about how to become a good leader not only in the business world but in everyday life as well.
