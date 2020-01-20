@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1254657465989539252}
   - component: {fileID: 2451879327901534610}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Dots
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -93,11 +93,10 @@ GameObject:
   - component: {fileID: 5968443053714933435}
   - component: {fileID: 5968443053714933412}
   - component: {fileID: 5968443053714933413}
-  - component: {fileID: 5968443053714933414}
   - component: {fileID: 5968443053714933408}
   - component: {fileID: 5968443053714933409}
   - component: {fileID: 5968443053714933415}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: NPC
   m_TagString: NPC
   m_Icon: {fileID: 0}
@@ -204,7 +203,7 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5968443053714933410}
-  m_BodyType: 1
+  m_BodyType: 0
   m_Simulated: 1
   m_UseFullKinematicContacts: 1
   m_UseAutoMass: 0
@@ -217,66 +216,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 4
---- !u!114 &5968443053714933414
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5968443053714933410}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 17ad7d75db02b4f538123cdd43750fba, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ignoreOneWayPlatformsThisFrame: 0
-  _skinWidth: 0.152
-  platformMask:
-    serializedVersion: 2
-    m_Bits: 256
-  triggerMask:
-    serializedVersion: 2
-    m_Bits: 0
-  oneWayPlatformMask:
-    serializedVersion: 2
-    m_Bits: 0
-  slopeLimit: 30
-  jumpingThreshold: 0.07
-  slopeSpeedMultiplier:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: -90
-      value: 1.5
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 90
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  totalHorizontalRays: 8
-  totalVerticalRays: 4
 --- !u!114 &5968443053714933408
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -290,10 +229,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dialogueTriggered: 0
-  intervalMin: 1
-  intervalMax: 4
-  gravity: -10
-  runSpeed: 1
+  wanderIntervalMin: 1
+  wanderIntervalMax: 4
+  runSpeed: 1.55
   standStill: 0
 --- !u!114 &5968443053714933409
 MonoBehaviour:
@@ -351,7 +289,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5968443054296606172}
   - component: {fileID: 5968443054296606163}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Exclamation
   m_TagString: Untagged
   m_Icon: {fileID: 0}

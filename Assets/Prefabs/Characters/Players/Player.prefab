@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2474021967278747784}
   - component: {fileID: 2474021967278747785}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: CeilingCheck
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -63,9 +63,8 @@ GameObject:
   - component: {fileID: 2474021967687952313}
   - component: {fileID: 2474021967687952312}
   - component: {fileID: 2474021967687952311}
-  - component: {fileID: 2474021967687952310}
   - component: {fileID: 2474021967687952304}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -136,7 +135,7 @@ SpriteRenderer:
   m_Size: {x: 1, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!61 &2474021967687952313
@@ -173,14 +172,14 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2474021967687952319}
-  m_BodyType: 1
+  m_BodyType: 0
   m_Simulated: 1
   m_UseFullKinematicContacts: 1
   m_UseAutoMass: 0
-  m_Mass: 3.6459851
+  m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 3
+  m_GravityScale: 1
   m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1
@@ -205,57 +204,6 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &2474021967687952310
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2474021967687952319}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 17ad7d75db02b4f538123cdd43750fba, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ignoreOneWayPlatformsThisFrame: 0
-  _skinWidth: 0.152
-  platformMask:
-    serializedVersion: 2
-    m_Bits: 256
-  triggerMask:
-    serializedVersion: 2
-    m_Bits: 0
-  oneWayPlatformMask:
-    serializedVersion: 2
-    m_Bits: 0
-  slopeLimit: 46
-  jumpingThreshold: 0.7
-  slopeSpeedMultiplier:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: -0.017738342
-      value: 1.1493721
-      inSlope: -0.35494596
-      outSlope: -0.35494596
-      tangentMode: 34
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 1.0067444
-      value: 0.7857361
-      inSlope: -0.35494596
-      outSlope: -0.35494596
-      tangentMode: 34
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  totalHorizontalRays: 14
-  totalVerticalRays: 8
 --- !u!114 &2474021967687952304
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -269,14 +217,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   godMode: 0
-  gravity: -10
-  runSpeed: 2
-  groundDamping: 99
-  inAirDamping: 99
+  runSpeed: 1.5
   jumpHeight: 1
-  fallThreshold: -5
-  jumpThreshold: 1
-  velocity: {x: 0, y: 0, z: 0}
+  velocity: {x: 0, y: 0}
 --- !u!1 &2474021967869758664
 GameObject:
   m_ObjectHideFlags: 0
@@ -288,7 +231,7 @@ GameObject:
   - component: {fileID: 2474021967869758666}
   - component: {fileID: 2474021967869758665}
   - component: {fileID: 2474021967869758667}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Indicator
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -387,7 +330,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2474021968098014084}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: GroundCheck
   m_TagString: Untagged
   m_Icon: {fileID: 0}
