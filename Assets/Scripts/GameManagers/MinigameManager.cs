@@ -7,9 +7,8 @@ using UnityEngine.SceneManagement;
 
 public class MinigameManager : MonoBehaviour
 {
-    private static bool _failFlag;
-    private static bool _passFlag;
-
+    private UIManager _uiManager;
+    
     public static readonly Dictionary<string, int> MinigamePoints = new Dictionary<string, int>()
     {
         {"Minigame_Grandma_Easy", 50},
@@ -22,11 +21,21 @@ public class MinigameManager : MonoBehaviour
         {"Minigame_Coin_Medium", 75},
         {"Minigame_Coin_Hard", 100},
     };
-    public static string Minigame = ""; // Full id of minigame e.g., Minigame_Grandma_Easy
+    public static string MinigameID = ""; // Full id of minigame e.g., Minigame_Grandma_Easy
     public static string MinigameName = ""; // First two parts of the minigame id e.g., Minigame_Grandma
     public static string MinigameDifficulty = ""; // Just the last part of the minigame id containing the difficulty
     public static int MinigameProgression; // Count of minigames passed on a level by level basis
-    public Difficulty defaultDifficulty = Difficulty.Easy;
+    public static Status MinigameStatus = Status.None;
+    public Difficulty defaultDifficulty = Difficulty.Easy; // Used for debugging
+
+    public enum Status
+    {
+        None,
+        Pending,
+        InProgress,
+        Failed,
+        Passed,
+    }
     public enum Difficulty
     {
         Easy, 
@@ -34,18 +43,24 @@ public class MinigameManager : MonoBehaviour
         Hard
     };
 
+    private void Awake()
+    {
+        _uiManager = GameObject.FindWithTag("UI").GetComponent<UIManager>();
+        _uiManager.exitEvent.AddListener(delegate { MinigameStatus = Status.None; });
+    }
+
     public string ResolveEmptyMinigame() // For debug purposes
     {
         switch (SceneManager.GetActiveScene().buildIndex)
         {
             case 5:
-                Minigame = $"Minigame_Grandma_{defaultDifficulty.ToString()}";
+                MinigameID = $"Minigame_Grandma_{defaultDifficulty.ToString()}";
                 break;
             case 6:
-                Minigame = $"Minigame_Trash_{defaultDifficulty.ToString()}";
+                MinigameID = $"Minigame_Trash_{defaultDifficulty.ToString()}";
                 break;
             case 7:
-                Minigame = $"Minigame_Coin_{defaultDifficulty.ToString()}";
+                MinigameID = $"Minigame_Coin_{defaultDifficulty.ToString()}";
                 break;
         }
         InitializeMinigame();
@@ -54,7 +69,7 @@ public class MinigameManager : MonoBehaviour
 
     public static void InitializeMinigame()
     {
-        var splitName = Minigame.Split('_');
+        var splitName = MinigameID.Split('_');
         MinigameName = $"{splitName[0]}_{splitName[1]}";
         MinigameDifficulty = splitName[2];
         SaveManager.Save();
@@ -63,14 +78,14 @@ public class MinigameManager : MonoBehaviour
     public void Pass()
     {
         LevelManager.NextLevelFlag = false;
-        _passFlag = true;
+        MinigameStatus = Status.Passed;
         UIManager.TriggerMinigameEndMenu(true);
     }
 
     public void Fail()
     {
         LevelManager.NextLevelFlag = false;
-        _failFlag = true;
+        MinigameStatus = Status.Failed;
         UIManager.TriggerMinigameEndMenu(false);
     }
 
@@ -79,22 +94,24 @@ public class MinigameManager : MonoBehaviour
     /// </summary>
     private void CheckPassOrFail()
     {
-        if (_failFlag)
+        switch (MinigameStatus)
         {
-            LevelManager.NextLevelFlag = false;
-            _failFlag = false;
-            PlayerController.Lives -= 1;
-            if (PlayerController.Lives != 0)
+            case Status.Failed:
+                LevelManager.NextLevelFlag = false;
+                MinigameStatus = Status.None;
+                PlayerController.Lives -= 1;
+                if (PlayerController.Lives != 0)
+                    SaveManager.Save();
+                break;
+            case Status.Passed:
+                LevelManager.NextLevelFlag = false;
+                MinigameStatus = Status.None;
+                PlayerController.Points += MinigamePoints[MinigameID];
+                LevelManager.Scoreboard["minigameBonus"] += MinigamePoints[MinigameID];
+                MinigameID = ""; // Clears the variable so the minigame cannot be replayed
+                MinigameProgression++;
                 SaveManager.Save();
-        } else if (_passFlag)
-        {
-            LevelManager.NextLevelFlag = false;
-            _passFlag = false;
-            PlayerController.Points += MinigamePoints[Minigame];
-            LevelManager.Scoreboard["minigameBonus"] += MinigamePoints[Minigame];
-            Minigame = ""; // Clears the variable so the minigame cannot be replayed
-            MinigameProgression++;
-            SaveManager.Save();
+                break;
         }
     }
 

@@ -39,7 +39,7 @@ public class SaveManager : MonoBehaviour
             Load();
             LoadFlag = false;
         } 
-        else if (SceneManager.GetActiveScene().buildIndex == 1) // FOR DEBUG PURPOSES
+        else if (LevelManager.IsMainGameLevel) // FOR DEBUG PURPOSES
         {
             New();
         }
@@ -77,7 +77,7 @@ public class SaveManager : MonoBehaviour
             lives = PlayerController.Lives,
             dialogueData = DialogueManager.SessionDialogueData,
             characterPositions = characterPositions,
-            minigame = MinigameManager.Minigame,
+            minigame = MinigameManager.MinigameID,
             minigameProgression = MinigameManager.MinigameProgression,
             gameFlags = gameFlags
         };
@@ -109,7 +109,7 @@ public class SaveManager : MonoBehaviour
         PlayerController.Points = data.points;
         PlayerController.Lives = data.lives;
         DialogueManager.SessionDialogueData = data.dialogueData;
-        MinigameManager.Minigame = data.minigame;
+        MinigameManager.MinigameID = data.minigame;
         MinigameManager.MinigameProgression = data.minigameProgression;
 
         // Convert dictionary to InkList and apply
@@ -150,7 +150,7 @@ public class SaveManager : MonoBehaviour
         PlayerController.Points = 0;
         PlayerController.Lives = 3;
         DialogueManager.SessionDialogueData = new Dictionary<string, string>();
-        MinigameManager.Minigame = "";
+        MinigameManager.MinigameID = "";
         MinigameManager.MinigameProgression = 0;
         DialogueManager.gameFlags = new InkList();
 }

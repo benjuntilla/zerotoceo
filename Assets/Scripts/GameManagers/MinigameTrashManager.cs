@@ -128,13 +128,12 @@ public class MinigameTrashManager : MonoBehaviour
             _timerText.SetText($"Time left: {i} seconds");
             yield return new WaitForSeconds(1);
         }
-        _gameOver = true;
         _minigameManager.Pass();
     }
 
     private void TryFail()
     {
-        if (!_gameOver)
+        if (MinigameManager.MinigameStatus == MinigameManager.Status.InProgress)
             _minigameManager.Fail();
     }
 

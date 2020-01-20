@@ -19,7 +19,7 @@ public class UIManager : MonoBehaviour
     private MinigameManager _minigameManager;
 
     public GUIStyle debugStyle;
-    public UnityEvent uiReadyEvent = new UnityEvent();
+    public UnityEvent uiReadyEvent = new UnityEvent(), exitEvent = new UnityEvent();
     [TextArea(3, 10)]
     public string closingMenuText, openingMenuText, gameOverText, grandmaMinigameText, coinMinigameText, trashMinigameText;
     
@@ -120,9 +120,9 @@ public class UIManager : MonoBehaviour
         _mainMenuUI.SetActive(SceneManager.GetActiveScene().buildIndex == 0);
         if (SceneManager.GetActiveScene().buildIndex == 1 && !SaveManager.LoadFlag)
             TriggerMenuFull("opening");
-        else if (SceneManager.GetActiveScene().buildIndex >= 5 && MinigameManager.Minigame != "")
+        else if (SceneManager.GetActiveScene().buildIndex >= 5 && MinigameManager.MinigameID != "")
             TriggerMenuFull(MinigameManager.MinigameName);
-        else if (SceneManager.GetActiveScene().buildIndex >= 5 && MinigameManager.Minigame == "")
+        else if (SceneManager.GetActiveScene().buildIndex >= 5 && MinigameManager.MinigameID == "")
             TriggerMenuFull(_minigameManager.ResolveEmptyMinigame()); 
     }
 
@@ -252,6 +252,7 @@ public class UIManager : MonoBehaviour
                 break;
             case "main":
                 ResumeGame();
+                exitEvent.Invoke();
                 _modalUI.SetActive(false);
                 SaveManager.LoadFlag = false;
                 FadeInAndLoadLevelIndex(0);
@@ -499,7 +500,7 @@ public class UIManager : MonoBehaviour
     
     public static void TriggerMinigameEndMenu(bool pass)
     {
-        _minigameEndMenuUI.GetComponentInChildren<TextMeshProUGUI>().SetText(pass ? $"You passed the minigame. (Gained {MinigameManager.MinigamePoints[MinigameManager.Minigame]} points)" : "You failed the minigame. (Lost 1 life)");
+        _minigameEndMenuUI.GetComponentInChildren<TextMeshProUGUI>().SetText(pass ? $"You passed the minigame. (Gained {MinigameManager.MinigamePoints[MinigameManager.MinigameID]} points)" : "You failed the minigame. (Lost 1 life)");
         _minigameEndMenuUI.SetActive(true);
         Time.timeScale = 0f;
     }

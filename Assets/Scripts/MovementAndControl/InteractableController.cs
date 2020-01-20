@@ -23,7 +23,7 @@ public class InteractableController : MonoBehaviour
 
     public void TestIfMinigame()
     {
-        if (MinigameManager.Minigame != "")
+        if (MinigameManager.MinigameID != "")
             _uiManager.TriggerModal("minigame");
         else
             TriggerDialogue();
