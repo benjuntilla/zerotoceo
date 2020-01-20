@@ -47,7 +47,7 @@ public class PlayerController : MonoBehaviour
 		    _indicatorUI.transform.position = new Vector3(pos.x, pos.y + .9f, 0);
 		    if (Input.GetButtonDown("Interact"))
 		    {
-			    closest.Key.GetComponent<InteractableController>().Interact();
+			    closest.Key.Interact();
 		    }
 	    } else
 	    {

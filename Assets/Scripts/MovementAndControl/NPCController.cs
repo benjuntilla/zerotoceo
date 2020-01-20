@@ -127,7 +127,6 @@ public class NPCController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        // transform.Translate(_velocity * Time.deltaTime * runSpeed);
         _rb.velocity = new Vector2(_velocity.x * runSpeed, _rb.velocity.y);
     }
 }
