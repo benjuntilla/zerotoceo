@@ -9,7 +9,7 @@ using UnityEngine;
 [RequireComponent(typeof(MinigameManager))]
 public class MinigameCoinManager : MonoBehaviour, IMinigameManager
 {
-    private GameObject _ui, _characters, _dropRegions, _pennyRegion, _nickelRegion, _dimeRegion, _quarterRegion;
+    private GameObject _characters;
     private TextMeshProUGUI _timerText;
     private MinigameManager _minigameManager;
     private IEnumerator _instantiateLoop;
@@ -49,15 +49,9 @@ public class MinigameCoinManager : MonoBehaviour, IMinigameManager
     
     void Start()
     {
-        _ui = GameObject.FindWithTag("UI");
-        _timerText = _ui.transform.Find("HUD").gameObject.transform.Find("Timer").gameObject.GetComponent<TextMeshProUGUI>();
-        _minigameManager = GetComponent<MinigameManager>();
         _characters = GameObject.Find("Characters");
-        _dropRegions = GameObject.Find("Minigame World").transform.Find("Drop Regions").gameObject;
-        _pennyRegion = _dropRegions.transform.Find("Penny Region").gameObject;
-        _nickelRegion = _dropRegions.transform.Find("Nickel Region").gameObject;
-        _dimeRegion = _dropRegions.transform.Find("Dime Region").gameObject;
-        _quarterRegion = _dropRegions.transform.Find("Quarter Region").gameObject;
+        _minigameManager = GetComponent<MinigameManager>();
+        _timerText = GameObject.FindWithTag("UI").transform.Find("HUD").transform.Find("Timer").gameObject.GetComponent<TextMeshProUGUI>();
 
         _instantiateLoop = InstantiateLoop();
         _timerText.SetText($"Time left: {_timer} seconds");

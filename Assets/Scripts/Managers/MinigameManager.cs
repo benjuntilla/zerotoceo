@@ -45,10 +45,10 @@ public class MinigameManager : MonoBehaviour
         Hard
     };
 
-    private void Awake()
+    void Awake()
     {
-        _saveManager = GetComponent<SaveManager>();
-        _minigameManager = GetComponent<IMinigameManager>();
+        _saveManager = gameObject.GetComponent<SaveManager>();
+        _minigameManager = gameObject.GetComponent<IMinigameManager>();
         _uiManager = GameObject.FindWithTag("UI").GetComponent<UIManager>();
         _uiManager.exitEvent.AddListener(delegate { MinigameStatus = Status.None; });
     }
@@ -78,7 +78,10 @@ public class MinigameManager : MonoBehaviour
         MinigameName = $"{splitName[0]}_{splitName[1]}";
         MinigameDifficulty = splitName[2];
         _saveManager.Save();
+    }
 
+    public void StartMinigame()
+    {
         if (_minigameManager.countDownNecessary)
             StartCoroutine(BeginCountdown());
         else

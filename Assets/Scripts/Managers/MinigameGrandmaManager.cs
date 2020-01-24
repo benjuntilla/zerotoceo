@@ -9,6 +9,8 @@ public class MinigameGrandmaManager : MonoBehaviour, IMinigameManager
 {
 	private MinigameManager _minigameManager;
 	private GameObject _player, _world, _roads, _characters;
+	private CollidableController _playerCollidableController;
+	private IMinigamePlayer _playerScript;
 	private int _roadCount;
 	private int[] _roadPopulations;
 	private string[] _roadDirections;
@@ -57,10 +59,12 @@ public class MinigameGrandmaManager : MonoBehaviour, IMinigameManager
 	
 	void Awake()
 	{
+		_player = GameObject.FindWithTag("Player").gameObject;
+		_playerScript = _player.GetComponent<IMinigamePlayer>();
+		_playerCollidableController = _player.GetComponent<CollidableController>();
 		_minigameManager = GetComponent<MinigameManager>();
 		_characters = GameObject.Find("Characters");
 		_world = GameObject.FindWithTag("World");
-		_player = GameObject.FindWithTag("Player").gameObject;
 		_roads = _world.transform.Find("Roads").gameObject;
 		_roadCount = _roads.transform.childCount;
 		_roadPopulations = new int[_roadCount];
@@ -75,12 +79,12 @@ public class MinigameGrandmaManager : MonoBehaviour, IMinigameManager
 			else
 				_roadDirections[i] = "down";
 		}
+		
+		LoadDifficultyConfig();
 	}
 
 	public void StartGame()
 	{
-		LoadDifficultyConfig();
-		ApplyDifficultyConfig();
 	}
 
 	private void LoadDifficultyConfig()
@@ -109,11 +113,8 @@ public class MinigameGrandmaManager : MonoBehaviour, IMinigameManager
 				_carWaitTime = easyDifficultyConfig.carWaitTime;
 				break;
 		}
-	}
-
-	private void ApplyDifficultyConfig()
-	{
-		GameObject.FindWithTag("Player").GetComponent<IMinigamePlayer>().movementSpeed = _playerMovementSpeed;
+		
+		_playerScript.movementSpeed = _playerMovementSpeed;
 	}
 
 	private IEnumerator InstantiateCar()
@@ -149,6 +150,9 @@ public class MinigameGrandmaManager : MonoBehaviour, IMinigameManager
 		// Instantiate car
 		var car = Instantiate(carPrefab, new Vector3(roadPosX, roadPosY, 0f), Quaternion.identity);
 		car.transform.parent = _characters.transform;
+		
+		// Add to the player's target collisions
+		_playerCollidableController.secondaryCollisionObjects.Add(car);
 
 		// Set random sprite
 		car.GetComponent<SpriteRenderer>().sprite = carSprites[Random.Range(0, carSprites.Count)];

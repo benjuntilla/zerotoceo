@@ -8,7 +8,6 @@ using UnityEngine.Events;
 public abstract class Coin : MonoBehaviour
 {
     protected MinigameManager minigameManager;
-    protected MinigameCoinManager minigameCoinManager;
     protected DraggableController draggableController;
     protected CollidableController collidableController;
     protected GameObject pennyRegion, nickelRegion, dimeRegion, quarterRegion;
@@ -17,7 +16,6 @@ public abstract class Coin : MonoBehaviour
     {
         var gameManagers = GameObject.FindWithTag("GameManagers");
         minigameManager = gameManagers.GetComponent<MinigameManager>();
-        minigameCoinManager = gameManagers.GetComponent<MinigameCoinManager>();
         draggableController = GetComponent<DraggableController>();
         collidableController = GetComponent<CollidableController>();
         

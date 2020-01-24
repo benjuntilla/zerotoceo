@@ -62,7 +62,6 @@ public class MinigameTrashManager : MonoBehaviour, IMinigameManager
         
         _timerText.SetText("Time left: 0 seconds");
         LoadDifficultyConfig();
-        ApplyDifficultyConfig();
     }
 
     public void StartGame()
@@ -94,10 +93,7 @@ public class MinigameTrashManager : MonoBehaviour, IMinigameManager
                 _timer = easyDifficultyConfig.timer;
                 break;
         }
-    }
-
-    private void ApplyDifficultyConfig()
-    {
+        
         GameObject.FindWithTag("Player").GetComponent<IMinigamePlayer>().movementSpeed = _playerMovementSpeed;
     }
 

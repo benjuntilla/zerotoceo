@@ -6,8 +6,8 @@ using System.Collections.Generic;
 [RequireComponent(typeof(Rigidbody2D))] // Collisions require a Rigidbody
 public class CollidableController : MonoBehaviour
 {
-    public List<GameObject> primaryCollisionObjects, secondaryCollisionObjects;
-    public UnityEvent primaryCollisionEvent, secondaryCollisionEvent;
+    public List<GameObject> primaryCollisionObjects = new List<GameObject>(), secondaryCollisionObjects = new List<GameObject>();
+    public UnityEvent primaryCollisionEvent = new UnityEvent(), secondaryCollisionEvent = new UnityEvent();
     
     private bool _collisionEventsEnabled = true;
 

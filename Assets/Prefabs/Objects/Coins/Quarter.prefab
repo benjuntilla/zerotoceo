@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 7069127273688701021}
   - component: {fileID: 5260025317567903698}
   - component: {fileID: 3412182375577676729}
+  - component: {fileID: -5812914556118850764}
   m_Layer: 10
   m_Name: Quarter
   m_TagString: Untagged
@@ -153,3 +154,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e69df2596d3355134b564f42d36af441, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &-5812914556118850764
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5807828111723631931}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 52434c34ed391cbe5ae7c11c832656b4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  primaryCollisionObjects: []
+  secondaryCollisionObjects: []
+  primaryCollisionEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  secondaryCollisionEvent:
+    m_PersistentCalls:
+      m_Calls: []

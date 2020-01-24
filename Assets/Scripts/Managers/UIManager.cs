@@ -24,7 +24,7 @@ public class UIManager : MonoBehaviour
     [TextArea(3, 10)]
     public string closingMenuText, openingMenuText, gameOverText, grandmaMinigameText, coinMinigameText, trashMinigameText;
 
-    void Awake()
+    void Start()
     {
         var gameManagers = GameObject.FindWithTag("GameManagers");
         _saveManager = gameManagers.GetComponent<SaveManager>();
@@ -440,7 +440,11 @@ public class UIManager : MonoBehaviour
             case "Minigame_Trash":
             case "Minigame_Grandma":
                 Time.timeScale = 1f;
-                StartCoroutine(PlayOutThenAction(_menuFullAnimator, () => _menuFullUI.SetActive(false)));
+                StartCoroutine(PlayOutThenAction(_menuFullAnimator, () =>
+                {
+                    _menuFullUI.SetActive(false);
+                    _minigameManager.StartMinigame();
+                }));
                 break;
         }
     }
