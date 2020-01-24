@@ -7,8 +7,10 @@ using UnityEngine.SceneManagement;
 
 public class MinigameManager : MonoBehaviour
 {
+    private SaveManager _saveManager;
     private UIManager _uiManager;
-    
+    private IMinigameManager _minigameManager;
+
     public static readonly Dictionary<string, int> MinigamePoints = new Dictionary<string, int>()
     {
         {"Minigame_Grandma_Easy", 50},
@@ -27,7 +29,6 @@ public class MinigameManager : MonoBehaviour
     public static int MinigameProgression; // Count of minigames passed on a level by level basis
     public static Status MinigameStatus = Status.None;
     public Difficulty defaultDifficulty = Difficulty.Easy; // Used for debugging
-    private IMinigameManager _minigameManager;
 
     public enum Status
     {
@@ -46,6 +47,7 @@ public class MinigameManager : MonoBehaviour
 
     private void Awake()
     {
+        _saveManager = GetComponent<SaveManager>();
         _minigameManager = GetComponent<IMinigameManager>();
         _uiManager = GameObject.FindWithTag("UI").GetComponent<UIManager>();
         _uiManager.exitEvent.AddListener(delegate { MinigameStatus = Status.None; });
@@ -75,7 +77,7 @@ public class MinigameManager : MonoBehaviour
         var splitName = MinigameID.Split('_');
         MinigameName = $"{splitName[0]}_{splitName[1]}";
         MinigameDifficulty = splitName[2];
-        SaveManager.Save();
+        _saveManager.Save();
 
         if (_minigameManager.countDownNecessary)
             StartCoroutine(BeginCountdown());
@@ -94,14 +96,14 @@ public class MinigameManager : MonoBehaviour
     {
         LevelManager.NextLevelFlag = false;
         MinigameStatus = Status.Passed;
-        UIManager.TriggerMinigameEndMenu(true);
+        _uiManager.TriggerMinigameEndMenu(true);
     }
 
     public void Fail()
     {
         LevelManager.NextLevelFlag = false;
         MinigameStatus = Status.Failed;
-        UIManager.TriggerMinigameEndMenu(false);
+        _uiManager.TriggerMinigameEndMenu(false);
     }
 
     /// <summary>
@@ -116,7 +118,7 @@ public class MinigameManager : MonoBehaviour
                 MinigameStatus = Status.None;
                 PlayerController.Lives -= 1;
                 if (PlayerController.Lives != 0)
-                    SaveManager.Save();
+                    _saveManager.Save();
                 break;
             case Status.Passed:
                 LevelManager.NextLevelFlag = false;
@@ -125,7 +127,7 @@ public class MinigameManager : MonoBehaviour
                 LevelManager.Scoreboard["minigameBonus"] += MinigamePoints[MinigameID];
                 MinigameID = ""; // Clears the variable so the minigame cannot be replayed
                 MinigameProgression++;
-                SaveManager.Save();
+                _saveManager.Save();
                 break;
         }
     }

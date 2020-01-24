@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 
 public class LevelManager : MonoBehaviour
 {
+    private SaveManager _saveManager;
     private static NPCController _managerNPCController;
 
     public static Dictionary<string, int> Scoreboard;
@@ -29,6 +30,7 @@ public class LevelManager : MonoBehaviour
     
     void Awake()
     {
+        _saveManager = GetComponent<SaveManager>();
         ClearScoreboard();
         LevelIndex = SceneManager.GetActiveScene().buildIndex;
         NextLevelRequirements = new Dictionary<int, int>()
@@ -65,13 +67,13 @@ public class LevelManager : MonoBehaviour
         }
     }
     
-    public static void InitializeNextLevel()
+    public void InitializeNextLevel()
     {
         if (PlayerController.Lives < 3)
             PlayerController.Lives++;
         _managerNPCController.dialogueTriggered = true;
         MinigameManager.MinigameProgression = 0;
-        SaveManager.Save();
+        _saveManager.Save();
         NextLevelFlag = false;
     }
 

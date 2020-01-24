@@ -15,11 +15,13 @@ public class DialogueManager : MonoBehaviour
     private static GameObject _ui, _dialogueUI, _primaryButtonObject, _secondaryButtonObject, _tertiaryButtonObject;
     private static TextMeshProUGUI _primaryButtonText, _secondaryButtonText, _tertiaryButtonText, _titleText, _dialogueText;
     private static Button _primaryButton, _secondaryButton, _tertiaryButton;
+    private static UIManager _uiManager;
     private static DialogueManager _instance; // This allows non-static methods (e.g. coroutines) to be called in static methods via an instance of this class
 
     void Awake()
     {
         _ui = GameObject.FindWithTag("UI");
+        _uiManager = _ui.GetComponent<UIManager>();
         _dialogueUI = _ui.transform.Find("Dialogue").gameObject;
         _titleText = _dialogueUI.transform.Find("Title Text").gameObject.GetComponent<TextMeshProUGUI>();
         _dialogueText = _dialogueUI.transform.Find("Dialogue Text").gameObject.GetComponent<TextMeshProUGUI>();
@@ -68,7 +70,7 @@ public class DialogueManager : MonoBehaviour
             {
                 MinigameManager.MinigameStatus = MinigameManager.Status.Pending;
                 MinigameManager.MinigameID = (string) newValue;
-                UIManager.TriggerPopup("minigame");
+                _uiManager.TriggerPopup("minigame");
             });
         }
         if (_dialogue.variablesState["gameFlags"] != null)

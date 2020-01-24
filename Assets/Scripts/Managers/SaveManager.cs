@@ -45,7 +45,7 @@ public class SaveManager : MonoBehaviour
         }
     }
 
-    public static void Save ()
+    public void Save ()
     {
         // Retrieve character positions
         var characters = new List<GameObject>();
@@ -90,8 +90,8 @@ public class SaveManager : MonoBehaviour
         var stream = new FileStream(path, FileMode.Create);
         formatter.Serialize(stream, data);
         stream.Close();
-
-        UIManager.TriggerPopup("save");
+        
+        _uiManager.TriggerPopup("save");
     }
 
     public static void Load ()

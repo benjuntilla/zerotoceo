@@ -59,8 +59,8 @@ public class MinigameGrandmaManager : MonoBehaviour, IMinigameManager
 	{
 		_minigameManager = GetComponent<MinigameManager>();
 		_characters = GameObject.Find("Characters");
-		_world = GameObject.Find("Minigame World");
-		_player = _characters.transform.Find("Player").gameObject;
+		_world = GameObject.FindWithTag("World");
+		_player = GameObject.FindWithTag("Player").gameObject;
 		_roads = _world.transform.Find("Roads").gameObject;
 		_roadCount = _roads.transform.childCount;
 		_roadPopulations = new int[_roadCount];
