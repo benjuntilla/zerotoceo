@@ -12,7 +12,7 @@ public class LevelManager : MonoBehaviour
     public static int LevelIndex;
     public static bool NextLevelFlag;
     public static Dictionary<int, int> NextLevelRequirements;
-    public static Level LevelType;
+    public static LevelType CurrentLevelType;
 
     [Header("Level XP Requirements")]
     public int levelOne = 100;
@@ -20,10 +20,10 @@ public class LevelManager : MonoBehaviour
     public int levelThree = 300;
     public int levelFour = 400;
 
-    public enum Level
+    public enum LevelType
     {
         Menu,
-        Game,
+        Level,
         Minigame
     }
     
@@ -43,18 +43,18 @@ public class LevelManager : MonoBehaviour
         // Set level type
         if (level == 0)
         {
-            LevelType = Level.Menu;
+            CurrentLevelType = LevelType.Menu;
         }
         else if (level == 1 || level == 2 || level == 3 || level == 4)
         {
-            LevelType = Level.Game;
+            CurrentLevelType = LevelType.Level;
         }
         else if (level == 5 || level == 6 || level == 7)
         {
-            LevelType = Level.Minigame;
+            CurrentLevelType = LevelType.Minigame;
         }
         
-        if (LevelType == Level.Game && level != 4)
+        if (CurrentLevelType == LevelType.Level && level != 4)
         {
             _managerNPCController = GameObject.Find("Manager").GetComponent<NPCController>();
         }

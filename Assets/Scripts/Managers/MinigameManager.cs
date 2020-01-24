@@ -27,6 +27,7 @@ public class MinigameManager : MonoBehaviour
     public static int MinigameProgression; // Count of minigames passed on a level by level basis
     public static Status MinigameStatus = Status.None;
     public Difficulty defaultDifficulty = Difficulty.Easy; // Used for debugging
+    private IMinigameManager _minigameManager;
 
     public enum Status
     {
@@ -45,6 +46,7 @@ public class MinigameManager : MonoBehaviour
 
     private void Awake()
     {
+        _minigameManager = GetComponent<IMinigameManager>();
         _uiManager = GameObject.FindWithTag("UI").GetComponent<UIManager>();
         _uiManager.exitEvent.AddListener(delegate { MinigameStatus = Status.None; });
     }
@@ -67,13 +69,25 @@ public class MinigameManager : MonoBehaviour
         return MinigameName;
     }
 
-    public static void InitializeMinigame()
+    public void InitializeMinigame()
     {
         MinigameStatus = Status.InProgress;
         var splitName = MinigameID.Split('_');
         MinigameName = $"{splitName[0]}_{splitName[1]}";
         MinigameDifficulty = splitName[2];
         SaveManager.Save();
+
+        if (_minigameManager.countDownNecessary)
+            StartCoroutine(BeginCountdown());
+        else
+            _minigameManager.StartGame();
+    }
+
+    private IEnumerator BeginCountdown()
+    {
+        // TODO: Trigger UI event
+        yield return new WaitForSeconds(3);
+        _minigameManager.StartGame();
     }
 
     public void Pass()

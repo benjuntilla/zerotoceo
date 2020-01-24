@@ -27,9 +27,9 @@ public class UIManager : MonoBehaviour
     {
         if (!_debug ) return;
         var log = "";
-        switch (LevelManager.LevelType)
+        switch (LevelManager.CurrentLevelType)
         {
-            case LevelManager.Level.Game:
+            case LevelManager.LevelType.Level:
                 log =
                     $"X Velocity: {GameObject.FindWithTag("Player").GetComponent<Rigidbody2D>().velocity.x}\n" +
                     $"Y Velocity: {GameObject.FindWithTag("Player").GetComponent<Rigidbody2D>().velocity.y}\n" +
@@ -39,7 +39,7 @@ public class UIManager : MonoBehaviour
                     $"Timescale: {Time.timeScale}\n";
                 GUI.Label(new Rect(10, 100, 999, 999), log, debugStyle); // Rectangle dimensions are as follows: (distance from left edge, distance from top edge, width, height)
                 break;
-            case LevelManager.Level.Minigame:
+            case LevelManager.LevelType.Minigame:
                 log =
                     $"Minigame ID: {MinigameManager.MinigameID}\n" +
                     $"Minigame Status: {MinigameManager.MinigameStatus}\n" +
@@ -51,77 +51,52 @@ public class UIManager : MonoBehaviour
     
     void Awake()
     {
-        try
-        {
-            _ui = GameObject.FindWithTag("UI");
-            _mainMenuUI = _ui.transform.Find("Main Menu").gameObject;
-        }
-        catch (Exception e)
-        {
-            Debug.Log($"Couldn't find UI objects. Exception: {e}");
-        }
-        try
-        {
-            _modalUI = _ui.transform.Find("Modal").gameObject;
-            _modalLayout = _modalUI.transform.Find("Layout").gameObject;
-            _modalText = _modalLayout.transform.Find("Text").gameObject.GetComponentInChildren<TextMeshProUGUI>();
-            _fadeAnimator = _ui.transform.Find("Fade").gameObject.GetComponent<Animator>();
-            
-            _modalUI.SetActive(false);
-        }
-        catch (Exception e)
-        {
-            Debug.Log($"Couldn't find modal and/or fade objects. Exception: {e}");
-        }
-
-        if (SceneManager.GetActiveScene().buildIndex != 0)
-        {
-            try
-            {
-                _menuFullUI = _ui.transform.Find("Menu Full").gameObject;
-                _menuFullAnimator = _menuFullUI.GetComponent<Animator>();
-                _menuFullCanvasGroup = _menuFullUI.GetComponent<CanvasGroup>();
-                _menuFullTitle = _menuFullUI.transform.Find("Title").GetComponent<TextMeshProUGUI>();
-                _menuFullText = _menuFullUI.transform.Find("Text").GetComponent<TextMeshProUGUI>();
-                _menuFullControlsText = _menuFullUI.transform.Find("Controls Text").GetComponent<TextMeshProUGUI>();
-                _menuFullButtonText = _menuFullUI.transform.Find("Button").GetComponentInChildren<TextMeshProUGUI>();
-                _pauseMenuUI = _ui.transform.Find("Pause Menu").gameObject;
-                _levelEndMenuUI = _ui.transform.Find("Level End Menu").gameObject;
-                _minigameEndMenuUI = _ui.transform.Find("Minigame End Menu").gameObject;
-                _levelEndMenuLayout = _levelEndMenuUI.transform.Find("Layout").gameObject;
-                _levelEndMenuTitle = _levelEndMenuLayout.transform.Find("Title").gameObject.GetComponentInChildren<TextMeshProUGUI>();
-                _levelEndMenuText = _levelEndMenuLayout.transform.Find("Text").gameObject.GetComponentInChildren<TextMeshProUGUI>();
-                _levelEndMenuImages = _levelEndMenuLayout.transform.Find("Images").gameObject;
-                _popupUI = _ui.transform.Find("Popup").gameObject;
-                _popupAnimator = _popupUI.GetComponent<Animator>();
-                _popupText = _ui.transform.Find("Popup").gameObject.GetComponentInChildren<TextMeshProUGUI>();
-                _hudUI = _ui.transform.Find("HUD").gameObject;
-                _hudPointsText = _hudUI.transform.Find("Points").gameObject.GetComponentInChildren<TextMeshProUGUI>();
-                _hudLives = _hudUI.transform.Find("Lives").gameObject;
-                _hudTokens = _hudUI.transform.Find("Tokens").gameObject;
-                _heartOne = _hudLives.transform.Find("Heart 1").gameObject;
-                _heartTwo = _hudLives.transform.Find("Heart 2").gameObject;
-                _heartThree = _hudLives.transform.Find("Heart 3").gameObject;
-                _futureToken = _hudTokens.transform.Find("Future").gameObject;
-                _businessToken = _hudTokens.transform.Find("Business").gameObject;
-                _leaderToken = _hudTokens.transform.Find("Leader").gameObject;
-                _americaToken = _hudTokens.transform.Find("America").gameObject;
-                _saveAlert = _hudUI.transform.Find("Save Alert").gameObject;
-            
-                _popupUI.SetActive(false);
-                _minigameEndMenuUI.SetActive(false);
-                _levelEndMenuUI.SetActive(false);
-                _pauseMenuUI.SetActive(false);
-                _saveAlert.SetActive(false);
-            }
-            catch (Exception e)
-            {
-                Debug.Log($"Couldn't find other menu objects. Exception: {e}");
-            }
-        }
+        _ui = GameObject.FindWithTag("UI");
+        _mainMenuUI = _ui.transform.Find("Main Menu").gameObject;
+        _modalUI = _ui.transform.Find("Modal").gameObject;
+        _modalLayout = _modalUI.transform.Find("Layout").gameObject;
+        _modalText = _modalLayout.transform.Find("Text").gameObject.GetComponentInChildren<TextMeshProUGUI>();
+        _fadeAnimator = _ui.transform.Find("Fade").gameObject.GetComponent<Animator>();
+        
+        _modalUI.SetActive(false);
+        _menuFullUI = _ui.transform.Find("Menu Full").gameObject;
+        _menuFullAnimator = _menuFullUI.GetComponent<Animator>();
+        _menuFullCanvasGroup = _menuFullUI.GetComponent<CanvasGroup>();
+        _menuFullTitle = _menuFullUI.transform.Find("Title").GetComponent<TextMeshProUGUI>();
+        _menuFullText = _menuFullUI.transform.Find("Text").GetComponent<TextMeshProUGUI>();
+        _menuFullControlsText = _menuFullUI.transform.Find("Controls Text").GetComponent<TextMeshProUGUI>();
+        _menuFullButtonText = _menuFullUI.transform.Find("Button").GetComponentInChildren<TextMeshProUGUI>();
+        _pauseMenuUI = _ui.transform.Find("Pause Menu").gameObject;
+        _levelEndMenuUI = _ui.transform.Find("Level End Menu").gameObject;
+        _minigameEndMenuUI = _ui.transform.Find("Minigame End Menu").gameObject;
+        _levelEndMenuLayout = _levelEndMenuUI.transform.Find("Layout").gameObject;
+        _levelEndMenuTitle = _levelEndMenuLayout.transform.Find("Title").gameObject.GetComponentInChildren<TextMeshProUGUI>();
+        _levelEndMenuText = _levelEndMenuLayout.transform.Find("Text").gameObject.GetComponentInChildren<TextMeshProUGUI>();
+        _levelEndMenuImages = _levelEndMenuLayout.transform.Find("Images").gameObject;
+        _popupUI = _ui.transform.Find("Popup").gameObject;
+        _popupAnimator = _popupUI.GetComponent<Animator>();
+        _popupText = _ui.transform.Find("Popup").gameObject.GetComponentInChildren<TextMeshProUGUI>();
+        _hudUI = _ui.transform.Find("HUD").gameObject;
+        _hudPointsText = _hudUI.transform.Find("Points").gameObject.GetComponentInChildren<TextMeshProUGUI>();
+        _hudLives = _hudUI.transform.Find("Lives").gameObject;
+        _hudTokens = _hudUI.transform.Find("Tokens").gameObject;
+        _heartOne = _hudLives.transform.Find("Heart 1").gameObject;
+        _heartTwo = _hudLives.transform.Find("Heart 2").gameObject;
+        _heartThree = _hudLives.transform.Find("Heart 3").gameObject;
+        _futureToken = _hudTokens.transform.Find("Future").gameObject;
+        _businessToken = _hudTokens.transform.Find("Business").gameObject;
+        _leaderToken = _hudTokens.transform.Find("Leader").gameObject;
+        _americaToken = _hudTokens.transform.Find("America").gameObject;
+        _saveAlert = _hudUI.transform.Find("Save Alert").gameObject;
+    
+        _popupUI.SetActive(false);
+        _minigameEndMenuUI.SetActive(false);
+        _levelEndMenuUI.SetActive(false);
+        _pauseMenuUI.SetActive(false);
+        _saveAlert.SetActive(false);
 
         if (SceneManager.GetActiveScene().buildIndex >= 5)
-            _minigameManager = GameObject.Find("Minigame Managers").GetComponent<MinigameManager>();
+            _minigameManager = GameObject.FindWithTag("GameManagers").GetComponent<MinigameManager>();
 
         _instance = this;
         TriggerApplicableMenus();
@@ -238,7 +213,7 @@ public class UIManager : MonoBehaviour
             case "minigame":
                 _modalUI.SetActive(false);
                 _hudUI.SetActive(false);
-                MinigameManager.InitializeMinigame();
+                _minigameManager.InitializeMinigame();
                 FadeInAndLoadLevelName(MinigameManager.MinigameName);
                 break;
             case "save":
@@ -560,7 +535,7 @@ public class UIManager : MonoBehaviour
         }
         
         // Detect when to level up the player
-        if (LevelManager.LevelType == LevelManager.Level.Game && PlayerController.Points >= LevelManager.NextLevelRequirements[LevelManager.LevelIndex] && !_triggeredLevelUpPopup)
+        if (LevelManager.CurrentLevelType == LevelManager.LevelType.Level && PlayerController.Points >= LevelManager.NextLevelRequirements[LevelManager.LevelIndex] && !_triggeredLevelUpPopup)
         {
             _triggeredLevelUpPopup = true;
             TriggerPopup("levelup");

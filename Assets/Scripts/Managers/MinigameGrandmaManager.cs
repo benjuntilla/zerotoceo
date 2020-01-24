@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 [RequireComponent(typeof(MinigameManager))]
-public class MinigameGrandmaManager : MonoBehaviour
+public class MinigameGrandmaManager : MonoBehaviour, IMinigameManager
 {
 	private MinigameManager _minigameManager;
 	private GameObject _player, _world, _roads, _characters;
@@ -16,6 +16,8 @@ public class MinigameGrandmaManager : MonoBehaviour
 	private int _maxRoadPopulation;
 	private float _carDecayTime, _carWaitTime, _carMovementSpeed, _playerMovementSpeed;
 
+	public bool countDownNecessary { get; set; } = false;
+	[Header("Game Config")]
 	public GameObject carPrefab;
 	public List<Sprite> carSprites;
 	#region public config classes
@@ -73,8 +75,12 @@ public class MinigameGrandmaManager : MonoBehaviour
 			else
 				_roadDirections[i] = "down";
 		}
+	}
 
+	public void StartGame()
+	{
 		LoadDifficultyConfig();
+		ApplyDifficultyConfig();
 	}
 
 	private void LoadDifficultyConfig()
@@ -103,6 +109,11 @@ public class MinigameGrandmaManager : MonoBehaviour
 				_carWaitTime = easyDifficultyConfig.carWaitTime;
 				break;
 		}
+	}
+
+	private void ApplyDifficultyConfig()
+	{
+		GameObject.FindWithTag("Player").GetComponent<IMinigamePlayer>().movementSpeed = _playerMovementSpeed;
 	}
 
 	private IEnumerator InstantiateCar()
@@ -170,45 +181,10 @@ public class MinigameGrandmaManager : MonoBehaviour
 		}
 	}
 
-	public void DisablePlayerCollision()
-	{
-		_player.GetComponent<CollidableController>().collisionEventsEnabled = false;
-	}
-
 	void Update()
 	{
 		if (_roadPopulations.Sum() < _roadCount * _maxRoadPopulation)
-		{
 			StartCoroutine(InstantiateCar());
-		}
-
-		# region player movement
-		if (Input.GetAxisRaw("Horizontal") == 1)
-		{
-			_player.transform.Translate(Vector3.right * Time.deltaTime * _playerMovementSpeed);
-			if (_player.transform.localScale.x < 0f && Time.timeScale == 1f)
-				_player.transform.localScale =
-					new Vector3(-_player.transform.localScale.x, _player.transform.localScale.y, _player.transform.localScale.z);
-		}
-	
-		if (Input.GetAxisRaw("Horizontal") == -1)
-		{
-			_player.transform.Translate(Vector3.left * Time.deltaTime * _playerMovementSpeed);
-			if (_player.transform.localScale.x > 0f && Time.timeScale == 1f)
-				_player.transform.localScale =
-					new Vector3(-_player.transform.localScale.x, _player.transform.localScale.y, _player.transform.localScale.z);
-		}
-
-		if (Input.GetAxisRaw("Vertical") == 1)
-		{
-			_player.transform.Translate(Vector3.up * Time.deltaTime * _playerMovementSpeed);
-		}
-	
-		if (Input.GetAxisRaw("Vertical") == -1)
-		{
-			_player.transform.Translate(Vector3.down * Time.deltaTime * _playerMovementSpeed);
-		}
-		#endregion
 	}
 }
 

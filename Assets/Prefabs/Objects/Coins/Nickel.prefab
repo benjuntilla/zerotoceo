@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 2939040804334497948}
   - component: {fileID: 1731349847140996151}
   - component: {fileID: 2952538811836410740}
-  - component: {fileID: 6427326618321033014}
+  - component: {fileID: -6092067467678681363}
   m_Layer: 10
   m_Name: Nickel
   m_TagString: Untagged
@@ -97,10 +97,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 22f5d73420686c43cab8ccbe3bb53b58, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dropMethod:
+  dropEvent:
     m_PersistentCalls:
       m_Calls: []
-  dragMethod:
+  dragEvent:
     m_PersistentCalls:
       m_Calls: []
   speed: 20
@@ -141,7 +141,7 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 4
---- !u!114 &6427326618321033014
+--- !u!114 &-6092067467678681363
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -150,19 +150,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 2937107588407146795}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 52434c34ed391cbe5ae7c11c832656b4, type: 3}
+  m_Script: {fileID: 11500000, guid: 57aaf76f4f18e9f1a8611bb7ae61fdc9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  collisionMethod:
-    m_PersistentCalls:
-      m_Calls: []
-  secondaryCollisionMethod:
-    m_PersistentCalls:
-      m_Calls: []
-  targetObject: {fileID: 0}
-  secondaryTargetObject: {fileID: 0}
-  targetObjectList: []
-  targetLayer:
-    serializedVersion: 2
-    m_Bits: 0
-  collisionEventsEnabled: 1

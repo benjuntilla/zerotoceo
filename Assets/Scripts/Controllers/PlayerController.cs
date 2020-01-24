@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class PlayerController : MonoBehaviour
 {
@@ -9,8 +10,7 @@ public class PlayerController : MonoBehaviour
 	public static int Points;
 	public static int Lives = 3;
 	[Header("Movement config")]
-	public float runSpeed = 1f;
-    public float jumpHeight = 10f;
+	public float movementSpeed = 1.75f, jumpHeight = 1f;
     public Vector2 velocity;
 
     private InteractableController[] _interactables;
@@ -112,6 +112,6 @@ public class PlayerController : MonoBehaviour
 
     void FixedUpdate()
     {
-	    _rb.velocity = new Vector2(velocity.x * runSpeed, _rb.velocity.y);
+	    _rb.velocity = new Vector2(velocity.x * movementSpeed, _rb.velocity.y);
     }
 }

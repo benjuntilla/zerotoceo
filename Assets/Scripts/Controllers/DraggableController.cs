@@ -6,7 +6,7 @@ using UnityEngine.Events;
 
 public class DraggableController : MonoBehaviour
 {
-	public UnityEvent dropMethod, dragMethod;
+	public UnityEvent dropEvent, dragEvent;
 	public float speed = 20f;
 	
 	private Vector3 _screenPoint;
@@ -22,7 +22,7 @@ public class DraggableController : MonoBehaviour
 
 	void OnMouseDown()
 	{
-		dragMethod.Invoke();
+		dragEvent.Invoke();
 		_screenPoint = Camera.main.WorldToScreenPoint(gameObject.transform.position);
 		_offset = gameObject.transform.position - Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, _screenPoint.z));
 		_renderer.sortingOrder = 1;
@@ -32,13 +32,12 @@ public class DraggableController : MonoBehaviour
 	{
 		Vector3 cursorPoint = new Vector3(Input.mousePosition.x, Input.mousePosition.y, _screenPoint.z);
 		Vector3 cursorPosition = Camera.main.ScreenToWorldPoint(cursorPoint) + _offset;
-		// _rb.MovePosition(new Vector2(cursorPosition.x, cursorPosition.y));
 		_rb.velocity = (new Vector2(cursorPosition.x, cursorPosition.y) - new Vector2(gameObject.transform.position.x, gameObject.transform.position.y)) * speed;
 	}
 
 	void OnMouseUp()
 	{
-		dropMethod.Invoke();
+		dropEvent.Invoke();
 		_renderer.sortingOrder = 0;
 		_rb.velocity = new Vector2(0, 0);
 	}

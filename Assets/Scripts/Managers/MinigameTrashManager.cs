@@ -6,19 +6,21 @@ using System.Timers;
 using UnityEngine;
 
 [RequireComponent(typeof(MinigameManager))]
-public class MinigameTrashManager : MonoBehaviour
+public class MinigameTrashManager : MonoBehaviour, IMinigameManager
 {
     private int _trashCount;
-    private GameObject _player, _characters, _ground, _ui;
+    private GameObject _characters, _ui;
     private TextMeshProUGUI _timerText;
     private MinigameManager _minigameManager;
     // Config
-    private float _trashGravity, _instantiateDelay;
-    private int _playerMovementSpeed, _timer;
+    private float _instantiateDelay;
+    private int _timer, _playerMovementSpeed;
     private bool _gameOver;
     
+    public bool countDownNecessary { get; set; } = true;
+    [Header("Game Config")]
     public List<GameObject> trashPrefabs;
-    public float trashTorque = 90f;
+    public float trashTorque = 90f, trashGravity;
     # region public config classes
     [System.Serializable]
     public class EasyDifficultyConfig
@@ -56,16 +58,14 @@ public class MinigameTrashManager : MonoBehaviour
         _ui = GameObject.FindWithTag("UI");
         _timerText = _ui.transform.Find("HUD").gameObject.transform.Find("Timer").gameObject.GetComponent<TextMeshProUGUI>();
         _minigameManager = GetComponent<MinigameManager>();
-        _player = GameObject.FindWithTag("Player");
         _characters = GameObject.Find("Characters");
-        _ground = GameObject.Find("Minigame World").transform.Find("Ground").gameObject;
         
-        _timerText.SetText($"Time left: {_timer} seconds");
+        _timerText.SetText("Time left: 0 seconds");
         LoadDifficultyConfig();
-        Invoke(nameof(StartGame), 3f);
+        ApplyDifficultyConfig();
     }
 
-    private void StartGame()
+    public void StartGame()
     {
         StartCoroutine(InstantiateLoop());
         StartCoroutine(Timer());
@@ -76,19 +76,19 @@ public class MinigameTrashManager : MonoBehaviour
         switch (MinigameManager.MinigameDifficulty)
         {
             case "Hard":
-                _trashGravity = hardDifficultyConfig.trashGravity;
+                trashGravity = hardDifficultyConfig.trashGravity;
                 _playerMovementSpeed = hardDifficultyConfig.playerMovementSpeed;
                 _instantiateDelay = hardDifficultyConfig.instantiateDelay;
                 _timer = hardDifficultyConfig.timer;
                 break;
             case "Medium":
-                _trashGravity = mediumDifficultyConfig.trashGravity;
+                trashGravity = mediumDifficultyConfig.trashGravity;
                 _playerMovementSpeed = mediumDifficultyConfig.playerMovementSpeed;
                 _instantiateDelay = mediumDifficultyConfig.instantiateDelay;
                 _timer = mediumDifficultyConfig.timer;
                 break;
             default: // "Easy"
-                _trashGravity = easyDifficultyConfig.trashGravity;
+                trashGravity = easyDifficultyConfig.trashGravity;
                 _playerMovementSpeed = easyDifficultyConfig.playerMovementSpeed;
                 _instantiateDelay = easyDifficultyConfig.instantiateDelay;
                 _timer = easyDifficultyConfig.timer;
@@ -96,20 +96,15 @@ public class MinigameTrashManager : MonoBehaviour
         }
     }
 
+    private void ApplyDifficultyConfig()
+    {
+        GameObject.FindWithTag("Player").GetComponent<IMinigamePlayer>().movementSpeed = _playerMovementSpeed;
+    }
+
     private void InstantiateTrash()
     {
-        // Instantiate trash
         var trash = Instantiate(trashPrefabs[Random.Range(0, trashPrefabs.Count)], new Vector3(Random.Range(-8f, 8f), 6f, 0f), Quaternion.identity);
         trash.transform.parent = _characters.transform;
-        trash.GetComponent<CollidableController>().targetObject = _ground;
-        trash.GetComponent<CollidableController>().collisionMethod.AddListener(TryFail);
-        trash.GetComponent<CollidableController>().collisionMethod.AddListener(delegate{ trash.GetComponent<CollidableController>().collisionEventsEnabled = false; });
-        trash.GetComponent<CollidableController>().collisionMethod.AddListener(delegate{ trash.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezePositionY; });
-        trash.GetComponent<CollidableController>().collisionMethod.AddListener(delegate{ trash.GetComponent<Rigidbody2D>().freezeRotation = true; });
-        trash.GetComponent<CollidableController>().secondaryTargetObject = _player;
-        trash.GetComponent<CollidableController>().secondaryCollisionMethod.AddListener(delegate{Destroy(trash);});
-        trash.GetComponent<Rigidbody2D>().gravityScale = _trashGravity;
-        trash.GetComponent<Rigidbody2D>().AddTorque(trashTorque, ForceMode2D.Impulse);
     }
 
     private IEnumerator InstantiateLoop()
@@ -131,30 +126,9 @@ public class MinigameTrashManager : MonoBehaviour
         _minigameManager.Pass();
     }
 
-    private void TryFail()
+    public void TestFail()
     {
         if (MinigameManager.MinigameStatus == MinigameManager.Status.InProgress)
             _minigameManager.Fail();
-    }
-
-    void Update()
-    {
-        #region player movement
-        if (Input.GetAxisRaw("Horizontal") == 1)
-        {
-            _player.transform.Translate(Vector3.right * Time.deltaTime * _playerMovementSpeed);
-            if (_player.transform.localScale.x < 0f && Time.timeScale == 1f)
-                _player.transform.localScale =
-                    new Vector3(-_player.transform.localScale.x, _player.transform.localScale.y, _player.transform.localScale.z);
-        }
-	
-        if (Input.GetAxisRaw("Horizontal") == -1)
-        {
-            _player.transform.Translate(Vector3.left * Time.deltaTime * _playerMovementSpeed);
-            if (_player.transform.localScale.x > 0f && Time.timeScale == 1f)
-                _player.transform.localScale =
-                    new Vector3(-_player.transform.localScale.x, _player.transform.localScale.y, _player.transform.localScale.z);
-        }
-        #endregion
     }
 }

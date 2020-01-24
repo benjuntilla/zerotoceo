@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 7823321618636879184}
   - component: {fileID: 7069127273688701021}
   - component: {fileID: 5260025317567903698}
-  - component: {fileID: 3138895089982684437}
+  - component: {fileID: 3412182375577676729}
   m_Layer: 10
   m_Name: Quarter
   m_TagString: Untagged
@@ -97,10 +97,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 22f5d73420686c43cab8ccbe3bb53b58, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dropMethod:
+  dropEvent:
     m_PersistentCalls:
       m_Calls: []
-  dragMethod:
+  dragEvent:
     m_PersistentCalls:
       m_Calls: []
   speed: 20
@@ -141,7 +141,7 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 4
---- !u!114 &3138895089982684437
+--- !u!114 &3412182375577676729
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -150,19 +150,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 5807828111723631931}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 52434c34ed391cbe5ae7c11c832656b4, type: 3}
+  m_Script: {fileID: 11500000, guid: e69df2596d3355134b564f42d36af441, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  collisionMethod:
-    m_PersistentCalls:
-      m_Calls: []
-  secondaryCollisionMethod:
-    m_PersistentCalls:
-      m_Calls: []
-  targetObject: {fileID: 0}
-  secondaryTargetObject: {fileID: 0}
-  targetObjectList: []
-  targetLayer:
-    serializedVersion: 2
-    m_Bits: 0
-  collisionEventsEnabled: 1

@@ -39,7 +39,7 @@ public class SaveManager : MonoBehaviour
             Load();
             LoadFlag = false;
         } 
-        else if (LevelManager.LevelType == LevelManager.Level.Game) // FOR DEBUG PURPOSES
+        else if (LevelManager.CurrentLevelType == LevelManager.LevelType.Level) // FOR DEBUG PURPOSES
         {
             New();
         }

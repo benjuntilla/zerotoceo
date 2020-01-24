@@ -1,0 +1,124 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &104369757
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5578106329376830034}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 74acd1dcf8da5bdd98d4cfa33c347061, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  carPrefab: {fileID: 2856826835805653673, guid: ed08fbe11580f2269881801ec6f02238,
+    type: 3}
+  carSprites:
+  - {fileID: 21300000, guid: 6bddf439e238a8801afbf9059e3f35a3, type: 3}
+  - {fileID: 21300000, guid: 602d2dfee43578ac6b9e9ed484f6e2e6, type: 3}
+  - {fileID: 21300000, guid: e8686006a426b5f82a5cbf89337867b9, type: 3}
+  - {fileID: 21300000, guid: c62478319332c111cbc3383259cc4196, type: 3}
+  easyDifficultyConfig:
+    maxRoadPopulation: 8
+    playerMovementSpeed: 4
+    carMovementSpeed: 4
+    carDecayTime: 6
+    carWaitTime: 1.5
+  mediumDifficultyConfig:
+    maxRoadPopulation: 6
+    playerMovementSpeed: 5
+    carMovementSpeed: 5
+    carDecayTime: 5
+    carWaitTime: 1
+  hardDifficultyConfig:
+    maxRoadPopulation: 8
+    playerMovementSpeed: 6
+    carMovementSpeed: 6
+    carDecayTime: 5
+    carWaitTime: 0.75
+--- !u!1001 &5657629857252917794
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 282207552939847792, guid: 1e849e623a30e87778d72d77e6b4c70e,
+        type: 3}
+      propertyPath: m_Name
+      value: Minigame Grandma Managers
+      objectReference: {fileID: 0}
+    - target: {fileID: 282207552939847807, guid: 1e849e623a30e87778d72d77e6b4c70e,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 282207552939847807, guid: 1e849e623a30e87778d72d77e6b4c70e,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 282207552939847807, guid: 1e849e623a30e87778d72d77e6b4c70e,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 282207552939847807, guid: 1e849e623a30e87778d72d77e6b4c70e,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 282207552939847807, guid: 1e849e623a30e87778d72d77e6b4c70e,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 282207552939847807, guid: 1e849e623a30e87778d72d77e6b4c70e,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 282207552939847807, guid: 1e849e623a30e87778d72d77e6b4c70e,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 282207552939847807, guid: 1e849e623a30e87778d72d77e6b4c70e,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 282207552939847807, guid: 1e849e623a30e87778d72d77e6b4c70e,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 282207552939847807, guid: 1e849e623a30e87778d72d77e6b4c70e,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 282207552939847807, guid: 1e849e623a30e87778d72d77e6b4c70e,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 282207552939847807, guid: 1e849e623a30e87778d72d77e6b4c70e,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 282207552939847807, guid: 1e849e623a30e87778d72d77e6b4c70e,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.2
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 1e849e623a30e87778d72d77e6b4c70e, type: 3}
+--- !u!1 &5578106329376830034 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 282207552939847792, guid: 1e849e623a30e87778d72d77e6b4c70e,
+    type: 3}
+  m_PrefabInstance: {fileID: 5657629857252917794}
+  m_PrefabAsset: {fileID: 0}

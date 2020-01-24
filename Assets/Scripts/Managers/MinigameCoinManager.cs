@@ -7,7 +7,7 @@ using TMPro;
 using UnityEngine;
 
 [RequireComponent(typeof(MinigameManager))]
-public class MinigameCoinManager : MonoBehaviour
+public class MinigameCoinManager : MonoBehaviour, IMinigameManager
 {
     private GameObject _ui, _characters, _dropRegions, _pennyRegion, _nickelRegion, _dimeRegion, _quarterRegion;
     private TextMeshProUGUI _timerText;
@@ -16,7 +16,9 @@ public class MinigameCoinManager : MonoBehaviour
     // Config
     private float _instantiateDelay;
     private int _timer;
-    
+
+    public bool countDownNecessary { get; set; } = true;
+    [Header("Game Config")]
     public int cooldownTime = 2;
     public GameObject pennyPrefab, nickelPrefab, dimePrefab, quarterPrefab;
     # region public config classes
@@ -60,10 +62,9 @@ public class MinigameCoinManager : MonoBehaviour
         _instantiateLoop = InstantiateLoop();
         _timerText.SetText($"Time left: {_timer} seconds");
         LoadDifficultyConfig();
-        Invoke(nameof(StartGame), 3f);
     }
 
-    private void StartGame()
+    public void StartGame()
     {
         StartCoroutine(_instantiateLoop);
         StartCoroutine(Timer());
@@ -96,38 +97,17 @@ public class MinigameCoinManager : MonoBehaviour
         {
             default: // case 0
                 coin = Instantiate(pennyPrefab, new Vector3(Random.Range(-8f, 8f), 4f, 0f), Quaternion.identity);
-                coin.GetComponent<CollidableController>().secondaryTargetObject = _pennyRegion;
-                coin.GetComponent<CollidableController>().targetObjectList.Add(_nickelRegion);
-                coin.GetComponent<CollidableController>().targetObjectList.Add(_dimeRegion);
-                coin.GetComponent<CollidableController>().targetObjectList.Add(_quarterRegion);
                 break;
             case 1:
                 coin = Instantiate(nickelPrefab, new Vector3(Random.Range(-8f, 8f), 4f, 0f), Quaternion.identity);
-                coin.GetComponent<CollidableController>().targetObjectList.Add(_pennyRegion);
-                coin.GetComponent<CollidableController>().secondaryTargetObject = _nickelRegion;
-                coin.GetComponent<CollidableController>().targetObjectList.Add(_dimeRegion);
-                coin.GetComponent<CollidableController>().targetObjectList.Add(_quarterRegion);
                 break;
             case 2:
                 coin = Instantiate(dimePrefab, new Vector3(Random.Range(-8f, 8f), 4f, 0f), Quaternion.identity);
-                coin.GetComponent<CollidableController>().targetObjectList.Add(_pennyRegion);
-                coin.GetComponent<CollidableController>().targetObjectList.Add(_nickelRegion);
-                coin.GetComponent<CollidableController>().secondaryTargetObject = _dimeRegion;
-                coin.GetComponent<CollidableController>().targetObjectList.Add(_quarterRegion);
                 break;
             case 3:
                 coin = Instantiate(quarterPrefab, new Vector3(Random.Range(-8f, 8f), 4f, 0f), Quaternion.identity);
-                coin.GetComponent<CollidableController>().targetObjectList.Add(_pennyRegion);
-                coin.GetComponent<CollidableController>().targetObjectList.Add(_nickelRegion);
-                coin.GetComponent<CollidableController>().targetObjectList.Add(_dimeRegion);
-                coin.GetComponent<CollidableController>().secondaryTargetObject = _quarterRegion;
                 break;
         }
-        coin.GetComponent<CollidableController>().collisionMethod.AddListener(delegate { coin.GetComponent<CollidableController>().collisionEventsEnabled = false; });
-        coin.GetComponent<CollidableController>().collisionMethod.AddListener(_minigameManager.Fail);
-        coin.GetComponent<CollidableController>().secondaryCollisionMethod.AddListener(delegate { Destroy(coin);});
-        coin.GetComponent<DraggableController>().dragMethod.AddListener(delegate { coin.GetComponent<CollidableController>().collisionEventsEnabled = false; });
-        coin.GetComponent<DraggableController>().dropMethod.AddListener(delegate { coin.GetComponent<CollidableController>().collisionEventsEnabled = true; });
         coin.transform.parent = _characters.transform;
     }
 

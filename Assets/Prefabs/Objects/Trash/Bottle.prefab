@@ -12,7 +12,8 @@ GameObject:
   - component: {fileID: 8102090394943287179}
   - component: {fileID: 8102090394943287173}
   - component: {fileID: 8102090394943287175}
-  - component: {fileID: 5362068297451827877}
+  - component: {fileID: -3543732381357470437}
+  - component: {fileID: -2965048510215426236}
   m_Layer: 12
   m_Name: Bottle
   m_TagString: Untagged
@@ -143,7 +144,19 @@ PolygonCollider2D:
       - {x: 0.24317937, y: -0.046088696}
       - {x: 0.2307759, y: 0.25561106}
       - {x: 0.10861091, y: 0.49648327}
---- !u!114 &5362068297451827877
+--- !u!114 &-3543732381357470437
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8102090394943287169}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 478ed034084d7be2f9f3bf40e7bf725e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &-2965048510215426236
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -155,16 +168,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52434c34ed391cbe5ae7c11c832656b4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  collisionMethod:
+  primaryCollisionObjects: []
+  secondaryCollisionObjects: []
+  primaryCollisionEvent:
     m_PersistentCalls:
       m_Calls: []
-  secondaryCollisionMethod:
+  secondaryCollisionEvent:
     m_PersistentCalls:
       m_Calls: []
-  targetObject: {fileID: 0}
-  secondaryTargetObject: {fileID: 0}
-  targetObjectList: []
-  targetLayer:
-    serializedVersion: 2
-    m_Bits: 0
-  collisionEventsEnabled: 1

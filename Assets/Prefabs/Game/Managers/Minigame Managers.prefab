@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 7130301914371746915}
   m_Layer: 0
   m_Name: Minigame Managers
-  m_TagString: Untagged
+  m_TagString: GameManagers
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
