@@ -4,7 +4,6 @@ using System.Linq;
 using System.Runtime.Serialization.Formatters.Binary;
 using Ink.Runtime;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 [RequireComponent(typeof(UIManager))]
 [RequireComponent(typeof(MinigameManager))]
