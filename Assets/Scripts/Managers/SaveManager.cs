@@ -91,7 +91,7 @@ public class SaveManager : MonoBehaviour
         formatter.Serialize(stream, data);
         stream.Close();
         
-        _uiManager.TriggerPopup("save");
+        _uiManager.QueuePopup("save");
     }
 
     public static void Load ()

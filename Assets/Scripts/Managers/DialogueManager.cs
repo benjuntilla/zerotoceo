@@ -70,7 +70,7 @@ public class DialogueManager : MonoBehaviour
             {
                 MinigameManager.MinigameStatus = MinigameManager.Status.Pending;
                 MinigameManager.MinigameID = (string) newValue;
-                _uiManager.TriggerPopup("minigame");
+                _uiManager.QueuePopup("minigame");
             });
         }
         if (_dialogue.variablesState["gameFlags"] != null)

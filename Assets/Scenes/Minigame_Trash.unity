@@ -151,7 +151,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1107357795}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
@@ -972,6 +972,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Minigame Trash Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 8809154876160291198, guid: 2197f2ae16e1ab04b84f0b0106df0ffd,
+        type: 3}
+      propertyPath: m_GravityScale
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8809154876160291198, guid: 2197f2ae16e1ab04b84f0b0106df0ffd,
+        type: 3}
+      propertyPath: m_Mass
+      value: 0.0001
+      objectReference: {fileID: 0}
+    - target: {fileID: 8809154876160291198, guid: 2197f2ae16e1ab04b84f0b0106df0ffd,
+        type: 3}
+      propertyPath: m_UseAutoMass
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2197f2ae16e1ab04b84f0b0106df0ffd, type: 3}

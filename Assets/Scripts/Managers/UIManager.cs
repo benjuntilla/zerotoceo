@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using Cinemachine;
 using TMPro;
 using UnityEngine;
@@ -9,11 +10,12 @@ using UnityEngine.SceneManagement;
 public class UIManager : MonoBehaviour
 {
     private static string _modalAction, _menuFullAction;
-    private static bool _debug, _triggeredLevelUpPopup;
+    private static bool _debug, _triggeredLevelUpPopup, _popupReady = true;
     private static int _levelEndMenuCounter, _menuFullCounter;
     private MinigameManager _minigameManager;
     private SaveManager _saveManager;
     private LevelManager _levelManager;
+    private Queue<string> _popupQueue = new Queue<string>();
 
     public GameObject _pauseMenuUI, _hudUI, _modalUI, _levelEndMenuUI, _levelEndMenuImages, _popupUI, _heartOne, _heartTwo, _heartThree, _futureToken, _businessToken, _leaderToken, _americaToken, _hudLives, _hudTokens, _minigameEndMenuUI, _menuFullUI, _mainMenuUI;
     public TextMeshProUGUI _hudPointsText, _modalText, _levelEndMenuText, _levelEndMenuTitle, _popupText, _menuFullTitle, _menuFullText, _menuFullButtonText, _menuFullControlsText;
@@ -27,6 +29,7 @@ public class UIManager : MonoBehaviour
     void Start()
     {
         var gameManagers = GameObject.FindWithTag("GameManagers");
+        if (!gameManagers) return;
         _saveManager = gameManagers.GetComponent<SaveManager>();
         _levelManager = gameManagers.GetComponent<LevelManager>();
         if (SceneManager.GetActiveScene().buildIndex >= 5)
@@ -300,10 +303,14 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    public void TriggerPopup(string id)
+    public void QueuePopup(string id)
     {
-        _popupUI.SetActive(true);
-        switch (id)
+        _popupQueue.Enqueue(id);
+    }
+
+    private void TriggerPopup()
+    {
+        switch (_popupQueue.Dequeue())
         {
             case "minigame":
                 _popupText.SetText("A minigame is now playable! Go to the exit door to start.");
@@ -322,9 +329,15 @@ public class UIManager : MonoBehaviour
 
     private IEnumerator PopupInThenOut(int seconds)
     {
+        _popupReady = false;
+        _popupUI.SetActive(true);
         PlayIn(_popupAnimator);
         yield return new WaitForSeconds(seconds);
-        StartCoroutine(PlayOutThenAction(_popupAnimator, () => _popupUI.SetActive(false)));
+        StartCoroutine(PlayOutThenAction(_popupAnimator, () =>
+        {
+            _popupUI.SetActive(false);
+            _popupReady = true;
+        }));
     }
     
     private void TriggerMenuFull(string id)
@@ -482,6 +495,10 @@ public class UIManager : MonoBehaviour
 
     void Update ()
     {
+        // Detect when to trigger a popup in queue
+        if (_popupQueue.Count > 0 && _popupReady)
+            TriggerPopup();
+        
         // Detect when to pause game
         if (_pauseMenuUI && Input.GetKeyDown(KeyCode.Escape) && SceneManager.GetActiveScene().buildIndex != 0)
         {
@@ -501,7 +518,7 @@ public class UIManager : MonoBehaviour
         if (LevelManager.CurrentLevelType == LevelManager.LevelType.Level && PlayerController.Points >= LevelManager.NextLevelRequirements[LevelManager.LevelIndex] && !_triggeredLevelUpPopup)
         {
             _triggeredLevelUpPopup = true;
-            TriggerPopup("levelup");
+            QueuePopup("levelup");
         }
 
 
