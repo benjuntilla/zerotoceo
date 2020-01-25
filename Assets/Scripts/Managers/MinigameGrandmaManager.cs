@@ -3,10 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-[RequireComponent(typeof(MinigameManager))]
 public class MinigameGrandmaManager : MonoBehaviour, IMinigameManager
 {
-	private MinigameManager _minigameManager;
 	private GameObject _player, _world, _roads, _characters;
 	private CollidableController _playerCollidableController;
 	private IMinigamePlayer _playerScript;
@@ -61,7 +59,6 @@ public class MinigameGrandmaManager : MonoBehaviour, IMinigameManager
 		_player = GameObject.FindWithTag("Player").gameObject;
 		_playerScript = _player.GetComponent<IMinigamePlayer>();
 		_playerCollidableController = _player.GetComponent<CollidableController>();
-		_minigameManager = GetComponent<MinigameManager>();
 		_characters = GameObject.Find("Characters");
 		_world = GameObject.FindWithTag("World");
 		_roads = _world.transform.Find("Roads").gameObject;
