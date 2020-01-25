@@ -7,8 +7,8 @@ using UnityEngine.Serialization;
 public class PlayerController : MonoBehaviour
 {
 	public bool godMode;
-	public static int Points;
-	public static int Lives = 3;
+	public static int points { get; private set; }
+	public static int lives { get; private set; } = 3;
 	[Header("Movement config")]
 	public float movementSpeed = 1.75f, jumpHeight = 1f;
     public Vector2 velocity;
@@ -56,7 +56,24 @@ public class PlayerController : MonoBehaviour
 
     public void IncrementLives(int value)
     {
-	    Lives += value;
+	    lives += value;
+	    if (lives > 3)
+		    lives = 3;
+    }
+
+    public void SetLives(int value)
+    {
+	    lives = value;
+    }
+
+    public void SetPoints(int value)
+    {
+	    points = value;
+    }
+
+    public void IncrementPoints(int value)
+    {
+	    points += value;
     }
 
     void OnCollisionStay2D()
@@ -110,8 +127,8 @@ public class PlayerController : MonoBehaviour
 	    }
 	    
 	    if (!godMode) return;
-	    Points = 9999;
-	    Lives = 9999;
+	    points = 9999;
+	    lives = 9999;
     }
 
     void FixedUpdate()

@@ -40,7 +40,7 @@ public class InteractableController : MonoBehaviour
     
     public void TestIfCanLevelUp()
     {
-        if (PlayerController.Points >= _levelManager.nextLevelRequirements[_levelManager.levelIndex])
+        if (PlayerController.points >= _levelManager.nextLevelRequirements[_levelManager.levelIndex])
             _uiManager.TriggerLevelEndMenu();
         else
             TriggerDialogue();

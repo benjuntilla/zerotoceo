@@ -19,6 +19,7 @@ public class SaveManager : MonoBehaviour
     private DialogueManager _dialogueManager;
     private GameObject _player;
     private GameObject[] _npcList;
+    private PlayerController _playerController;
 
     void Awake ()
     {
@@ -27,8 +28,11 @@ public class SaveManager : MonoBehaviour
         _uiManager.uiReadyEvent.AddListener(CheckLoadOrNew);
         _minigameManager = GetComponent<MinigameManager>();
         _dialogueManager = GetComponent<DialogueManager>();
+        
+        if (_levelManager.currentLevelType != LevelManager.LevelType.Level) return;
         _player = GameObject.FindWithTag("Player");
         _npcList = GameObject.FindGameObjectsWithTag("NPC");
+        _playerController = _player.GetComponent<PlayerController>();
     }
 
     [System.Serializable]
@@ -86,8 +90,8 @@ public class SaveManager : MonoBehaviour
         {
             level = _levelManager.levelIndex,
             scoreboard = _levelManager.scoreboard,
-            points = PlayerController.Points,
-            lives = PlayerController.Lives,
+            points = PlayerController.points,
+            lives = PlayerController.lives,
             dialogueData = _dialogueManager.sessionDialogueData,
             characterPositions = characterPositions,
             minigame = MinigameManager.minigameId,
@@ -119,8 +123,8 @@ public class SaveManager : MonoBehaviour
         // Apply data
         _levelManager.levelIndex = data.level;
         _levelManager.scoreboard = data.scoreboard;
-        PlayerController.Points = data.points;
-        PlayerController.Lives = data.lives;
+        _playerController.SetPoints(data.points);
+        _playerController.SetLives(data.lives);
         _dialogueManager.sessionDialogueData = data.dialogueData;
         MinigameManager.minigameId = data.minigame;
         _minigameManager.minigameProgression = data.minigameProgression;
@@ -158,9 +162,9 @@ public class SaveManager : MonoBehaviour
     
     private void New ()
     {
-        PlayerController.Points = 0;
-        PlayerController.Lives = 3;
         MinigameManager.minigameId = "";
+        _playerController.SetPoints(0);
+        _playerController.SetLives(3);
     }
 
     public void LoadSavedLevel()

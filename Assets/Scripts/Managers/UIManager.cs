@@ -9,7 +9,7 @@ using UnityEngine.SceneManagement;
 public class UIManager : MonoBehaviour
 {
     private string _modalAction, _menuFullAction;
-    private bool _debug, _triggeredLevelUpPopup, _popupReady = true;
+    private bool _debug, _triggeredLevelUpPopup, _triggeredDeathMenu, _popupReady = true;
     private int _levelEndMenuCounter, _menuFullCounter;
     private MinigameManager _minigameManager;
     private SaveManager _saveManager;
@@ -49,8 +49,8 @@ public class UIManager : MonoBehaviour
                 log =
                     $"X Velocity: {GameObject.FindWithTag("Player").GetComponent<Rigidbody2D>().velocity.x}\n" +
                     $"Y Velocity: {GameObject.FindWithTag("Player").GetComponent<Rigidbody2D>().velocity.y}\n" +
-                    $"Points: {PlayerController.Points}\n" +
-                    $"Lives: {PlayerController.Lives}\n" +
+                    $"Points: {PlayerController.points}\n" +
+                    $"Lives: {PlayerController.lives}\n" +
                     $"Level: {_levelManager.levelIndex}\n" +
                     $"Timescale: {Time.timeScale}\n";
                 GUI.Label(new Rect(10, 100, 999, 999), log, debugStyle); // Rectangle dimensions are as follows: (distance from left edge, distance from top edge, width, height)
@@ -238,7 +238,7 @@ public class UIManager : MonoBehaviour
                     $"Dialogue bonus: {_levelManager.scoreboard["dialogueBonus"]}\n" +
                     $"Dialogue penalty: {_levelManager.scoreboard["dialoguePenalty"]}\n" +
                     $"Minigame bonus: {_levelManager.scoreboard["minigameBonus"]}\n" +
-                    $"Total points: {PlayerController.Points}\n"
+                    $"Total points: {PlayerController.points}\n"
                 );
                 if (_levelManager.levelIndex == 4) // Skip the clothing slide on level 4 since it doesnt exist
                     _levelEndMenuCounter++;
@@ -507,27 +507,27 @@ public class UIManager : MonoBehaviour
         }
         
         // Detect when to level up the player
-        if (_levelManager.currentLevelType == LevelManager.LevelType.Level && PlayerController.Points >= _levelManager.nextLevelRequirements[_levelManager.levelIndex] && !_triggeredLevelUpPopup)
+        if (_levelManager.currentLevelType == LevelManager.LevelType.Level && PlayerController.points >= _levelManager.nextLevelRequirements[_levelManager.levelIndex] && !_triggeredLevelUpPopup)
         {
             _triggeredLevelUpPopup = true;
             QueuePopup("levelup");
         }
-
-
+        
         # region Update HUD
         if (hudUI)
         {
-            hudPointsText.SetText($"Points: {PlayerController.Points}");
+            hudPointsText.SetText($"Points: {PlayerController.points}");
         
             foreach (Transform child in hudLives.transform)
                 child.gameObject.SetActive(false);
-            switch (PlayerController.Lives)
+            switch (PlayerController.lives)
             {
-                case -1:
-                    break;
                 case 0:
-                    TriggerMenuFull("death");
-                    PlayerController.Lives = -1;
+                    if (!_triggeredDeathMenu)
+                    {
+                        _triggeredDeathMenu = true;
+                        TriggerMenuFull("death");
+                    }
                     break;
                 case 1:
                     heartOne.SetActive(true);

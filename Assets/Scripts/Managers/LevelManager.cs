@@ -8,12 +8,12 @@ public class LevelManager : MonoBehaviour
     private SaveManager _saveManager;
     private CharactersManager _charactersManager;
     private PlayerController _playerController;
+    private static bool nextLevelFlag;
 
     public Dictionary<string, int> scoreboard;
     public int levelIndex;
     public Dictionary<int, int> nextLevelRequirements;
     public LevelType currentLevelType;
-    public static bool nextLevelFlag;
 
     [Header("Level XP Requirements")]
     public int levelOne = 100;
@@ -82,6 +82,7 @@ public class LevelManager : MonoBehaviour
 
     public void LoadLevel(object param)
     {
+        nextLevelFlag = false;
         if (param is string)
             SceneManager.LoadScene((string) param);
         else if (param is int)

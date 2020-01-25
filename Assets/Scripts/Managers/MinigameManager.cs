@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Cinemachine;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -9,6 +10,7 @@ public class MinigameManager : MonoBehaviour
     private UIManager _uiManager;
     private IMinigameManager _minigameManager;
     private LevelManager _levelManager;
+    private PlayerController _playerController;
 
     public readonly Dictionary<string, int> minigamePoints = new Dictionary<string, int>()
     {
@@ -46,6 +48,7 @@ public class MinigameManager : MonoBehaviour
 
     void Awake()
     {
+        _playerController = GameObject.FindWithTag("Player").GetComponent<PlayerController>();
         _levelManager = GetComponent<LevelManager>();
         _saveManager = gameObject.GetComponent<SaveManager>();
         _minigameManager = gameObject.GetComponent<IMinigameManager>();
@@ -97,14 +100,12 @@ public class MinigameManager : MonoBehaviour
 
     public void Pass()
     {
-        LevelManager.nextLevelFlag = false;
         minigameStatus = Status.Passed;
         _uiManager.TriggerMinigameEndMenu(true);
     }
 
     public void Fail()
     {
-        LevelManager.nextLevelFlag = false;
         minigameStatus = Status.Failed;
         _uiManager.TriggerMinigameEndMenu(false);
     }
@@ -116,17 +117,15 @@ public class MinigameManager : MonoBehaviour
     {
         switch (minigameStatus)
         {
-            default:
-                LevelManager.nextLevelFlag = false;
+            case Status.Failed:
                 minigameStatus = Status.None;
-                PlayerController.Lives -= 1;
-                if (PlayerController.Lives != 0)
+                _playerController.IncrementLives(-1);
+                if (PlayerController.lives != 0)
                     _saveManager.Save();
                 break;
             case Status.Passed:
-                LevelManager.nextLevelFlag = false;
                 minigameStatus = Status.None;
-                PlayerController.Points += minigamePoints[minigameId];
+                _playerController.IncrementPoints(minigamePoints[minigameId]);
                 _levelManager.scoreboard["minigameBonus"] += minigamePoints[minigameId];
                 minigameId = ""; // Clears the variable so the minigame cannot be replayed
                 minigameProgression++;
@@ -137,7 +136,7 @@ public class MinigameManager : MonoBehaviour
 
     private void Update()
     {
-        if (SceneManager.GetActiveScene().buildIndex >= 5) return;
+        if (_levelManager.currentLevelType != LevelManager.LevelType.Level) return;
         CheckPassOrFail();
     }
 }

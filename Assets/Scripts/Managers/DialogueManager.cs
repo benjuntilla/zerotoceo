@@ -19,6 +19,7 @@ public class DialogueManager : MonoBehaviour
     private UIManager _uiManager;
     private LevelManager _levelManager;
     private MinigameManager _minigameManager;
+    private PlayerController _playerController;
 
     void Awake()
     {
@@ -39,6 +40,7 @@ public class DialogueManager : MonoBehaviour
 
         _levelManager = GetComponent<LevelManager>();
         _minigameManager = GetComponent<MinigameManager>();
+        _playerController = GameObject.FindWithTag("Player").GetComponent<PlayerController>();
         
         currentDialogue = "";
         _dialogueUI.SetActive(false);
@@ -54,18 +56,18 @@ public class DialogueManager : MonoBehaviour
 
         // Set external functions and observe xp variable if possible
         _dialogue.BindExternalFunction("GetGameLevel", () => _levelManager.levelIndex);
-        _dialogue.BindExternalFunction("GetPlayerXP", () => PlayerController.Points);
+        _dialogue.BindExternalFunction("GetPlayerXP", () => PlayerController.points);
         _dialogue.BindExternalFunction("GetRequiredPoints", () => _levelManager.nextLevelRequirements[_levelManager.levelIndex]);
         _dialogue.BindExternalFunction("GetMinigameProgression", () => _minigameManager.minigameProgression);
         if (_dialogue.variablesState["xp"] != null)
         {
             _dialogue.ObserveVariable("xp", (varName, newValue) =>
             {
-                if ((int) newValue > PlayerController.Points)
-                    _levelManager.scoreboard["dialogueBonus"] += (int) newValue - PlayerController.Points;
+                if ((int) newValue > PlayerController.points)
+                    _levelManager.scoreboard["dialogueBonus"] += (int) newValue - PlayerController.points;
                 else
-                    _levelManager.scoreboard["dialoguePenalty"] += PlayerController.Points - (int) newValue;
-                PlayerController.Points = (int) newValue;
+                    _levelManager.scoreboard["dialoguePenalty"] += PlayerController.points - (int) newValue;
+                _playerController.SetPoints((int) newValue);
             });
         }
         if (_dialogue.variablesState["pendingMinigame"] != null)
@@ -136,7 +138,7 @@ public class DialogueManager : MonoBehaviour
     void Update()
     {
         if (!_dialogue) return;
-        if (!_dialogue.canContinue && _dialogue.currentChoices.Count > 0)
+        if (!_dialogue.canContinue && _dialogue.currentChoices.Count > 0) // If a dialogue choice(s) is possible
         {
             // Set UI layout & fill text
             switch (_dialogue.currentChoices.Count)
