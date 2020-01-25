@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using Cinemachine;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
@@ -10,6 +11,7 @@ public class MinigameManager : MonoBehaviour
     private SaveManager _saveManager;
     private UIManager _uiManager;
     private IMinigameManager _minigameManager;
+    private LevelManager _levelManager;
 
     public static readonly Dictionary<string, int> MinigamePoints = new Dictionary<string, int>()
     {
@@ -26,9 +28,9 @@ public class MinigameManager : MonoBehaviour
     public static string MinigameID = ""; // Full id of minigame e.g., Minigame_Grandma_Easy
     public static string MinigameName = ""; // First two parts of the minigame id e.g., Minigame_Grandma
     public static string MinigameDifficulty = ""; // Just the last part of the minigame id containing the difficulty
-    public static int MinigameProgression; // Count of minigames passed on a level by level basis
     public static Status MinigameStatus = Status.None;
     public Difficulty defaultDifficulty = Difficulty.Easy; // Used for debugging
+    public int minigameProgression; // Count of minigames passed on a level by level basis
 
     public enum Status
     {
@@ -47,6 +49,7 @@ public class MinigameManager : MonoBehaviour
 
     void Awake()
     {
+        _levelManager = GetComponent<LevelManager>();
         _saveManager = gameObject.GetComponent<SaveManager>();
         _minigameManager = gameObject.GetComponent<IMinigameManager>();
         _uiManager = GameObject.FindWithTag("UI").GetComponent<UIManager>();
@@ -127,9 +130,9 @@ public class MinigameManager : MonoBehaviour
                 LevelManager.NextLevelFlag = false;
                 MinigameStatus = Status.None;
                 PlayerController.Points += MinigamePoints[MinigameID];
-                LevelManager.Scoreboard["minigameBonus"] += MinigamePoints[MinigameID];
+                _levelManager.scoreboard["minigameBonus"] += MinigamePoints[MinigameID];
                 MinigameID = ""; // Clears the variable so the minigame cannot be replayed
-                MinigameProgression++;
+                minigameProgression++;
                 _saveManager.Save();
                 break;
         }

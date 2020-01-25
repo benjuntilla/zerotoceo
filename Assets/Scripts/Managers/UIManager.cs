@@ -26,7 +26,7 @@ public class UIManager : MonoBehaviour
     [TextArea(3, 10)]
     public string closingMenuText, openingMenuText, gameOverText, grandmaMinigameText, coinMinigameText, trashMinigameText;
 
-    void Start()
+    void Awake()
     {
         var gameManagers = GameObject.FindWithTag("GameManagers");
         if (!gameManagers) return;
@@ -51,7 +51,7 @@ public class UIManager : MonoBehaviour
                     $"Y Velocity: {GameObject.FindWithTag("Player").GetComponent<Rigidbody2D>().velocity.y}\n" +
                     $"Points: {PlayerController.Points}\n" +
                     $"Lives: {PlayerController.Lives}\n" +
-                    $"Level: {LevelManager.LevelIndex}\n" +
+                    $"Level: {_levelManager.LevelIndex}\n" +
                     $"Timescale: {Time.timeScale}\n";
                 GUI.Label(new Rect(10, 100, 999, 999), log, debugStyle); // Rectangle dimensions are as follows: (distance from left edge, distance from top edge, width, height)
                 break;
@@ -186,7 +186,7 @@ public class UIManager : MonoBehaviour
             case "load":
                 ResumeGame();
                 _modalUI.SetActive(false);
-                SaveManager.Load();
+                _saveManager.Load();
                 break;
             case "loadFromMain":
                 ResumeGame();
@@ -224,7 +224,7 @@ public class UIManager : MonoBehaviour
         Time.timeScale = 0f;
         _levelEndMenuCounter = 0;
         _levelEndMenuTitle.SetText("Level Up!");
-        _levelEndMenuText.SetText($"Good job completing level {LevelManager.LevelIndex}!");
+        _levelEndMenuText.SetText($"Good job completing level {_levelManager.LevelIndex}!");
         _levelEndMenuUI.SetActive(true);    
     }
 
@@ -238,18 +238,18 @@ public class UIManager : MonoBehaviour
             case 1: // Scoreboard page
                 _levelEndMenuTitle.SetText("Scoreboard");
                 _levelEndMenuText.SetText(
-                    $"Dialogue bonus: {LevelManager.Scoreboard["dialogueBonus"]}\n" +
-                    $"Dialogue penalty: {LevelManager.Scoreboard["dialoguePenalty"]}\n" +
-                    $"Minigame bonus: {LevelManager.Scoreboard["minigameBonus"]}\n" +
+                    $"Dialogue bonus: {_levelManager.scoreboard["dialogueBonus"]}\n" +
+                    $"Dialogue penalty: {_levelManager.scoreboard["dialoguePenalty"]}\n" +
+                    $"Minigame bonus: {_levelManager.scoreboard["minigameBonus"]}\n" +
                     $"Total points: {PlayerController.Points}\n"
                 );
-                if (LevelManager.LevelIndex == 4) // Skip the clothing slide on level 4 since it doesnt exist
+                if (_levelManager.LevelIndex == 4) // Skip the clothing slide on level 4 since it doesnt exist
                     _levelEndMenuCounter++;
                 break;
             case 2: // Show new clothing
                 _levelEndMenuTitle.SetText("Got new clothing!");
                 _levelEndMenuText.SetText("\n\n\n\n\n\n\n");
-                switch (LevelManager.LevelIndex)
+                switch (_levelManager.LevelIndex)
                 {
                     case 1: // Level has not actually increased yet, so the desired value minus one must be used.
                         _levelEndMenuImages.transform.Find("Player 2").gameObject.SetActive(true);
@@ -265,7 +265,7 @@ public class UIManager : MonoBehaviour
             case 3: // Show token
                 _levelEndMenuTitle.SetText("Received a BAA token!");
                 _levelEndMenuText.SetText("\n\n\n\n\n\n\n");
-                switch (LevelManager.LevelIndex)
+                switch (_levelManager.LevelIndex)
                 {
                     case 1: // Level has not actually increased yet, so the desired value minus one must be used.
                         _levelEndMenuImages.transform.Find("Future").gameObject.SetActive(true);
@@ -282,7 +282,7 @@ public class UIManager : MonoBehaviour
                 }
                 break;
             case 4: // Either advance level or end the game
-                if (LevelManager.LevelIndex != 4)
+                if (_levelManager.LevelIndex != 4)
                 {
                     Time.timeScale = 1f;
                     StopAllCoroutines();
@@ -290,8 +290,8 @@ public class UIManager : MonoBehaviour
                     {
                         _levelEndMenuUI.SetActive(false);
                         LevelManager.NextLevelFlag = true;
-                        LevelManager.LevelIndex++;
-                        LevelManager.LoadLevelIndex(LevelManager.LevelIndex);
+                        _levelManager.LevelIndex++;
+                        LevelManager.LoadLevelIndex(_levelManager.LevelIndex);
                     }));
                     break;
                 }
@@ -515,7 +515,7 @@ public class UIManager : MonoBehaviour
         }
         
         // Detect when to level up the player
-        if (LevelManager.CurrentLevelType == LevelManager.LevelType.Level && PlayerController.Points >= LevelManager.NextLevelRequirements[LevelManager.LevelIndex] && !_triggeredLevelUpPopup)
+        if (LevelManager.CurrentLevelType == LevelManager.LevelType.Level && PlayerController.Points >= _levelManager.nextLevelRequirements[_levelManager.LevelIndex] && !_triggeredLevelUpPopup)
         {
             _triggeredLevelUpPopup = true;
             QueuePopup("levelup");
@@ -553,7 +553,7 @@ public class UIManager : MonoBehaviour
         
             foreach (Transform child in _hudTokens.transform)
                 child.gameObject.SetActive(false);
-            switch (LevelManager.LevelIndex)
+            switch (_levelManager.LevelIndex)
             {
                 case 2:
                     _futureToken.SetActive(true);

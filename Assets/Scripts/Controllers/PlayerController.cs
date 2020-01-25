@@ -15,18 +15,18 @@ public class PlayerController : MonoBehaviour
 
     private InteractableController[] _interactables;
     private Dictionary<InteractableController, float> _interactablesDistances = new Dictionary<InteractableController, float>();
-    private GameObject _indicatorUI;
     private Animator _animator;
     private Rigidbody2D _rb;
+    private CharactersManager _charactersManager;
     private bool _isGrounded;
 
     void Awake()
     {
         _interactables = GameObject.FindObjectsOfType<InteractableController>();
-        _indicatorUI = GameObject.Find("Indicator");
         
         _animator = GetComponent<Animator>();
         _rb = GetComponent<Rigidbody2D>();
+        _charactersManager = GameObject.FindWithTag("GameManagers").GetComponent<CharactersManager>();
     }
 
     private void UpdateIndicator()
@@ -42,17 +42,20 @@ public class PlayerController : MonoBehaviour
 	    // Activate indicator & allow for interaction when the player is near an interactable
 	    if (Mathf.RoundToInt(closest.Key.transform.position.x) == Mathf.RoundToInt(transform.position.x) && DialogueManager.CurrentDialogue == "")
 	    {
-		    _indicatorUI.SetActive(true);
-		    var pos = closest.Key.transform.position;
-		    _indicatorUI.transform.position = new Vector3(pos.x, pos.y + .9f, 0);
+		    _charactersManager.indicatorTarget = closest.Key.gameObject;
 		    if (Input.GetButtonDown("Interact"))
 		    {
 			    closest.Key.Interact();
 		    }
 	    } else
 	    {
-		    _indicatorUI.SetActive(false);
+		    _charactersManager.indicatorTarget = null;
 	    }
+    }
+
+    public void IncrementLives(int value)
+    {
+	    Lives += value;
     }
 
     void OnCollisionStay2D()

@@ -11,11 +11,15 @@ public class SaveManager : MonoBehaviour
     public static bool LoadFlag;
 
     private UIManager _uiManager;
+    private MinigameManager _minigameManager;
+    private LevelManager _levelManager;
     
     void Awake ()
     {
+        _levelManager = GetComponent<LevelManager>();
         _uiManager = GameObject.FindWithTag("UI").GetComponent<UIManager>();
         _uiManager.uiReadyEvent.AddListener(CheckLoadOrNew);
+        _minigameManager = GetComponent<MinigameManager>();
     }
 
     [System.Serializable]
@@ -73,14 +77,14 @@ public class SaveManager : MonoBehaviour
         // Create new Data object with more retrieved data
         var data = new Data
         {
-            level = LevelManager.LevelIndex,
-            scoreboard = LevelManager.Scoreboard,
+            level = _levelManager.LevelIndex,
+            scoreboard = _levelManager.scoreboard,
             points = PlayerController.Points,
             lives = PlayerController.Lives,
             dialogueData = DialogueManager.SessionDialogueData,
             characterPositions = characterPositions,
             minigame = MinigameManager.MinigameID,
-            minigameProgression = MinigameManager.MinigameProgression,
+            minigameProgression = _minigameManager.minigameProgression,
             gameFlags = gameFlags
         };
 
@@ -94,7 +98,7 @@ public class SaveManager : MonoBehaviour
         _uiManager.QueuePopup("save");
     }
 
-    public static void Load ()
+    public void Load ()
     {
         // Retrieve data from system
         var path = Application.persistentDataPath + "/savedata";
@@ -106,13 +110,13 @@ public class SaveManager : MonoBehaviour
         if (data == null) return;
         
         // Apply data
-        LevelManager.LevelIndex = data.level;
-        LevelManager.Scoreboard = data.scoreboard;
+        _levelManager.LevelIndex = data.level;
+        _levelManager.scoreboard = data.scoreboard;
         PlayerController.Points = data.points;
         PlayerController.Lives = data.lives;
         DialogueManager.SessionDialogueData = data.dialogueData;
         MinigameManager.MinigameID = data.minigame;
-        MinigameManager.MinigameProgression = data.minigameProgression;
+        _minigameManager.minigameProgression = data.minigameProgression;
 
         // Convert dictionary to InkList and apply
         var gameFlags = new InkList();
@@ -147,13 +151,10 @@ public class SaveManager : MonoBehaviour
     
     private void New ()
     {
-        LevelManager.LevelIndex = 1;
-        LevelManager.ClearScoreboard();
         PlayerController.Points = 0;
         PlayerController.Lives = 3;
         DialogueManager.SessionDialogueData = new Dictionary<string, string>();
         MinigameManager.MinigameID = "";
-        MinigameManager.MinigameProgression = 0;
         DialogueManager.gameFlags = new InkList();
 }
 }

@@ -15,7 +15,9 @@ public class DialogueManager : MonoBehaviour
     private static GameObject _ui, _dialogueUI, _primaryButtonObject, _secondaryButtonObject, _tertiaryButtonObject;
     private static TextMeshProUGUI _primaryButtonText, _secondaryButtonText, _tertiaryButtonText, _titleText, _dialogueText;
     private static Button _primaryButton, _secondaryButton, _tertiaryButton;
-    private static UIManager _uiManager;
+    private UIManager _uiManager;
+    private LevelManager _levelManager;
+    private MinigameManager _minigameManager;
     private static DialogueManager _instance; // This allows non-static methods (e.g. coroutines) to be called in static methods via an instance of this class
 
     void Awake()
@@ -34,12 +36,15 @@ public class DialogueManager : MonoBehaviour
         _primaryButton = _primaryButtonObject.GetComponent<Button>();
         _secondaryButton = _secondaryButtonObject.GetComponent<Button>();
         _tertiaryButton = _tertiaryButtonObject.GetComponent<Button>();
+
+        _levelManager = GetComponent<LevelManager>();
+        _minigameManager = GetComponent<MinigameManager>();
         
         CurrentDialogue = "";
         _dialogueUI.SetActive(false);
         _instance = this;
     }
-    public static void TriggerDialogue(TextAsset inkAsset)
+    public void TriggerDialogue(TextAsset inkAsset)
     {
         // Set-up
         _dialogue = new Story(inkAsset.text);
@@ -49,18 +54,18 @@ public class DialogueManager : MonoBehaviour
         _dialogue.ChoosePathString("start");
 
         // Set external functions and observe xp variable if possible
-        _dialogue.BindExternalFunction("GetGameLevel", () => LevelManager.LevelIndex);
+        _dialogue.BindExternalFunction("GetGameLevel", () => _levelManager.LevelIndex);
         _dialogue.BindExternalFunction("GetPlayerXP", () => PlayerController.Points);
-        _dialogue.BindExternalFunction("GetRequiredPoints", () => LevelManager.NextLevelRequirements[LevelManager.LevelIndex]);
-        _dialogue.BindExternalFunction("GetMinigameProgression", () => MinigameManager.MinigameProgression);
+        _dialogue.BindExternalFunction("GetRequiredPoints", () => _levelManager.nextLevelRequirements[_levelManager.LevelIndex]);
+        _dialogue.BindExternalFunction("GetMinigameProgression", () => _minigameManager.minigameProgression);
         if (_dialogue.variablesState["xp"] != null)
         {
             _dialogue.ObserveVariable("xp", (varName, newValue) =>
             {
                 if ((int) newValue > PlayerController.Points)
-                    LevelManager.Scoreboard["dialogueBonus"] += (int) newValue - PlayerController.Points;
+                    _levelManager.scoreboard["dialogueBonus"] += (int) newValue - PlayerController.Points;
                 else
-                    LevelManager.Scoreboard["dialoguePenalty"] += PlayerController.Points - (int) newValue;
+                    _levelManager.scoreboard["dialoguePenalty"] += PlayerController.Points - (int) newValue;
                 PlayerController.Points = (int) newValue;
             });
         }

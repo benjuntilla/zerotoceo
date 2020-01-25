@@ -8,11 +8,14 @@ public class LevelManager : MonoBehaviour
 {
     private SaveManager _saveManager;
     private static NPCController _managerNPCController;
+    private PlayerController _playerController;
+    private CharactersManager _charactersManager;
 
-    public static Dictionary<string, int> Scoreboard;
-    public static int LevelIndex;
+    public Dictionary<string, int> scoreboard;
+    public int LevelIndex;
     public static bool NextLevelFlag;
-    public static Dictionary<int, int> NextLevelRequirements;
+    public Dictionary<int, int> nextLevelRequirements;
+    
     public static LevelType CurrentLevelType;
 
     [Header("Level XP Requirements")]
@@ -30,19 +33,25 @@ public class LevelManager : MonoBehaviour
     
     void Awake()
     {
+        _charactersManager = GetComponent<CharactersManager>();
         _saveManager = GetComponent<SaveManager>();
-        ClearScoreboard();
         LevelIndex = SceneManager.GetActiveScene().buildIndex;
-        NextLevelRequirements = new Dictionary<int, int>()
+        nextLevelRequirements = new Dictionary<int, int>()
         {
             {1, levelOne},
             {2, levelTwo},
             {3, levelThree},
             {4, levelFour}
         };
-
-        var level = SceneManager.GetActiveScene().buildIndex;
+        scoreboard = new Dictionary<string, int>()
+        {
+            {"dialogueBonus", 0},
+            {"dialoguePenalty", 0},
+            {"minigameBonus", 0}
+        };
+        
         // Set level type
+        var level = SceneManager.GetActiveScene().buildIndex;
         if (level == 0)
         {
             CurrentLevelType = LevelType.Menu;
@@ -55,24 +64,21 @@ public class LevelManager : MonoBehaviour
         {
             CurrentLevelType = LevelType.Minigame;
         }
-        
-        if (CurrentLevelType == LevelType.Level && level != 4)
+
+        // Get PlayerController when needed
+        if (CurrentLevelType == LevelType.Level)
         {
-            _managerNPCController = GameObject.Find("Manager").GetComponent<NPCController>();
+            _playerController = GameObject.FindWithTag("Player").GetComponent<PlayerController>();
         }
 
         if (NextLevelFlag)
-        {
             InitializeNextLevel();
-        }
     }
     
     public void InitializeNextLevel()
     {
-        if (PlayerController.Lives < 3)
-            PlayerController.Lives++;
-        _managerNPCController.dialogueTriggered = true;
-        MinigameManager.MinigameProgression = 0;
+        _playerController.IncrementLives(1);
+        _charactersManager.TriggerManagerDialogue();
         _saveManager.Save();
         NextLevelFlag = false;
     }
@@ -85,15 +91,5 @@ public class LevelManager : MonoBehaviour
     public static void LoadLevelName(string name)
     {
         SceneManager.LoadScene(name);
-    }
-
-    public static void ClearScoreboard()
-    {
-        Scoreboard = new Dictionary<string, int>()
-        {
-            {"dialogueBonus", 0},
-            {"dialoguePenalty", 0},
-            {"minigameBonus", 0}
-        };
     }
 }

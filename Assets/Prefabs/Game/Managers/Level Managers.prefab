@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 5990509898109174933}
   - component: {fileID: 5990509898109174932}
   - component: {fileID: 5990509898109174935}
+  - component: {fileID: 8188174242281949055}
   m_Layer: 0
   m_Name: Level Managers
   m_TagString: GameManagers
@@ -70,6 +71,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 145fe73b4b6f0cd4881d9b667bb73c83, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  LevelIndex: 0
   levelOne: 100
   levelTwo: 225
   levelThree: 450
@@ -86,4 +88,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 670b9bd34594a8bd4bea14a036a7db4b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  minigameProgression: 0
   defaultDifficulty: 0
+--- !u!114 &8188174242281949055
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5990509898109174928}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2aa2ccd99067e50f3a39be79ae5d676c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  indicatorTarget: {fileID: 0}
