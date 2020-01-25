@@ -12,21 +12,22 @@ public class PlayerController : MonoBehaviour
 	[Header("Movement config")]
 	public float movementSpeed = 1.75f, jumpHeight = 1f;
     public Vector2 velocity;
+    public GameObject indicatorTarget;
 
+    private DialogueManager _dialogueManager;
     private InteractableController[] _interactables;
     private Dictionary<InteractableController, float> _interactablesDistances = new Dictionary<InteractableController, float>();
     private Animator _animator;
     private Rigidbody2D _rb;
-    private CharactersManager _charactersManager;
     private bool _isGrounded;
 
     void Awake()
     {
+	    _dialogueManager = GameObject.FindWithTag("GameManagers").GetComponent<DialogueManager>();
         _interactables = GameObject.FindObjectsOfType<InteractableController>();
         
         _animator = GetComponent<Animator>();
         _rb = GetComponent<Rigidbody2D>();
-        _charactersManager = GameObject.FindWithTag("GameManagers").GetComponent<CharactersManager>();
     }
 
     private void UpdateIndicator()
@@ -40,16 +41,16 @@ public class PlayerController : MonoBehaviour
 	    var closest = _interactablesDistances.OrderBy(k => k.Value).FirstOrDefault();
 
 	    // Activate indicator & allow for interaction when the player is near an interactable
-	    if (Mathf.RoundToInt(closest.Key.transform.position.x) == Mathf.RoundToInt(transform.position.x) && DialogueManager.CurrentDialogue == "")
+	    if (Mathf.RoundToInt(closest.Key.transform.position.x) == Mathf.RoundToInt(transform.position.x) && _dialogueManager.currentDialogue == "")
 	    {
-		    _charactersManager.indicatorTarget = closest.Key.gameObject;
+		    indicatorTarget = closest.Key.gameObject;
 		    if (Input.GetButtonDown("Interact"))
 		    {
 			    closest.Key.Interact();
 		    }
 	    } else
 	    {
-		    _charactersManager.indicatorTarget = null;
+		    indicatorTarget = null;
 	    }
     }
 

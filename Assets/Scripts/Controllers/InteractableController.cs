@@ -32,7 +32,7 @@ public class InteractableController : MonoBehaviour
 
     public void TestIfMinigame()
     {
-        if (MinigameManager.MinigameID != "")
+        if (MinigameManager.minigameId != "")
             _uiManager.TriggerModal("minigame");
         else
             TriggerDialogue();
@@ -40,14 +40,10 @@ public class InteractableController : MonoBehaviour
     
     public void TestIfCanLevelUp()
     {
-        if (PlayerController.Points >= _levelManager.nextLevelRequirements[_levelManager.LevelIndex])
-        {
+        if (PlayerController.Points >= _levelManager.nextLevelRequirements[_levelManager.levelIndex])
             _uiManager.TriggerLevelEndMenu();
-        }
         else
-        {
             TriggerDialogue();
-        }
     }
 
     public void TriggerDialogue()

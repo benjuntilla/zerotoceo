@@ -9,18 +9,18 @@ using UnityEngine.SceneManagement;
 
 public class UIManager : MonoBehaviour
 {
-    private static string _modalAction, _menuFullAction;
-    private static bool _debug, _triggeredLevelUpPopup, _popupReady = true;
-    private static int _levelEndMenuCounter, _menuFullCounter;
+    private string _modalAction, _menuFullAction;
+    private bool _debug, _triggeredLevelUpPopup, _popupReady = true;
+    private int _levelEndMenuCounter, _menuFullCounter;
     private MinigameManager _minigameManager;
     private SaveManager _saveManager;
     private LevelManager _levelManager;
     private Queue<string> _popupQueue = new Queue<string>();
 
-    public GameObject _pauseMenuUI, _hudUI, _modalUI, _levelEndMenuUI, _levelEndMenuImages, _popupUI, _heartOne, _heartTwo, _heartThree, _futureToken, _businessToken, _leaderToken, _americaToken, _hudLives, _hudTokens, _minigameEndMenuUI, _menuFullUI, _mainMenuUI;
-    public TextMeshProUGUI _hudPointsText, _modalText, _levelEndMenuText, _levelEndMenuTitle, _popupText, _menuFullTitle, _menuFullText, _menuFullButtonText, _menuFullControlsText;
-    public Animator _fadeAnimator, _popupAnimator, _menuFullAnimator;
-    public CanvasGroup _menuFullCanvasGroup;
+    public GameObject pauseMenuUI, hudUI, modalUI, levelEndMenuUI, levelEndMenuImages, popupUI, heartOne, heartTwo, heartThree, futureToken, businessToken, leaderToken, americaToken, hudLives, hudTokens, minigameEndMenuUI, menuFullUI, mainMenuUI;
+    public TextMeshProUGUI hudPointsText, modalText, levelEndMenuText, levelEndMenuTitle, popupText, menuFullTitle, menuFullText, menuFullButtonText, menuFullControlsText;
+    public Animator fadeAnimator, popupAnimator, menuFullAnimator;
+    public CanvasGroup menuFullCanvasGroup;
     public GUIStyle debugStyle;
     public UnityEvent uiReadyEvent = new UnityEvent(), exitEvent = new UnityEvent();
     [TextArea(3, 10)]
@@ -32,6 +32,7 @@ public class UIManager : MonoBehaviour
         if (!gameManagers) return;
         _saveManager = gameManagers.GetComponent<SaveManager>();
         _levelManager = gameManagers.GetComponent<LevelManager>();
+        _minigameManager = gameManagers.GetComponent<MinigameManager>();
         if (SceneManager.GetActiveScene().buildIndex >= 5)
             _minigameManager = GameObject.FindWithTag("GameManagers").GetComponent<MinigameManager>();
 
@@ -43,7 +44,7 @@ public class UIManager : MonoBehaviour
     {
         if (!_debug ) return;
         var log = "";
-        switch (LevelManager.CurrentLevelType)
+        switch (_levelManager.currentLevelType)
         {
             case LevelManager.LevelType.Level:
                 log =
@@ -51,14 +52,14 @@ public class UIManager : MonoBehaviour
                     $"Y Velocity: {GameObject.FindWithTag("Player").GetComponent<Rigidbody2D>().velocity.y}\n" +
                     $"Points: {PlayerController.Points}\n" +
                     $"Lives: {PlayerController.Lives}\n" +
-                    $"Level: {_levelManager.LevelIndex}\n" +
+                    $"Level: {_levelManager.levelIndex}\n" +
                     $"Timescale: {Time.timeScale}\n";
                 GUI.Label(new Rect(10, 100, 999, 999), log, debugStyle); // Rectangle dimensions are as follows: (distance from left edge, distance from top edge, width, height)
                 break;
             case LevelManager.LevelType.Minigame:
                 log =
-                    $"Minigame ID: {MinigameManager.MinigameID}\n" +
-                    $"Minigame Status: {MinigameManager.MinigameStatus}\n" +
+                    $"Minigame ID: {MinigameManager.minigameId}\n" +
+                    $"Minigame Status: {MinigameManager.minigameStatus}\n" +
                     $"Timescale: {Time.timeScale}\n";           
                 GUI.Label(new Rect(10, 10, 999, 999), log, debugStyle); // Rectangle dimensions are as follows: (distance from left edge, distance from top edge, width, height)
                 break;
@@ -67,26 +68,26 @@ public class UIManager : MonoBehaviour
 
     private void TriggerApplicableMenus()
     {
-        _mainMenuUI.SetActive(SceneManager.GetActiveScene().buildIndex == 0);
-        if (SceneManager.GetActiveScene().buildIndex == 1 && !SaveManager.LoadFlag)
+        mainMenuUI.SetActive(SceneManager.GetActiveScene().buildIndex == 0);
+        if (SceneManager.GetActiveScene().buildIndex == 1 && !SaveManager.loadFlag)
             TriggerMenuFull("opening");
-        else if (SceneManager.GetActiveScene().buildIndex >= 5 && MinigameManager.MinigameID != "")
-            TriggerMenuFull(MinigameManager.MinigameName);
-        else if (SceneManager.GetActiveScene().buildIndex >= 5 && MinigameManager.MinigameID == "")
+        else if (SceneManager.GetActiveScene().buildIndex >= 5 && MinigameManager.minigameId != "")
+            TriggerMenuFull(MinigameManager.minigameName);
+        else if (SceneManager.GetActiveScene().buildIndex >= 5 && MinigameManager.minigameId == "")
             TriggerMenuFull(_minigameManager.ResolveEmptyMinigame()); 
     }
 
     private void PauseGame ()
     {
-        if (_pauseMenuUI)
-            _pauseMenuUI.SetActive(true);
+        if (pauseMenuUI)
+            pauseMenuUI.SetActive(true);
         Time.timeScale = 0f;
     }
 
     public void ResumeGame ()
     {
-        if (_pauseMenuUI)
-            _pauseMenuUI.SetActive(false);
+        if (pauseMenuUI)
+            pauseMenuUI.SetActive(false);
         Time.timeScale = 1f;
     }
 
@@ -120,16 +121,16 @@ public class UIManager : MonoBehaviour
         action();
     }
 
-    private void FadeInAndLoadLevelIndex(int index)
+    private void FadeInAndLoadNewLevel(object param)
     {
         StopAllCoroutines();
-        StartCoroutine(PlayInThenAction(_fadeAnimator, () => { LevelManager.LoadLevelIndex(index); }));
+        StartCoroutine(PlayInThenAction(fadeAnimator, () => { _saveManager.LoadNewLevel(param); }));
     }
 
-    public void FadeInAndLoadLevelName(string levelName)
+    private void FadeInAndLoadSavedLevel()
     {
         StopAllCoroutines();
-        StartCoroutine(PlayInThenAction(_fadeAnimator, () => { LevelManager.LoadLevelName(levelName); }));
+        StartCoroutine(PlayInThenAction(fadeAnimator, () => { _saveManager.LoadSavedLevel(); }));
     }
 
     public void TriggerModal (string id)
@@ -138,32 +139,32 @@ public class UIManager : MonoBehaviour
         switch (id)
         {
             case "minigame":
-                _modalText.SetText("Do you want to start the minigame?");
-                _modalUI.SetActive(true);
+                modalText.SetText("Do you want to start the minigame?");
+                modalUI.SetActive(true);
                 break;
             case "save":
-                _modalText.SetText("Are you sure you want to save? This will overwrite current save data!");
-                _modalUI.SetActive(true);
+                modalText.SetText("Are you sure you want to save? This will overwrite current save data!");
+                modalUI.SetActive(true);
                 break;
             case "load":
-                _modalText.SetText("Load save data?");
-                _modalUI.SetActive(true);
+                modalText.SetText("Load save data?");
+                modalUI.SetActive(true);
                 break;
             case "loadFromMain":
-                _modalText.SetText("Load save data?");
-                _modalUI.SetActive(true);
+                modalText.SetText("Load save data?");
+                modalUI.SetActive(true);
                 break;
             case "new":
-                _modalText.SetText("Are you sure you want to start a new game? This will NOT load previous save data!");
-                _modalUI.SetActive(true);
+                modalText.SetText("Are you sure you want to start a new game? This will NOT load previous save data!");
+                modalUI.SetActive(true);
                 break;
             case "quit":
-                _modalText.SetText("Are you sure you want to quit? This will discard unsaved game data!");
-                _modalUI.SetActive(true);
+                modalText.SetText("Are you sure you want to quit? This will discard unsaved game data!");
+                modalUI.SetActive(true);
                 break;
             case "main":
-                _modalText.SetText("Are you sure you want to exit to the main menu? This will discard unsaved game data!");
-                _modalUI.SetActive(true);
+                modalText.SetText("Are you sure you want to exit to the main menu? This will discard unsaved game data!");
+                modalUI.SetActive(true);
                 break;
         }
     }
@@ -173,42 +174,39 @@ public class UIManager : MonoBehaviour
         switch (_modalAction)
         {
             case "minigame":
-                _modalUI.SetActive(false);
-                _hudUI.SetActive(false);
+                modalUI.SetActive(false);
+                hudUI.SetActive(false);
                 _minigameManager.InitializeMinigame();
-                FadeInAndLoadLevelName(MinigameManager.MinigameName);
+                FadeInAndLoadNewLevel(MinigameManager.minigameName);
                 break;
             case "save":
                 ResumeGame();
-                _modalUI.SetActive(false);
+                modalUI.SetActive(false);
                 _saveManager.Save();
                 break;
             case "load":
                 ResumeGame();
-                _modalUI.SetActive(false);
+                modalUI.SetActive(false);
                 _saveManager.Load();
                 break;
             case "loadFromMain":
                 ResumeGame();
-                _modalUI.SetActive(false);
-                SaveManager.LoadFlag = true;
-                FadeInAndLoadLevelIndex(SaveManager.GetSavedLevelIndex());
+                modalUI.SetActive(false);
+                FadeInAndLoadSavedLevel();
                 break;
             case "new":
                 ResumeGame();
-                _modalUI.SetActive(false);
-                SaveManager.LoadFlag = false;
-                FadeInAndLoadLevelIndex(1);
+                modalUI.SetActive(false);
+                FadeInAndLoadNewLevel(1);
                 break;
             case "main":
                 ResumeGame();
                 exitEvent.Invoke();
-                _modalUI.SetActive(false);
-                SaveManager.LoadFlag = false;
-                FadeInAndLoadLevelIndex(0);
+                modalUI.SetActive(false);
+                FadeInAndLoadNewLevel(0);
                 break;
             case "quit":
-                _modalUI.SetActive(false);
+                modalUI.SetActive(false);
                 Application.Quit();
                 break;
         }
@@ -216,82 +214,80 @@ public class UIManager : MonoBehaviour
 
     public void DismissModal()
     {
-        _modalUI.SetActive(false);
+        modalUI.SetActive(false);
     }
 
     public void TriggerLevelEndMenu()
     {
         Time.timeScale = 0f;
         _levelEndMenuCounter = 0;
-        _levelEndMenuTitle.SetText("Level Up!");
-        _levelEndMenuText.SetText($"Good job completing level {_levelManager.LevelIndex}!");
-        _levelEndMenuUI.SetActive(true);    
+        levelEndMenuTitle.SetText("Level Up!");
+        levelEndMenuText.SetText($"Good job completing level {_levelManager.levelIndex}!");
+        levelEndMenuUI.SetActive(true);    
     }
 
     public void ContinueLevelEndMenu()
     {
-        foreach (Transform child in _levelEndMenuImages.transform)
+        foreach (Transform child in levelEndMenuImages.transform)
             child.gameObject.SetActive(false);
         _levelEndMenuCounter++;
         switch (_levelEndMenuCounter)
         {
             case 1: // Scoreboard page
-                _levelEndMenuTitle.SetText("Scoreboard");
-                _levelEndMenuText.SetText(
+                levelEndMenuTitle.SetText("Scoreboard");
+                levelEndMenuText.SetText(
                     $"Dialogue bonus: {_levelManager.scoreboard["dialogueBonus"]}\n" +
                     $"Dialogue penalty: {_levelManager.scoreboard["dialoguePenalty"]}\n" +
                     $"Minigame bonus: {_levelManager.scoreboard["minigameBonus"]}\n" +
                     $"Total points: {PlayerController.Points}\n"
                 );
-                if (_levelManager.LevelIndex == 4) // Skip the clothing slide on level 4 since it doesnt exist
+                if (_levelManager.levelIndex == 4) // Skip the clothing slide on level 4 since it doesnt exist
                     _levelEndMenuCounter++;
                 break;
             case 2: // Show new clothing
-                _levelEndMenuTitle.SetText("Got new clothing!");
-                _levelEndMenuText.SetText("\n\n\n\n\n\n\n");
-                switch (_levelManager.LevelIndex)
+                levelEndMenuTitle.SetText("Got new clothing!");
+                levelEndMenuText.SetText("\n\n\n\n\n\n\n");
+                switch (_levelManager.levelIndex)
                 {
                     case 1: // Level has not actually increased yet, so the desired value minus one must be used.
-                        _levelEndMenuImages.transform.Find("Player 2").gameObject.SetActive(true);
+                        levelEndMenuImages.transform.Find("Player 2").gameObject.SetActive(true);
                         break;
                     case 2:
-                        _levelEndMenuImages.transform.Find("Player 3").gameObject.SetActive(true);
+                        levelEndMenuImages.transform.Find("Player 3").gameObject.SetActive(true);
                         break;                    
                     case 3:
-                        _levelEndMenuImages.transform.Find("Player 4").gameObject.SetActive(true);
+                        levelEndMenuImages.transform.Find("Player 4").gameObject.SetActive(true);
                         break;
                 }
                 break;
             case 3: // Show token
-                _levelEndMenuTitle.SetText("Received a BAA token!");
-                _levelEndMenuText.SetText("\n\n\n\n\n\n\n");
-                switch (_levelManager.LevelIndex)
+                levelEndMenuTitle.SetText("Received a BAA token!");
+                levelEndMenuText.SetText("\n\n\n\n\n\n\n");
+                switch (_levelManager.levelIndex)
                 {
                     case 1: // Level has not actually increased yet, so the desired value minus one must be used.
-                        _levelEndMenuImages.transform.Find("Future").gameObject.SetActive(true);
+                        levelEndMenuImages.transform.Find("Future").gameObject.SetActive(true);
                         break;
                     case 2:
-                        _levelEndMenuImages.transform.Find("Business").gameObject.SetActive(true);
+                        levelEndMenuImages.transform.Find("Business").gameObject.SetActive(true);
                         break;                    
                     case 3:
-                        _levelEndMenuImages.transform.Find("Leader").gameObject.SetActive(true);
+                        levelEndMenuImages.transform.Find("Leader").gameObject.SetActive(true);
                         break;
                     case 4:
-                        _levelEndMenuImages.transform.Find("America").gameObject.SetActive(true);
+                        levelEndMenuImages.transform.Find("America").gameObject.SetActive(true);
                         break;
                 }
                 break;
             case 4: // Either advance level or end the game
-                if (_levelManager.LevelIndex != 4)
+                if (_levelManager.levelIndex != 4)
                 {
                     Time.timeScale = 1f;
                     StopAllCoroutines();
-                    StartCoroutine(PlayInThenAction(_fadeAnimator, () =>
+                    StartCoroutine(PlayInThenAction(fadeAnimator, () =>
                     {
-                        _levelEndMenuUI.SetActive(false);
-                        LevelManager.NextLevelFlag = true;
-                        _levelManager.LevelIndex++;
-                        LevelManager.LoadLevelIndex(_levelManager.LevelIndex);
+                        levelEndMenuUI.SetActive(false);
+                        _levelManager.LoadNextLevel();
                     }));
                     break;
                 }
@@ -313,15 +309,15 @@ public class UIManager : MonoBehaviour
         switch (_popupQueue.Dequeue())
         {
             case "minigame":
-                _popupText.SetText("A minigame is now playable! Go to the exit door to start.");
+                popupText.SetText("A minigame is now playable! Go to the exit door to start.");
                 StartCoroutine(PopupInThenOut(5));
                 break;
             case "save":
-                _popupText.SetText("Saved game.");
+                popupText.SetText("Saved game.");
                 StartCoroutine(PopupInThenOut(2));
                 break;
             case "levelup":
-                _popupText.SetText("You can now level up! Go to the level door to advance.");
+                popupText.SetText("You can now level up! Go to the level door to advance.");
                 StartCoroutine(PopupInThenOut(5));
                 break;
         }
@@ -330,12 +326,12 @@ public class UIManager : MonoBehaviour
     private IEnumerator PopupInThenOut(int seconds)
     {
         _popupReady = false;
-        _popupUI.SetActive(true);
-        PlayIn(_popupAnimator);
+        popupUI.SetActive(true);
+        PlayIn(popupAnimator);
         yield return new WaitForSeconds(seconds);
-        StartCoroutine(PlayOutThenAction(_popupAnimator, () =>
+        StartCoroutine(PlayOutThenAction(popupAnimator, () =>
         {
-            _popupUI.SetActive(false);
+            popupUI.SetActive(false);
             _popupReady = true;
         }));
     }
@@ -343,71 +339,71 @@ public class UIManager : MonoBehaviour
     private void TriggerMenuFull(string id)
     {
         _menuFullCounter = 0;
-        _menuFullCanvasGroup.blocksRaycasts = true;
-        _menuFullUI.SetActive(true);
+        menuFullCanvasGroup.blocksRaycasts = true;
+        menuFullUI.SetActive(true);
         _menuFullAction = id;
         switch (id)
         {
             case "opening":
-                _menuFullCanvasGroup.blocksRaycasts = false;
-                StartCoroutine(PlayOutThenAction(_fadeAnimator, () =>
+                menuFullCanvasGroup.blocksRaycasts = false;
+                StartCoroutine(PlayOutThenAction(fadeAnimator, () =>
                 {
-                    _menuFullCanvasGroup.blocksRaycasts = true;
+                    menuFullCanvasGroup.blocksRaycasts = true;
                     Time.timeScale = 0f;
                 }));
-                _menuFullTitle.SetText("The beginning");
-                StartCoroutine(TypeText(_menuFullText, openingMenuText));
-                _menuFullButtonText.SetText("Continue");
+                menuFullTitle.SetText("The beginning");
+                StartCoroutine(TypeText(menuFullText, openingMenuText));
+                menuFullButtonText.SetText("Continue");
                 break;
             case "death":
-                _menuFullTitle.SetText("Game Over");
-                StartCoroutine(TypeText(_menuFullText, gameOverText));
-                _menuFullButtonText.SetText("Main Menu");
+                menuFullTitle.SetText("Game Over");
+                StartCoroutine(TypeText(menuFullText, gameOverText));
+                menuFullButtonText.SetText("Main Menu");
                 break;
             case "closing":
                 Time.timeScale = 1f;
-                _menuFullCanvasGroup.blocksRaycasts = false;
-                StartCoroutine(PlayInThenAction(_menuFullAnimator, () =>
+                menuFullCanvasGroup.blocksRaycasts = false;
+                StartCoroutine(PlayInThenAction(menuFullAnimator, () =>
                 {
-                    _menuFullCanvasGroup.blocksRaycasts = true;
+                    menuFullCanvasGroup.blocksRaycasts = true;
                     Time.timeScale = 0f;
                 }));                
-                _menuFullTitle.SetText("You Beat the Game!");
-                StartCoroutine(TypeText(_menuFullText, closingMenuText));
-                _menuFullButtonText.SetText("Main Menu");
+                menuFullTitle.SetText("You Beat the Game!");
+                StartCoroutine(TypeText(menuFullText, closingMenuText));
+                menuFullButtonText.SetText("Main Menu");
                 break;
             case "Minigame_Grandma":
-                _menuFullCanvasGroup.blocksRaycasts = false;
-                StartCoroutine(PlayOutThenAction(_fadeAnimator, () =>
+                menuFullCanvasGroup.blocksRaycasts = false;
+                StartCoroutine(PlayOutThenAction(fadeAnimator, () =>
                 {
-                    _menuFullCanvasGroup.blocksRaycasts = true;
+                    menuFullCanvasGroup.blocksRaycasts = true;
                     Time.timeScale = 0f;
                 }));                
-                _menuFullTitle.SetText("Minigame: Cross the street");
-                StartCoroutine(TypeText(_menuFullText, grandmaMinigameText));
-                _menuFullButtonText.SetText("Continue");
+                menuFullTitle.SetText("Minigame: Cross the street");
+                StartCoroutine(TypeText(menuFullText, grandmaMinigameText));
+                menuFullButtonText.SetText("Continue");
                 break;
             case "Minigame_Trash":
-                _menuFullCanvasGroup.blocksRaycasts = false;
-                StartCoroutine(PlayOutThenAction(_fadeAnimator, () =>
+                menuFullCanvasGroup.blocksRaycasts = false;
+                StartCoroutine(PlayOutThenAction(fadeAnimator, () =>
                 {
-                    _menuFullCanvasGroup.blocksRaycasts = true;
+                    menuFullCanvasGroup.blocksRaycasts = true;
                     Time.timeScale = 0f;
                 }));                
-                _menuFullTitle.SetText("Minigame: Collect the trash");
-                StartCoroutine(TypeText(_menuFullText, trashMinigameText));
-                _menuFullButtonText.SetText("Continue");
+                menuFullTitle.SetText("Minigame: Collect the trash");
+                StartCoroutine(TypeText(menuFullText, trashMinigameText));
+                menuFullButtonText.SetText("Continue");
                 break;
             case "Minigame_Coin":
-                _menuFullCanvasGroup.blocksRaycasts = false;
-                StartCoroutine(PlayOutThenAction(_fadeAnimator, () =>
+                menuFullCanvasGroup.blocksRaycasts = false;
+                StartCoroutine(PlayOutThenAction(fadeAnimator, () =>
                 {
-                    _menuFullCanvasGroup.blocksRaycasts = true;
+                    menuFullCanvasGroup.blocksRaycasts = true;
                     Time.timeScale = 0f;
                 }));                
-                _menuFullTitle.SetText("Minigame: Sort the coins");
-                StartCoroutine(TypeText(_menuFullText, coinMinigameText));
-                _menuFullButtonText.SetText("Continue");
+                menuFullTitle.SetText("Minigame: Sort the coins");
+                StartCoroutine(TypeText(menuFullText, coinMinigameText));
+                menuFullButtonText.SetText("Continue");
                 break;
         }
     }
@@ -415,34 +411,32 @@ public class UIManager : MonoBehaviour
     public void DismissMenuFull()
     {
         StopCoroutine("TypeText");
-        _menuFullCanvasGroup.blocksRaycasts = false;
+        menuFullCanvasGroup.blocksRaycasts = false;
         switch (_menuFullAction)
         {
             case "death":
-                SaveManager.LoadFlag = false;
-                FadeInAndLoadLevelIndex(0);
+                FadeInAndLoadNewLevel(0);
                 break;
             case "closing":
                 Time.timeScale = 1f;
-                SaveManager.LoadFlag = false;
-                FadeInAndLoadLevelIndex(0);
+                FadeInAndLoadNewLevel(0);
                 break;
             case "opening":
                 switch (_menuFullCounter)
                 {
                     case 0:
-                        _menuFullCanvasGroup.blocksRaycasts = true;
-                        _menuFullTitle.SetText("Controls");
-                        _menuFullText.enabled = false;
-                        _menuFullControlsText.enabled = true;
+                        menuFullCanvasGroup.blocksRaycasts = true;
+                        menuFullTitle.SetText("Controls");
+                        menuFullText.enabled = false;
+                        menuFullControlsText.enabled = true;
                         break;
                     case 1:
                         Time.timeScale = 1f;
-                        StartCoroutine(PlayOutThenAction(_menuFullAnimator, () =>
+                        StartCoroutine(PlayOutThenAction(menuFullAnimator, () =>
                         {
-                            _menuFullUI.SetActive(false);
-                            _menuFullText.enabled = true;
-                            _menuFullControlsText.enabled = false;
+                            menuFullUI.SetActive(false);
+                            menuFullText.enabled = true;
+                            menuFullControlsText.enabled = false;
                         }));
                         _levelManager.InitializeNextLevel();
                         break;
@@ -453,9 +447,9 @@ public class UIManager : MonoBehaviour
             case "Minigame_Trash":
             case "Minigame_Grandma":
                 Time.timeScale = 1f;
-                StartCoroutine(PlayOutThenAction(_menuFullAnimator, () =>
+                StartCoroutine(PlayOutThenAction(menuFullAnimator, () =>
                 {
-                    _menuFullUI.SetActive(false);
+                    menuFullUI.SetActive(false);
                     _minigameManager.StartMinigame();
                 }));
                 break;
@@ -464,20 +458,19 @@ public class UIManager : MonoBehaviour
     
     public void TriggerMinigameEndMenu(bool pass)
     {
-        _minigameEndMenuUI.GetComponentInChildren<TextMeshProUGUI>().SetText(pass ? $"You passed the minigame. (Gained {MinigameManager.MinigamePoints[MinigameManager.MinigameID]} points)" : "You failed the minigame. (Lost 1 life)");
-        _minigameEndMenuUI.SetActive(true);
+        minigameEndMenuUI.GetComponentInChildren<TextMeshProUGUI>().SetText(pass ? $"You passed the minigame. (Gained {_minigameManager.minigamePoints[MinigameManager.minigameId]} points)" : "You failed the minigame. (Lost 1 life)");
+        minigameEndMenuUI.SetActive(true);
         Time.timeScale = 0f;
     }
 
     public void DismissMinigameEndMenu()
     {
         Time.timeScale = 1f;
-        _minigameEndMenuUI.SetActive(false);
-        SaveManager.LoadFlag = true;
-        StartCoroutine(PlayInThenAction(_fadeAnimator, () =>
+        minigameEndMenuUI.SetActive(false);
+        StartCoroutine(PlayInThenAction(fadeAnimator, () =>
             {
                 GameObject.FindWithTag("UI").transform.Find("HUD").gameObject.SetActive(true);
-                LevelManager.LoadLevelIndex(SaveManager.GetSavedLevelIndex());
+                _saveManager.LoadSavedLevel();
             }));
     }
     
@@ -500,7 +493,7 @@ public class UIManager : MonoBehaviour
             TriggerPopup();
         
         // Detect when to pause game
-        if (_pauseMenuUI && Input.GetKeyDown(KeyCode.Escape) && SceneManager.GetActiveScene().buildIndex != 0)
+        if (pauseMenuUI && Input.GetKeyDown(KeyCode.Escape) && SceneManager.GetActiveScene().buildIndex != 0)
         {
             if (Time.timeScale == 0f)
                 ResumeGame();
@@ -515,7 +508,7 @@ public class UIManager : MonoBehaviour
         }
         
         // Detect when to level up the player
-        if (LevelManager.CurrentLevelType == LevelManager.LevelType.Level && PlayerController.Points >= _levelManager.nextLevelRequirements[_levelManager.LevelIndex] && !_triggeredLevelUpPopup)
+        if (_levelManager.currentLevelType == LevelManager.LevelType.Level && PlayerController.Points >= _levelManager.nextLevelRequirements[_levelManager.levelIndex] && !_triggeredLevelUpPopup)
         {
             _triggeredLevelUpPopup = true;
             QueuePopup("levelup");
@@ -523,11 +516,11 @@ public class UIManager : MonoBehaviour
 
 
         # region Update HUD
-        if (_hudUI)
+        if (hudUI)
         {
-            _hudPointsText.SetText($"Points: {PlayerController.Points}");
+            hudPointsText.SetText($"Points: {PlayerController.Points}");
         
-            foreach (Transform child in _hudLives.transform)
+            foreach (Transform child in hudLives.transform)
                 child.gameObject.SetActive(false);
             switch (PlayerController.Lives)
             {
@@ -538,40 +531,40 @@ public class UIManager : MonoBehaviour
                     PlayerController.Lives = -1;
                     break;
                 case 1:
-                    _heartOne.SetActive(true);
+                    heartOne.SetActive(true);
                     break;
                 case 2:
-                    _heartOne.SetActive(true);
-                    _heartTwo.SetActive(true);
+                    heartOne.SetActive(true);
+                    heartTwo.SetActive(true);
                     break;
                 default:
-                    _heartOne.SetActive(true);
-                    _heartTwo.SetActive(true);
-                    _heartThree.SetActive(true);
+                    heartOne.SetActive(true);
+                    heartTwo.SetActive(true);
+                    heartThree.SetActive(true);
                     break;
             }
         
-            foreach (Transform child in _hudTokens.transform)
+            foreach (Transform child in hudTokens.transform)
                 child.gameObject.SetActive(false);
-            switch (_levelManager.LevelIndex)
+            switch (_levelManager.levelIndex)
             {
                 case 2:
-                    _futureToken.SetActive(true);
+                    futureToken.SetActive(true);
                     break;
                 case 3:
-                    _futureToken.SetActive(true);
-                    _businessToken.SetActive(true);
+                    futureToken.SetActive(true);
+                    businessToken.SetActive(true);
                     break;
                 case 4:
-                    _futureToken.SetActive(true);
-                    _businessToken.SetActive(true);
-                    _leaderToken.SetActive(true);
+                    futureToken.SetActive(true);
+                    businessToken.SetActive(true);
+                    leaderToken.SetActive(true);
                     break;
                 case 5:
-                    _futureToken.SetActive(true);
-                    _businessToken.SetActive(true);
-                    _leaderToken.SetActive(true);
-                    _americaToken.SetActive(true);
+                    futureToken.SetActive(true);
+                    businessToken.SetActive(true);
+                    leaderToken.SetActive(true);
+                    americaToken.SetActive(true);
                     break;
             }
         }

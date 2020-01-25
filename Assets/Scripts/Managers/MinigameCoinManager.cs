@@ -66,7 +66,7 @@ public class MinigameCoinManager : MonoBehaviour, IMinigameManager
     
     private void LoadDifficultyConfig()
     {
-        switch (MinigameManager.MinigameDifficulty)
+        switch (MinigameManager.minigameDifficulty)
         {
             case "Hard":
                 _instantiateDelay = hardDifficultyConfig.instantiateDelay;

@@ -72,7 +72,7 @@ public class MinigameTrashManager : MonoBehaviour, IMinigameManager
     
     private void LoadDifficultyConfig()
     {
-        switch (MinigameManager.MinigameDifficulty)
+        switch (MinigameManager.minigameDifficulty)
         {
             case "Hard":
                 trashGravity = hardDifficultyConfig.trashGravity;
@@ -124,7 +124,7 @@ public class MinigameTrashManager : MonoBehaviour, IMinigameManager
 
     public void TestFail()
     {
-        if (MinigameManager.MinigameStatus == MinigameManager.Status.InProgress)
+        if (MinigameManager.minigameStatus == MinigameManager.Status.InProgress)
             _minigameManager.Fail();
     }
 }

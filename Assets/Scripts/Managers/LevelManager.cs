@@ -4,19 +4,18 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+[RequireComponent(typeof(SaveManager), typeof(CharactersManager))]
 public class LevelManager : MonoBehaviour
 {
     private SaveManager _saveManager;
-    private static NPCController _managerNPCController;
-    private PlayerController _playerController;
     private CharactersManager _charactersManager;
+    private PlayerController _playerController;
 
     public Dictionary<string, int> scoreboard;
-    public int LevelIndex;
-    public static bool NextLevelFlag;
+    public int levelIndex;
     public Dictionary<int, int> nextLevelRequirements;
-    
-    public static LevelType CurrentLevelType;
+    public LevelType currentLevelType;
+    public static bool nextLevelFlag;
 
     [Header("Level XP Requirements")]
     public int levelOne = 100;
@@ -35,7 +34,7 @@ public class LevelManager : MonoBehaviour
     {
         _charactersManager = GetComponent<CharactersManager>();
         _saveManager = GetComponent<SaveManager>();
-        LevelIndex = SceneManager.GetActiveScene().buildIndex;
+        levelIndex = SceneManager.GetActiveScene().buildIndex;
         nextLevelRequirements = new Dictionary<int, int>()
         {
             {1, levelOne},
@@ -54,24 +53,24 @@ public class LevelManager : MonoBehaviour
         var level = SceneManager.GetActiveScene().buildIndex;
         if (level == 0)
         {
-            CurrentLevelType = LevelType.Menu;
+            currentLevelType = LevelType.Menu;
         }
         else if (level == 1 || level == 2 || level == 3 || level == 4)
         {
-            CurrentLevelType = LevelType.Level;
+            currentLevelType = LevelType.Level;
         }
         else if (level == 5 || level == 6 || level == 7)
         {
-            CurrentLevelType = LevelType.Minigame;
+            currentLevelType = LevelType.Minigame;
         }
 
         // Get PlayerController when needed
-        if (CurrentLevelType == LevelType.Level)
+        if (currentLevelType == LevelType.Level)
         {
             _playerController = GameObject.FindWithTag("Player").GetComponent<PlayerController>();
         }
 
-        if (NextLevelFlag)
+        if (nextLevelFlag)
             InitializeNextLevel();
     }
     
@@ -80,16 +79,20 @@ public class LevelManager : MonoBehaviour
         _playerController.IncrementLives(1);
         _charactersManager.TriggerManagerDialogue();
         _saveManager.Save();
-        NextLevelFlag = false;
+        nextLevelFlag = false;
     }
 
-    public static void LoadLevelIndex(int index)
+    public void LoadLevel(object param)
     {
-        SceneManager.LoadScene(index);
+        if (param is string)
+            SceneManager.LoadScene((string) param);
+        else if (param is int)
+            SceneManager.LoadScene((int) param);
     }
-    
-    public static void LoadLevelName(string name)
+
+    public void LoadNextLevel()
     {
-        SceneManager.LoadScene(name);
+        nextLevelFlag = true;
+        LoadLevel(levelIndex++);
     }
 }

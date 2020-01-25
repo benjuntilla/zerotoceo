@@ -6,20 +6,26 @@ using Ink.Runtime;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+[RequireComponent(typeof(UIManager))]
+[RequireComponent(typeof(MinigameManager))]
+[RequireComponent(typeof(LevelManager))]
+[RequireComponent(typeof(DialogueManager))]
 public class SaveManager : MonoBehaviour
 {
-    public static bool LoadFlag;
+    public static bool loadFlag { get; private set; }
 
     private UIManager _uiManager;
     private MinigameManager _minigameManager;
     private LevelManager _levelManager;
-    
+    private DialogueManager _dialogueManager;
+
     void Awake ()
     {
         _levelManager = GetComponent<LevelManager>();
         _uiManager = GameObject.FindWithTag("UI").GetComponent<UIManager>();
         _uiManager.uiReadyEvent.AddListener(CheckLoadOrNew);
         _minigameManager = GetComponent<MinigameManager>();
+        _dialogueManager = GetComponent<DialogueManager>();
     }
 
     [System.Serializable]
@@ -38,12 +44,12 @@ public class SaveManager : MonoBehaviour
 
     private void CheckLoadOrNew()
     {
-        if (LoadFlag)
+        if (loadFlag)
         {
             Load();
-            LoadFlag = false;
+            loadFlag = false;
         } 
-        else if (LevelManager.CurrentLevelType == LevelManager.LevelType.Level) // FOR DEBUG PURPOSES
+        else if (_levelManager.currentLevelType == LevelManager.LevelType.Level) // FOR DEBUG PURPOSES
         {
             New();
         }
@@ -69,7 +75,7 @@ public class SaveManager : MonoBehaviour
         
         // Convert Ink list object to a dictionary
         var gameFlags = new Dictionary<string, int>();
-        foreach (var item in DialogueManager.gameFlags)
+        foreach (var item in _dialogueManager.gameFlags)
         {
             gameFlags.Add(item.Key.ToString(), item.Value);
         }
@@ -77,13 +83,13 @@ public class SaveManager : MonoBehaviour
         // Create new Data object with more retrieved data
         var data = new Data
         {
-            level = _levelManager.LevelIndex,
+            level = _levelManager.levelIndex,
             scoreboard = _levelManager.scoreboard,
             points = PlayerController.Points,
             lives = PlayerController.Lives,
-            dialogueData = DialogueManager.SessionDialogueData,
+            dialogueData = _dialogueManager.sessionDialogueData,
             characterPositions = characterPositions,
-            minigame = MinigameManager.MinigameID,
+            minigame = MinigameManager.minigameId,
             minigameProgression = _minigameManager.minigameProgression,
             gameFlags = gameFlags
         };
@@ -110,12 +116,12 @@ public class SaveManager : MonoBehaviour
         if (data == null) return;
         
         // Apply data
-        _levelManager.LevelIndex = data.level;
+        _levelManager.levelIndex = data.level;
         _levelManager.scoreboard = data.scoreboard;
         PlayerController.Points = data.points;
         PlayerController.Lives = data.lives;
-        DialogueManager.SessionDialogueData = data.dialogueData;
-        MinigameManager.MinigameID = data.minigame;
+        _dialogueManager.sessionDialogueData = data.dialogueData;
+        MinigameManager.minigameId = data.minigame;
         _minigameManager.minigameProgression = data.minigameProgression;
 
         // Convert dictionary to InkList and apply
@@ -124,7 +130,7 @@ public class SaveManager : MonoBehaviour
         {
             gameFlags.Add(new InkListItem(item.Key), item.Value);
         }
-        DialogueManager.gameFlags = gameFlags;
+        _dialogueManager.gameFlags = gameFlags;
 
         // Apply character positions
         foreach (KeyValuePair<string, float[]> entry in data.characterPositions)
@@ -137,7 +143,7 @@ public class SaveManager : MonoBehaviour
         }
     }
 
-    public static int GetSavedLevelIndex()
+    private int GetSavedLevelIndex()
     {
         // Retrieve data from system
         var path = Application.persistentDataPath + "/savedata";
@@ -153,8 +159,18 @@ public class SaveManager : MonoBehaviour
     {
         PlayerController.Points = 0;
         PlayerController.Lives = 3;
-        DialogueManager.SessionDialogueData = new Dictionary<string, string>();
-        MinigameManager.MinigameID = "";
-        DialogueManager.gameFlags = new InkList();
-}
+        MinigameManager.minigameId = "";
+    }
+
+    public void LoadSavedLevel()
+    {
+        loadFlag = true;
+        _levelManager.LoadLevel(GetSavedLevelIndex());
+    }
+
+    public void LoadNewLevel(object param)
+    {
+        loadFlag = false;
+        _levelManager.LoadLevel(param);
+    }
 }

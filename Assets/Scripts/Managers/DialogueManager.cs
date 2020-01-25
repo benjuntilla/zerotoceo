@@ -5,20 +5,20 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
+[RequireComponent(typeof(UIManager), typeof(MinigameManager), typeof(LevelManager))]
 public class DialogueManager : MonoBehaviour
 {
-    public static string CurrentDialogue = "";
-    public static Dictionary<string, string> SessionDialogueData = new Dictionary<string, string>(); // This field stores individual dialogue progression data
-    public static InkList gameFlags = new InkList(); // This field stores data used by all dialogues
+    public string currentDialogue = "";
+    public Dictionary<string, string> sessionDialogueData = new Dictionary<string, string>(); // This field stores individual dialogue progression data
+    public InkList gameFlags = new InkList(); // This field stores data used by all dialogues
 
-    private static Story _dialogue, _genericDialogue;
-    private static GameObject _ui, _dialogueUI, _primaryButtonObject, _secondaryButtonObject, _tertiaryButtonObject;
-    private static TextMeshProUGUI _primaryButtonText, _secondaryButtonText, _tertiaryButtonText, _titleText, _dialogueText;
-    private static Button _primaryButton, _secondaryButton, _tertiaryButton;
+    private Story _dialogue, _genericDialogue;
+    private GameObject _ui, _dialogueUI, _primaryButtonObject, _secondaryButtonObject, _tertiaryButtonObject;
+    private TextMeshProUGUI _primaryButtonText, _secondaryButtonText, _tertiaryButtonText, _titleText, _dialogueText;
+    private Button _primaryButton, _secondaryButton, _tertiaryButton;
     private UIManager _uiManager;
     private LevelManager _levelManager;
     private MinigameManager _minigameManager;
-    private static DialogueManager _instance; // This allows non-static methods (e.g. coroutines) to be called in static methods via an instance of this class
 
     void Awake()
     {
@@ -40,23 +40,22 @@ public class DialogueManager : MonoBehaviour
         _levelManager = GetComponent<LevelManager>();
         _minigameManager = GetComponent<MinigameManager>();
         
-        CurrentDialogue = "";
+        currentDialogue = "";
         _dialogueUI.SetActive(false);
-        _instance = this;
     }
     public void TriggerDialogue(TextAsset inkAsset)
     {
         // Set-up
         _dialogue = new Story(inkAsset.text);
-        CurrentDialogue = inkAsset.name;
-        if (SessionDialogueData.ContainsKey(CurrentDialogue)) 
-            _dialogue.state.LoadJson(SessionDialogueData[CurrentDialogue]);
+        currentDialogue = inkAsset.name;
+        if (sessionDialogueData.ContainsKey(currentDialogue)) 
+            _dialogue.state.LoadJson(sessionDialogueData[currentDialogue]);
         _dialogue.ChoosePathString("start");
 
         // Set external functions and observe xp variable if possible
-        _dialogue.BindExternalFunction("GetGameLevel", () => _levelManager.LevelIndex);
+        _dialogue.BindExternalFunction("GetGameLevel", () => _levelManager.levelIndex);
         _dialogue.BindExternalFunction("GetPlayerXP", () => PlayerController.Points);
-        _dialogue.BindExternalFunction("GetRequiredPoints", () => _levelManager.nextLevelRequirements[_levelManager.LevelIndex]);
+        _dialogue.BindExternalFunction("GetRequiredPoints", () => _levelManager.nextLevelRequirements[_levelManager.levelIndex]);
         _dialogue.BindExternalFunction("GetMinigameProgression", () => _minigameManager.minigameProgression);
         if (_dialogue.variablesState["xp"] != null)
         {
@@ -73,8 +72,8 @@ public class DialogueManager : MonoBehaviour
         {
             _dialogue.ObserveVariable("pendingMinigame", (varName, newValue) =>
             {
-                MinigameManager.MinigameStatus = MinigameManager.Status.Pending;
-                MinigameManager.MinigameID = (string) newValue;
+                MinigameManager.minigameStatus = MinigameManager.Status.Pending;
+                MinigameManager.minigameId = (string) newValue;
                 _uiManager.QueuePopup("minigame");
             });
         }
@@ -96,19 +95,19 @@ public class DialogueManager : MonoBehaviour
         ContinueDialogue();
     }
 
-    private static void ContinueDialogue()
+    private void ContinueDialogue()
     {
         if (_dialogue.canContinue)
         {
-            _instance.StopAllCoroutines();
-            _instance.StartCoroutine(TypeDialogue(_dialogue.Continue())); // The Continue() method both progresses and returns the current dialogue text
+            StopAllCoroutines();
+            StartCoroutine(TypeDialogue(_dialogue.Continue())); // The Continue() method both progresses and returns the current dialogue text
         } else if (_dialogue.currentChoices.Count == 0)
         {
             EndDialogue();
         }
     }
 
-    private static IEnumerator TypeDialogue(string dialogue)
+    private IEnumerator TypeDialogue(string dialogue)
     {
         var text = "";
         _dialogueText.SetText("");
@@ -120,17 +119,17 @@ public class DialogueManager : MonoBehaviour
         }
     }
 
-    private static void ChooseChoice(int choice)
+    private void ChooseChoice(int choice)
     {
         _dialogue.ChooseChoiceIndex(choice);
         ContinueDialogue();
     }
 
-    private static void EndDialogue()
+    private void EndDialogue()
     {
-        SessionDialogueData[CurrentDialogue] = _dialogue.state.ToJson();
+        sessionDialogueData[currentDialogue] = _dialogue.state.ToJson();
         _dialogue = null;
-        CurrentDialogue = "";
+        currentDialogue = "";
         _dialogueUI.SetActive(false);
     }
 

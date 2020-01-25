@@ -13,6 +13,7 @@ public class NPCController : MonoBehaviour
 	public float runSpeed = 1f;
     public bool standStill = true;
 
+    private DialogueManager _dialogueManager;
 	private Animator _animator;
     private Rigidbody2D _rb;
 	private RaycastHit2D _lastControllerColliderHit;
@@ -25,6 +26,7 @@ public class NPCController : MonoBehaviour
 
     void Awake()
     {
+        _dialogueManager = GameObject.FindWithTag("GameManagers").GetComponent<DialogueManager>();
         _rb = GetComponent<Rigidbody2D>();
         _animator = GetComponent<Animator>();
         _interactableController = GetComponent<InteractableController>();
@@ -42,12 +44,12 @@ public class NPCController : MonoBehaviour
     {
         // Set indicators based on certain conditions
         _exclamation.SetActive(dialogueTriggered);
-        _dots.SetActive(DialogueManager.CurrentDialogue == _interactableController.dialogue.name);
+        _dots.SetActive(_dialogueManager.currentDialogue == _interactableController.dialogue.name);
 
         // Controls when the NPC follows the player, stands still, or wanders depending on the current dialogue status
-        if (dialogueTriggered || DialogueManager.CurrentDialogue == _interactableController.dialogue.name)
+        if (dialogueTriggered || _dialogueManager.currentDialogue == _interactableController.dialogue.name)
         {
-            if (DialogueManager.CurrentDialogue != _interactableController.dialogue.name && _nearPlayer)
+            if (_dialogueManager.currentDialogue != _interactableController.dialogue.name && _nearPlayer)
             {
                 _interactableController.TriggerDialogue();
                 dialogueTriggered = false;
@@ -90,9 +92,9 @@ public class NPCController : MonoBehaviour
         }
         
         // Looks at the player when dialoguing
-        if (DialogueManager.CurrentDialogue == _interactableController.dialogue.name && _player.transform.position.x > transform.position.x && transform.localScale.x < 0f && Time.timeScale == 1f)
+        if (_dialogueManager.currentDialogue == _interactableController.dialogue.name && _player.transform.position.x > transform.position.x && transform.localScale.x < 0f && Time.timeScale == 1f)
             transform.localScale = new Vector3( -transform.localScale.x, transform.localScale.y, transform.localScale.z );
-        else if (DialogueManager.CurrentDialogue == _interactableController.dialogue.name && _player.transform.position.x < transform.position.x && transform.localScale.x > 0f && Time.timeScale == 1f)
+        else if (_dialogueManager.currentDialogue == _interactableController.dialogue.name && _player.transform.position.x < transform.position.x && transform.localScale.x > 0f && Time.timeScale == 1f)
             transform.localScale = new Vector3( -transform.localScale.x, transform.localScale.y, transform.localScale.z );
         
         if( _velocity.x == 1 )
