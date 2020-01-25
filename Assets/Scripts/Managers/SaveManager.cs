@@ -17,6 +17,8 @@ public class SaveManager : MonoBehaviour
     private MinigameManager _minigameManager;
     private LevelManager _levelManager;
     private DialogueManager _dialogueManager;
+    private GameObject _player;
+    private GameObject[] _npcList;
 
     void Awake ()
     {
@@ -25,6 +27,8 @@ public class SaveManager : MonoBehaviour
         _uiManager.uiReadyEvent.AddListener(CheckLoadOrNew);
         _minigameManager = GetComponent<MinigameManager>();
         _dialogueManager = GetComponent<DialogueManager>();
+        _player = GameObject.FindWithTag("Player");
+        _npcList = GameObject.FindGameObjectsWithTag("NPC");
     }
 
     [System.Serializable]
@@ -57,9 +61,7 @@ public class SaveManager : MonoBehaviour
     public void Save ()
     {
         // Retrieve character positions
-        var characters = new List<GameObject>();
-        characters.AddRange(GameObject.FindGameObjectsWithTag("Player").ToList());
-        characters.AddRange(GameObject.FindGameObjectsWithTag("NPC").ToList());
+        var characters = new List<GameObject>(_npcList) { _player };
         var characterPositions = new Dictionary<string, float[]>();
         foreach (var controller in characters)
         {

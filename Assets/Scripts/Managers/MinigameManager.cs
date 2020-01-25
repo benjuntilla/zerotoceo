@@ -116,7 +116,7 @@ public class MinigameManager : MonoBehaviour
     {
         switch (minigameStatus)
         {
-            case Status.Failed:
+            default:
                 LevelManager.nextLevelFlag = false;
                 minigameStatus = Status.None;
                 PlayerController.Lives -= 1;

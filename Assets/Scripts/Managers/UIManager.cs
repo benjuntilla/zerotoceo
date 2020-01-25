@@ -17,7 +17,7 @@ public class UIManager : MonoBehaviour
     private Queue<string> _popupQueue = new Queue<string>();
 
     public GameObject pauseMenuUI, hudUI, modalUI, levelEndMenuUI, levelEndMenuImages, popupUI, heartOne, heartTwo, heartThree, futureToken, businessToken, leaderToken, americaToken, hudLives, hudTokens, minigameEndMenuUI, menuFullUI, mainMenuUI;
-    public TextMeshProUGUI hudPointsText, modalText, levelEndMenuText, levelEndMenuTitle, popupText, menuFullTitle, menuFullText, menuFullButtonText, menuFullControlsText;
+    public TextMeshProUGUI hudPointsText, modalText, levelEndMenuText, levelEndMenuTitle, popupText, menuFullTitle, menuFullText, menuFullButtonText, menuFullControlsText, minigameEndMenuText;
     public Animator fadeAnimator, popupAnimator, menuFullAnimator;
     public CanvasGroup menuFullCanvasGroup;
     public GUIStyle debugStyle;
@@ -457,7 +457,7 @@ public class UIManager : MonoBehaviour
     
     public void TriggerMinigameEndMenu(bool pass)
     {
-        minigameEndMenuUI.GetComponentInChildren<TextMeshProUGUI>().SetText(pass ? $"You passed the minigame. (Gained {_minigameManager.minigamePoints[MinigameManager.minigameId]} points)" : "You failed the minigame. (Lost 1 life)");
+        minigameEndMenuText.SetText(pass ? $"You passed the minigame. (Gained {_minigameManager.minigamePoints[MinigameManager.minigameId]} points)" : "You failed the minigame. (Lost 1 life)");
         minigameEndMenuUI.SetActive(true);
         Time.timeScale = 0f;
     }
