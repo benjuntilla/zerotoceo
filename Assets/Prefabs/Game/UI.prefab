@@ -3917,37 +3917,38 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 15fc1f31b1d0c8658a396953490258aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _pauseMenuUI: {fileID: 2321688846409941968}
-  _hudUI: {fileID: 2321688845032870676}
-  _modalUI: {fileID: 2321688844775054977}
-  _levelEndMenuUI: {fileID: 2321688845636756122}
-  _levelEndMenuImages: {fileID: 5743301254877540011}
-  _popupUI: {fileID: 1365532224}
-  _heartOne: {fileID: 6904619569528419050}
-  _heartTwo: {fileID: 5249068186198447806}
-  _heartThree: {fileID: 5556919845242777267}
-  _futureToken: {fileID: 4942292110371450478}
-  _businessToken: {fileID: 866736474580161262}
-  _leaderToken: {fileID: 1470733180972978491}
-  _americaToken: {fileID: 5715322275680602669}
-  _hudLives: {fileID: 1243664590737384413}
-  _hudTokens: {fileID: 6231444378930578261}
-  _minigameEndMenuUI: {fileID: 2342161589812135530}
-  _menuFullUI: {fileID: 8057189871013076870}
-  _mainMenuUI: {fileID: 8356093785208110772}
-  _hudPointsText: {fileID: 2321688846251930361}
-  _modalText: {fileID: 2321688844835486136}
-  _levelEndMenuText: {fileID: 2321688844576092664}
-  _levelEndMenuTitle: {fileID: 2321688845147110001}
-  _popupText: {fileID: 2135829860}
-  _menuFullTitle: {fileID: 5020781866506604548}
-  _menuFullText: {fileID: 1915086202079755603}
-  _menuFullButtonText: {fileID: 2502831094128890894}
-  _menuFullControlsText: {fileID: 246249949027474325}
-  _fadeAnimator: {fileID: 2044838561196509350}
-  _popupAnimator: {fileID: 3311358489098602342}
-  _menuFullAnimator: {fileID: 5150134168914176519}
-  _menuFullCanvasGroup: {fileID: 7389199668473203010}
+  pauseMenuUI: {fileID: 2321688846409941968}
+  hudUI: {fileID: 2321688845032870676}
+  modalUI: {fileID: 2321688844775054977}
+  levelEndMenuUI: {fileID: 2321688845636756122}
+  levelEndMenuImages: {fileID: 5743301254877540011}
+  popupUI: {fileID: 1365532224}
+  heartOne: {fileID: 6904619569528419050}
+  heartTwo: {fileID: 5249068186198447806}
+  heartThree: {fileID: 5556919845242777267}
+  futureToken: {fileID: 4942292110371450478}
+  businessToken: {fileID: 866736474580161262}
+  leaderToken: {fileID: 1470733180972978491}
+  americaToken: {fileID: 5715322275680602669}
+  hudLives: {fileID: 1243664590737384413}
+  hudTokens: {fileID: 6231444378930578261}
+  minigameEndMenuUI: {fileID: 2342161589812135530}
+  menuFullUI: {fileID: 8057189871013076870}
+  mainMenuUI: {fileID: 8356093785208110772}
+  hudPointsText: {fileID: 2321688846251930361}
+  modalText: {fileID: 2321688844835486136}
+  levelEndMenuText: {fileID: 2321688844576092664}
+  levelEndMenuTitle: {fileID: 2321688845147110001}
+  popupText: {fileID: 2135829860}
+  menuFullTitle: {fileID: 5020781866506604548}
+  menuFullText: {fileID: 1915086202079755603}
+  menuFullButtonText: {fileID: 2502831094128890894}
+  menuFullControlsText: {fileID: 246249949027474325}
+  minigameEndMenuText: {fileID: 5044464372277771770}
+  fadeAnimator: {fileID: 2044838561196509350}
+  popupAnimator: {fileID: 3311358489098602342}
+  menuFullAnimator: {fileID: 5150134168914176519}
+  menuFullCanvasGroup: {fileID: 7389199668473203010}
   debugStyle:
     m_Name: 
     m_Normal:
