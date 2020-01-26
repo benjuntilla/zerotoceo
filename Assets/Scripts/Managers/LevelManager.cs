@@ -10,7 +10,12 @@ public class LevelManager : MonoBehaviour
     private PlayerController _playerController;
     private static bool nextLevelFlag;
 
-    public Dictionary<string, int> scoreboard;
+    public Dictionary<string, int> scoreboard = new Dictionary<string, int>()
+    {
+        {"dialogueBonus", 0},
+        {"dialoguePenalty", 0},
+        {"minigameBonus", 0}
+    };
     public int levelIndex;
     public Dictionary<int, int> nextLevelRequirements;
     public LevelType currentLevelType;
@@ -40,12 +45,6 @@ public class LevelManager : MonoBehaviour
             {3, levelThree},
             {4, levelFour}
         };
-        scoreboard = new Dictionary<string, int>()
-        {
-            {"dialogueBonus", 0},
-            {"dialoguePenalty", 0},
-            {"minigameBonus", 0}
-        };
         
         // Set level type
         var level = SceneManager.GetActiveScene().buildIndex;
@@ -68,6 +67,7 @@ public class LevelManager : MonoBehaviour
             _playerController = GameObject.FindWithTag("Player").GetComponent<PlayerController>();
         }
 
+        // Initialize next level when needed
         if (nextLevelFlag)
             InitializeNextLevel();
     }

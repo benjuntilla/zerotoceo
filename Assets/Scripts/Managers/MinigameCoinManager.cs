@@ -72,7 +72,7 @@ public class MinigameCoinManager : MonoBehaviour, IMinigameManager
                 _instantiateDelay = mediumDifficultyConfig.instantiateDelay;
                 _timer = mediumDifficultyConfig.timer;
                 break;
-            default: // "Easy"
+            default: // case "Easy":
                 _instantiateDelay = easyDifficultyConfig.instantiateDelay;
                 _timer = easyDifficultyConfig.timer;
                 break;
@@ -85,7 +85,7 @@ public class MinigameCoinManager : MonoBehaviour, IMinigameManager
         GameObject coin;
         switch (Random.Range(0, 4))
         {
-            default: // case 0
+            default: // case 0:
                 coin = Instantiate(pennyPrefab, new Vector3(Random.Range(-8f, 8f), 4f, 0f), Quaternion.identity);
                 break;
             case 1:

@@ -13,9 +13,9 @@ public class DialogueManager : MonoBehaviour
     public InkList gameFlags = new InkList(); // This field stores data used by all dialogues
 
     private Story _dialogue, _genericDialogue;
-    private GameObject _ui, _dialogueUI, _primaryButtonObject, _secondaryButtonObject, _tertiaryButtonObject;
-    private TextMeshProUGUI _primaryButtonText, _secondaryButtonText, _tertiaryButtonText, _titleText, _dialogueText;
-    private Button _primaryButton, _secondaryButton, _tertiaryButton;
+    public GameObject ui, dialogueUI, primaryButtonObject, secondaryButtonObject, tertiaryButtonObject;
+    public TextMeshProUGUI primaryButtonText, secondaryButtonText, tertiaryButtonText, titleText, dialogueText;
+    public Button primaryButton, secondaryButton, tertiaryButton;
     private UIManager _uiManager;
     private LevelManager _levelManager;
     private MinigameManager _minigameManager;
@@ -23,27 +23,26 @@ public class DialogueManager : MonoBehaviour
 
     void Awake()
     {
-        _ui = GameObject.FindWithTag("UI");
-        _uiManager = _ui.GetComponent<UIManager>();
-        _dialogueUI = _ui.transform.Find("Dialogue").gameObject;
-        _titleText = _dialogueUI.transform.Find("Title Text").gameObject.GetComponent<TextMeshProUGUI>();
-        _dialogueText = _dialogueUI.transform.Find("Dialogue Text").gameObject.GetComponent<TextMeshProUGUI>();
-        _primaryButtonObject = _dialogueUI.transform.Find("Primary Button").gameObject;
-        _secondaryButtonObject = _dialogueUI.transform.Find("Secondary Button").gameObject;
-        _tertiaryButtonObject = _dialogueUI.transform.Find("Tertiary Button").gameObject;
-        _primaryButtonText = _primaryButtonObject.GetComponentInChildren<TextMeshProUGUI>();
-        _secondaryButtonText = _secondaryButtonObject.GetComponentInChildren<TextMeshProUGUI>();
-        _tertiaryButtonText = _tertiaryButtonObject.GetComponentInChildren<TextMeshProUGUI>();
-        _primaryButton = _primaryButtonObject.GetComponent<Button>();
-        _secondaryButton = _secondaryButtonObject.GetComponent<Button>();
-        _tertiaryButton = _tertiaryButtonObject.GetComponent<Button>();
+        ui = GameObject.FindWithTag("UI");
+        dialogueUI = ui.transform.Find("Dialogue").gameObject;
+        titleText = dialogueUI.transform.Find("Title Text").gameObject.GetComponent<TextMeshProUGUI>();
+        dialogueText = dialogueUI.transform.Find("Dialogue Text").gameObject.GetComponent<TextMeshProUGUI>();
+        primaryButtonObject = dialogueUI.transform.Find("Primary Button").gameObject;
+        secondaryButtonObject = dialogueUI.transform.Find("Secondary Button").gameObject;
+        tertiaryButtonObject = dialogueUI.transform.Find("Tertiary Button").gameObject;
+        primaryButtonText = primaryButtonObject.GetComponentInChildren<TextMeshProUGUI>();
+        secondaryButtonText = secondaryButtonObject.GetComponentInChildren<TextMeshProUGUI>();
+        tertiaryButtonText = tertiaryButtonObject.GetComponentInChildren<TextMeshProUGUI>();
+        primaryButton = primaryButtonObject.GetComponent<Button>();
+        secondaryButton = secondaryButtonObject.GetComponent<Button>();
+        tertiaryButton = tertiaryButtonObject.GetComponent<Button>();
 
+        _uiManager = ui.GetComponent<UIManager>();
         _levelManager = GetComponent<LevelManager>();
         _minigameManager = GetComponent<MinigameManager>();
         _playerController = GameObject.FindWithTag("Player").GetComponent<PlayerController>();
         
-        currentDialogue = "";
-        _dialogueUI.SetActive(false);
+        dialogueUI.SetActive(false);
     }
     public void TriggerDialogue(TextAsset inkAsset)
     {
@@ -90,8 +89,8 @@ public class DialogueManager : MonoBehaviour
         }
 
         // Enable dialogue UI and fill title
-        _dialogueUI.SetActive(true);
-        _titleText.SetText(_dialogue.globalTags[0]);
+        dialogueUI.SetActive(true);
+        titleText.SetText(_dialogue.globalTags[0]);
 
         // Begin dialogue
         ContinueDialogue();
@@ -112,11 +111,11 @@ public class DialogueManager : MonoBehaviour
     private IEnumerator TypeDialogue(string dialogue)
     {
         var text = "";
-        _dialogueText.SetText("");
+        dialogueText.SetText("");
         foreach (var letter in dialogue.ToCharArray())
         {
             text += letter;
-            _dialogueText.SetText(text);
+            dialogueText.SetText(text);
             yield return null; // Wait a frame
         }
     }
@@ -132,7 +131,7 @@ public class DialogueManager : MonoBehaviour
         sessionDialogueData[currentDialogue] = _dialogue.state.ToJson();
         _dialogue = null;
         currentDialogue = "";
-        _dialogueUI.SetActive(false);
+        dialogueUI.SetActive(false);
     }
 
     void Update()
@@ -144,44 +143,44 @@ public class DialogueManager : MonoBehaviour
             switch (_dialogue.currentChoices.Count)
             {
                 case 1:
-                    _primaryButtonObject.SetActive(true);
-                    _secondaryButtonObject.SetActive(false);
-                    _tertiaryButtonObject.SetActive(false);
-                    _primaryButtonText.SetText(_dialogue.currentChoices[0].text);
+                    primaryButtonObject.SetActive(true);
+                    secondaryButtonObject.SetActive(false);
+                    tertiaryButtonObject.SetActive(false);
+                    primaryButtonText.SetText(_dialogue.currentChoices[0].text);
                     break;
                 case 2:
-                    _primaryButtonObject.SetActive(true);
-                    _secondaryButtonObject.SetActive(true);
-                    _tertiaryButtonObject.SetActive(false);
-                    _primaryButtonText.SetText(_dialogue.currentChoices[0].text);
-                    _secondaryButtonText.SetText(_dialogue.currentChoices[1].text);
+                    primaryButtonObject.SetActive(true);
+                    secondaryButtonObject.SetActive(true);
+                    tertiaryButtonObject.SetActive(false);
+                    primaryButtonText.SetText(_dialogue.currentChoices[0].text);
+                    secondaryButtonText.SetText(_dialogue.currentChoices[1].text);
                     break;
                 case 3:
-                    _primaryButtonObject.SetActive(true);
-                    _secondaryButtonObject.SetActive(true);
-                    _tertiaryButtonObject.SetActive(true);
-                    _primaryButtonText.SetText(_dialogue.currentChoices[0].text);
-                    _secondaryButtonText.SetText(_dialogue.currentChoices[1].text);
-                    _tertiaryButtonText.SetText(_dialogue.currentChoices[2].text);
+                    primaryButtonObject.SetActive(true);
+                    secondaryButtonObject.SetActive(true);
+                    tertiaryButtonObject.SetActive(true);
+                    primaryButtonText.SetText(_dialogue.currentChoices[0].text);
+                    secondaryButtonText.SetText(_dialogue.currentChoices[1].text);
+                    tertiaryButtonText.SetText(_dialogue.currentChoices[2].text);
                     break;
             }
             // Set UI event listeners
-            _primaryButton.onClick.RemoveAllListeners();
-            _primaryButton.onClick.AddListener(delegate { ChooseChoice(0); });
-            _secondaryButton.onClick.RemoveAllListeners();
-            _secondaryButton.onClick.AddListener(delegate { ChooseChoice(1); });
-            _tertiaryButton.onClick.RemoveAllListeners();
-            _tertiaryButton.onClick.AddListener(delegate { ChooseChoice(2); });
+            primaryButton.onClick.RemoveAllListeners();
+            primaryButton.onClick.AddListener(delegate { ChooseChoice(0); });
+            secondaryButton.onClick.RemoveAllListeners();
+            secondaryButton.onClick.AddListener(delegate { ChooseChoice(1); });
+            tertiaryButton.onClick.RemoveAllListeners();
+            tertiaryButton.onClick.AddListener(delegate { ChooseChoice(2); });
         } else
         {
             // Set UI layout & fill text
-            _primaryButtonObject.SetActive(true);
-            _secondaryButtonObject.SetActive(false);
-            _tertiaryButtonObject.SetActive(false);
-            _primaryButtonText.SetText("Continue");
+            primaryButtonObject.SetActive(true);
+            secondaryButtonObject.SetActive(false);
+            tertiaryButtonObject.SetActive(false);
+            primaryButtonText.SetText("Continue");
             // Set UI event listeners
-            _primaryButton.onClick.RemoveAllListeners();
-            _primaryButton.onClick.AddListener(ContinueDialogue);
+            primaryButton.onClick.RemoveAllListeners();
+            primaryButton.onClick.AddListener(ContinueDialogue);
         }
     }
 }

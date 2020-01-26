@@ -129,6 +129,7 @@ public class NPCController : MonoBehaviour
 
     private void FixedUpdate()
     {
+        // Moves the NPC
         _rb.velocity = new Vector2(_velocity.x * runSpeed, _rb.velocity.y);
     }
 }

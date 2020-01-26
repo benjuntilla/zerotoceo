@@ -59,6 +59,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9497b0eb42cbfcdd6a6970b1bf35ff52, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  currentDialogue: 
+  ui: {fileID: 0}
+  dialogueUI: {fileID: 0}
+  primaryButtonObject: {fileID: 0}
+  secondaryButtonObject: {fileID: 0}
+  tertiaryButtonObject: {fileID: 0}
+  primaryButtonText: {fileID: 0}
+  secondaryButtonText: {fileID: 0}
+  tertiaryButtonText: {fileID: 0}
+  titleText: {fileID: 0}
+  dialogueText: {fileID: 0}
+  primaryButton: {fileID: 0}
+  secondaryButton: {fileID: 0}
+  tertiaryButton: {fileID: 0}
 --- !u!114 &5990509898109174932
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -71,7 +85,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 145fe73b4b6f0cd4881d9b667bb73c83, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  LevelIndex: 0
+  levelIndex: 0
+  currentLevelType: 0
   levelOne: 100
   levelTwo: 225
   levelThree: 450
@@ -88,8 +103,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 670b9bd34594a8bd4bea14a036a7db4b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minigameProgression: 0
   defaultDifficulty: 0
+  minigameProgression: 0
 --- !u!114 &8188174242281949055
 MonoBehaviour:
   m_ObjectHideFlags: 0

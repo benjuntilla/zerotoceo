@@ -133,6 +133,7 @@ public class PlayerController : MonoBehaviour
 
     void FixedUpdate()
     {
+	    // Moves the player
 	    _rb.velocity = new Vector2(velocity.x * movementSpeed, _rb.velocity.y);
     }
 }
