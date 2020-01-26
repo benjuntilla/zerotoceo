@@ -12,7 +12,8 @@ GameObject:
   - component: {fileID: 3184626863952347087}
   - component: {fileID: 3184626863952347073}
   - component: {fileID: 3184626863952347075}
-  - component: {fileID: -7625828104345836831}
+  - component: {fileID: 268613152859466573}
+  - component: {fileID: 8620219478265822530}
   m_Layer: 12
   m_Name: Chips
   m_TagString: Untagged
@@ -141,7 +142,19 @@ PolygonCollider2D:
       - {x: 0.34012452, y: -0.098697096}
       - {x: 0.40938434, y: 0.21042293}
       - {x: 0.28933161, y: 0.3172015}
---- !u!114 &-7625828104345836831
+--- !u!114 &268613152859466573
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3184626863952347077}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 478ed034084d7be2f9f3bf40e7bf725e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &8620219478265822530
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -153,16 +166,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52434c34ed391cbe5ae7c11c832656b4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  collisionMethod:
+  primaryCollisionObjects: []
+  secondaryCollisionObjects: []
+  primaryCollisionEvent:
     m_PersistentCalls:
       m_Calls: []
-  secondaryCollisionMethod:
+  secondaryCollisionEvent:
     m_PersistentCalls:
       m_Calls: []
-  targetObject: {fileID: 0}
-  secondaryTargetObject: {fileID: 0}
-  targetObjectList: []
-  targetLayer:
-    serializedVersion: 2
-    m_Bits: 0
-  collisionEventsEnabled: 1
