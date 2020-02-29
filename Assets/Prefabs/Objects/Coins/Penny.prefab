@@ -13,7 +13,8 @@ GameObject:
   - component: {fileID: 404933990090198241}
   - component: {fileID: 404933990090198242}
   - component: {fileID: 404933990090198246}
-  - component: {fileID: 404933990090198243}
+  - component: {fileID: 6074653479649221900}
+  - component: {fileID: -6122910871612948504}
   m_Layer: 10
   m_Name: Penny
   m_TagString: Untagged
@@ -97,10 +98,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 22f5d73420686c43cab8ccbe3bb53b58, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dropMethod:
+  dropEvent:
     m_PersistentCalls:
       m_Calls: []
-  dragMethod:
+  dragEvent:
     m_PersistentCalls:
       m_Calls: []
   speed: 20
@@ -141,7 +142,19 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 4
---- !u!114 &404933990090198243
+--- !u!114 &6074653479649221900
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 404933990090198254}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fce863b8330bda3f991909b24f1bc168, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &-6122910871612948504
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -153,16 +166,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52434c34ed391cbe5ae7c11c832656b4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  collisionMethod:
+  primaryCollisionObjects: []
+  secondaryCollisionObjects: []
+  primaryCollisionEvent:
     m_PersistentCalls:
       m_Calls: []
-  secondaryCollisionMethod:
+  secondaryCollisionEvent:
     m_PersistentCalls:
       m_Calls: []
-  targetObject: {fileID: 0}
-  secondaryTargetObject: {fileID: 0}
-  targetObjectList: []
-  targetLayer:
-    serializedVersion: 2
-    m_Bits: 0
-  collisionEventsEnabled: 1

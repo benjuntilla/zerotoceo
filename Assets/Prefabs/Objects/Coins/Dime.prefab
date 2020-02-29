@@ -13,7 +13,8 @@ GameObject:
   - component: {fileID: 4438780224579460992}
   - component: {fileID: 5142757191302752729}
   - component: {fileID: 8178254915644970099}
-  - component: {fileID: 8748514941008154485}
+  - component: {fileID: -7706531626485994618}
+  - component: {fileID: -7728632092319356397}
   m_Layer: 10
   m_Name: Dime
   m_TagString: Untagged
@@ -97,10 +98,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 22f5d73420686c43cab8ccbe3bb53b58, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dropMethod:
+  dropEvent:
     m_PersistentCalls:
       m_Calls: []
-  dragMethod:
+  dragEvent:
     m_PersistentCalls:
       m_Calls: []
   speed: 20
@@ -141,7 +142,19 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 4
---- !u!114 &8748514941008154485
+--- !u!114 &-7706531626485994618
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1873656120242050664}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e53981d21e41f93891720f1a029031f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &-7728632092319356397
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -153,16 +166,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52434c34ed391cbe5ae7c11c832656b4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  collisionMethod:
+  primaryCollisionObjects: []
+  secondaryCollisionObjects: []
+  primaryCollisionEvent:
     m_PersistentCalls:
       m_Calls: []
-  secondaryCollisionMethod:
+  secondaryCollisionEvent:
     m_PersistentCalls:
       m_Calls: []
-  targetObject: {fileID: 0}
-  secondaryTargetObject: {fileID: 0}
-  targetObjectList: []
-  targetLayer:
-    serializedVersion: 2
-    m_Bits: 0
-  collisionEventsEnabled: 1
