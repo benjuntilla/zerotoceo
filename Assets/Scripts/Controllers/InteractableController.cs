@@ -11,18 +11,19 @@ public class InteractableController : MonoBehaviour
     private DialogueManager _dialogueManager;
     private CharactersManager _charactersManager;
     private GameObject _indicator;
+    private PlayerController _playerController;
     
     public UnityEvent interactionMethods;
     public TextAsset dialogue;
 
     void Awake()
     {
-        var gameManagers = GameObject.FindWithTag("GameManagers");
-        _dialogueManager = gameManagers.GetComponent<DialogueManager>();
-        _levelManager = gameManagers.GetComponent<LevelManager>();
-        _charactersManager = gameManagers.GetComponent<CharactersManager>();
-        _uiManager = GameObject.FindWithTag("UI").GetComponent<UIManager>();
+        _dialogueManager = FindObjectOfType<DialogueManager>();
+        _levelManager = FindObjectOfType<LevelManager>();
+        _charactersManager = FindObjectOfType<CharactersManager>();
+        _uiManager = FindObjectOfType<UIManager>();
         _indicator = gameObject.transform.Find("Indicator").gameObject;
+        _playerController = FindObjectOfType<PlayerController>();
     }
 
     public void Interact()
@@ -40,7 +41,7 @@ public class InteractableController : MonoBehaviour
     
     public void TestIfCanLevelUp()
     {
-        if (PlayerController.points >= _levelManager.nextLevelRequirements[_levelManager.levelIndex])
+        if (_playerController.points >= _levelManager.nextLevelRequirements[_levelManager.levelIndex])
             _uiManager.TriggerLevelEndMenu();
         else
             TriggerDialogue();

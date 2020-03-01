@@ -90,8 +90,8 @@ public class SaveManager : MonoBehaviour
         {
             level = _levelManager.levelIndex,
             scoreboard = _levelManager.scoreboard,
-            points = PlayerController.points,
-            lives = PlayerController.lives,
+            points = _playerController.points,
+            lives = _playerController.lives,
             dialogueData = _dialogueManager.sessionDialogueData,
             characterPositions = characterPositions,
             minigame = MinigameManager.minigameId,
@@ -123,8 +123,8 @@ public class SaveManager : MonoBehaviour
         // Apply data
         _levelManager.levelIndex = data.level;
         _levelManager.scoreboard = data.scoreboard;
-        _playerController.SetPoints(data.points);
-        _playerController.SetLives(data.lives);
+        _playerController.points = data.points;
+        _playerController.lives = data.lives;
         _dialogueManager.sessionDialogueData = data.dialogueData;
         MinigameManager.minigameId = data.minigame;
         _minigameManager.minigameProgression = data.minigameProgression;
@@ -163,8 +163,8 @@ public class SaveManager : MonoBehaviour
     private void New ()
     {
         MinigameManager.minigameId = "";
-        _playerController.SetPoints(0);
-        _playerController.SetLives(3);
+        _playerController.points = 0;
+        _playerController.lives = 3;
     }
 
     public void LoadSavedLevel()

@@ -137,10 +137,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce69d804081dd32abb5630af37eed18a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  godMode: 0
   movementSpeed: 1.75
-  jumpHeight: 1
-  velocity: {x: 0, y: 0}
+  jumpHeight: 2
   indicatorTarget: {fileID: 0}
 --- !u!70 &6878670680734855086
 CapsuleCollider2D:

@@ -6,14 +6,14 @@ using UnityEngine.Serialization;
 
 public class PlayerController : MonoBehaviour
 {
-	public static int points { get; private set; }
-	public static int lives { get { return _lives; } set { _lives = value <= 3 ? value : 3; } }
+	public int points { get { return _points; } set { _points = value; } }
+	public int lives { get { return _lives; } set { _lives = value <= 3 ? value : 3; } }
 
 	[Header("Movement config")]
 	public float movementSpeed = 1.75f, jumpHeight = 1f;
 	public GameObject indicatorTarget;
 
-	private static int _lives = 3;
+	private static int _lives = 3, _points;
     private DialogueManager _dialogueManager;
     private InteractableController[] _interactables;
     private Dictionary<InteractableController, float> _interactablesDistances = new Dictionary<InteractableController, float>();
@@ -53,29 +53,10 @@ public class PlayerController : MonoBehaviour
 	    }
     }
 
-    public void IncrementLives(int value)
-    {
-	    lives += value;
-    }
-
-    public void SetLives(int value)
-    {
-	    lives = value;
-    }
-
-    public void SetPoints(int value)
-    {
-	    points = value;
-    }
-
-    public void IncrementPoints(int value)
-    {
-	    points += value;
-    }
-
     void OnCollisionStay2D()
     {
-	    _isGrounded = true;
+	    if (_rb.velocity.y == 0)
+			_isGrounded = true;
     }
 
     void Update()

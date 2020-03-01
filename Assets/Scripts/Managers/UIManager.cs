@@ -15,6 +15,8 @@ public class UIManager : MonoBehaviour
     private SaveManager _saveManager;
     private LevelManager _levelManager;
     private Queue<string> _popupQueue = new Queue<string>();
+    private PlayerController _playerController;
+    private Rigidbody2D _playerRb;
 
     public GameObject pauseMenuUI, hudUI, modalUI, levelEndMenuUI, levelEndMenuImages, popupUI, heartOne, heartTwo, heartThree, futureToken, businessToken, leaderToken, americaToken, hudLives, hudTokens, minigameEndMenuUI, menuFullUI, mainMenuUI;
     public TextMeshProUGUI hudPointsText, modalText, levelEndMenuText, levelEndMenuTitle, popupText, menuFullTitle, menuFullText, menuFullButtonText, menuFullControlsText, minigameEndMenuText;
@@ -31,7 +33,9 @@ public class UIManager : MonoBehaviour
         _saveManager = FindObjectOfType<SaveManager>();
         _levelManager = FindObjectOfType<LevelManager>();
         _minigameManager = FindObjectOfType<MinigameManager>();
-        if (SceneManager.GetActiveScene().buildIndex >= 5)
+        _playerController = FindObjectOfType<PlayerController>();
+        _playerRb = GameObject.FindWithTag("Player").GetComponent<Rigidbody2D>();
+        if (_levelManager.currentLevelType == LevelManager.LevelType.Minigame)
             _minigameManager = GameObject.FindWithTag("GameManagers").GetComponent<MinigameManager>();
 
         TriggerApplicableMenus();
@@ -46,10 +50,10 @@ public class UIManager : MonoBehaviour
         {
             case LevelManager.LevelType.Level:
                 log =
-                    $"X Velocity: {GameObject.FindWithTag("Player").GetComponent<Rigidbody2D>().velocity.x}\n" +
-                    $"Y Velocity: {GameObject.FindWithTag("Player").GetComponent<Rigidbody2D>().velocity.y}\n" +
-                    $"Points: {PlayerController.points}\n" +
-                    $"Lives: {PlayerController.lives}\n" +
+                    $"X Velocity: {_playerRb.velocity.x}\n" +
+                    $"Y Velocity: {_playerRb.velocity.y}\n" +
+                    $"Points: {_playerController.points}\n" +
+                    $"Lives: {_playerController.lives}\n" +
                     $"Level: {_levelManager.levelIndex}\n" +
                     $"Timescale: {Time.timeScale}\n";
                 GUI.Label(new Rect(10, 100, 999, 999), log, debugStyle); // Rectangle dimensions are as follows: (distance from left edge, distance from top edge, width, height)
@@ -237,7 +241,7 @@ public class UIManager : MonoBehaviour
                     $"Dialogue bonus: {_levelManager.scoreboard["dialogueBonus"]}\n" +
                     $"Dialogue penalty: {_levelManager.scoreboard["dialoguePenalty"]}\n" +
                     $"Minigame bonus: {_levelManager.scoreboard["minigameBonus"]}\n" +
-                    $"Total points: {PlayerController.points}\n"
+                    $"Total points: {_playerController.points}\n"
                 );
                 if (_levelManager.levelIndex == 4) // Skip the clothing slide on level 4 since it doesnt exist
                     _levelEndMenuCounter++;
@@ -506,7 +510,7 @@ public class UIManager : MonoBehaviour
         }
         
         // Detect when to level up the player
-        if (_levelManager.currentLevelType == LevelManager.LevelType.Level && PlayerController.points >= _levelManager.nextLevelRequirements[_levelManager.levelIndex] && !_triggeredLevelUpPopup)
+        if (_levelManager.currentLevelType == LevelManager.LevelType.Level && _playerController.points >= _levelManager.nextLevelRequirements[_levelManager.levelIndex] && !_triggeredLevelUpPopup)
         {
             _triggeredLevelUpPopup = true;
             QueuePopup("levelup");
@@ -515,11 +519,11 @@ public class UIManager : MonoBehaviour
         # region Update HUD
         if (hudUI)
         {
-            hudPointsText.SetText($"Points: {PlayerController.points}");
+            hudPointsText.SetText($"Points: {_playerController.points}");
         
             foreach (Transform child in hudLives.transform)
                 child.gameObject.SetActive(false);
-            switch (PlayerController.lives)
+            switch (_playerController.lives)
             {
                 case 0:
                     if (!_triggeredDeathMenu)

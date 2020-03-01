@@ -74,7 +74,7 @@ public class LevelManager : MonoBehaviour
     
     public void InitializeNextLevel()
     {
-        _playerController.IncrementLives(1);
+        _playerController.lives++;
         _charactersManager.TriggerManagerDialogue();
         _saveManager.Save();
         _nextLevelFlag = false;

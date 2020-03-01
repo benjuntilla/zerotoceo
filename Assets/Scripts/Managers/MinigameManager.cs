@@ -119,13 +119,13 @@ public class MinigameManager : MonoBehaviour
         {
             case Status.Failed:
                 minigameStatus = Status.None;
-                _playerController.IncrementLives(-1);
-                if (PlayerController.lives != 0)
+                _playerController.lives--;
+                if (_playerController.lives != 0)
                     _saveManager.Save();
                 break;
             case Status.Passed:
                 minigameStatus = Status.None;
-                _playerController.IncrementPoints(minigamePoints[minigameId]);
+                _playerController.lives += minigamePoints[minigameId];
                 _levelManager.scoreboard["minigameBonus"] += minigamePoints[minigameId];
                 minigameId = ""; // Clears the variable so the minigame cannot be replayed
                 minigameProgression++;

@@ -55,18 +55,18 @@ public class DialogueManager : MonoBehaviour
 
         // Set external functions and observe xp variable if possible
         _dialogue.BindExternalFunction("GetGameLevel", () => _levelManager.levelIndex);
-        _dialogue.BindExternalFunction("GetPlayerXP", () => PlayerController.points);
+        _dialogue.BindExternalFunction("GetPlayerXP", () => _playerController.points);
         _dialogue.BindExternalFunction("GetRequiredPoints", () => _levelManager.nextLevelRequirements[_levelManager.levelIndex]);
         _dialogue.BindExternalFunction("GetMinigameProgression", () => _minigameManager.minigameProgression);
         if (_dialogue.variablesState["xp"] != null)
         {
             _dialogue.ObserveVariable("xp", (varName, newValue) =>
             {
-                if ((int) newValue > PlayerController.points)
-                    _levelManager.scoreboard["dialogueBonus"] += (int) newValue - PlayerController.points;
+                if ((int) newValue > _playerController.points)
+                    _levelManager.scoreboard["dialogueBonus"] += (int) newValue - _playerController.points;
                 else
-                    _levelManager.scoreboard["dialoguePenalty"] += PlayerController.points - (int) newValue;
-                _playerController.SetPoints((int) newValue);
+                    _levelManager.scoreboard["dialoguePenalty"] += _playerController.points - (int) newValue;
+                _playerController.points = (int) newValue;
             });
         }
         if (_dialogue.variablesState["pendingMinigame"] != null)
