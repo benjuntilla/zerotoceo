@@ -141,6 +141,7 @@ MonoBehaviour:
   movementSpeed: 1.75
   jumpHeight: 1
   velocity: {x: 0, y: 0}
+  indicatorTarget: {fileID: 0}
 --- !u!70 &6878670680734855086
 CapsuleCollider2D:
   m_ObjectHideFlags: 0

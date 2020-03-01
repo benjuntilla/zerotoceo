@@ -48,11 +48,11 @@ public class MinigameManager : MonoBehaviour
 
     void Awake()
     {
-        _playerController = GameObject.FindWithTag("Player").GetComponent<PlayerController>();
+        _playerController = FindObjectOfType<PlayerController>();
         _levelManager = GetComponent<LevelManager>();
-        _saveManager = gameObject.GetComponent<SaveManager>();
-        _minigameManager = gameObject.GetComponent<IMinigameManager>();
-        _uiManager = GameObject.FindWithTag("UI").GetComponent<UIManager>();
+        _saveManager = GetComponent<SaveManager>();
+        _minigameManager = GetComponent<IMinigameManager>();
+        _uiManager = FindObjectOfType<UIManager>();
         _uiManager.exitEvent.AddListener(delegate { minigameStatus = Status.None; });
     }
 

@@ -162,7 +162,7 @@ Transform:
   m_Children:
   - {fileID: 1046190971}
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &628269628 stripped
 GameObject:
@@ -176,6 +176,75 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 1323987721787335373}
   m_PrefabAsset: {fileID: 0}
+--- !u!1001 &836336737
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 2103458854451862421, guid: 996869d7c988a16d1ad7b58dd6e1e970,
+        type: 3}
+      propertyPath: m_Name
+      value: Audio Manager
+      objectReference: {fileID: 0}
+    - target: {fileID: 4749149139053753032, guid: 996869d7c988a16d1ad7b58dd6e1e970,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4749149139053753032, guid: 996869d7c988a16d1ad7b58dd6e1e970,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4749149139053753032, guid: 996869d7c988a16d1ad7b58dd6e1e970,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4749149139053753032, guid: 996869d7c988a16d1ad7b58dd6e1e970,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4749149139053753032, guid: 996869d7c988a16d1ad7b58dd6e1e970,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4749149139053753032, guid: 996869d7c988a16d1ad7b58dd6e1e970,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4749149139053753032, guid: 996869d7c988a16d1ad7b58dd6e1e970,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4749149139053753032, guid: 996869d7c988a16d1ad7b58dd6e1e970,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4749149139053753032, guid: 996869d7c988a16d1ad7b58dd6e1e970,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4749149139053753032, guid: 996869d7c988a16d1ad7b58dd6e1e970,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4749149139053753032, guid: 996869d7c988a16d1ad7b58dd6e1e970,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 996869d7c988a16d1ad7b58dd6e1e970, type: 3}
 --- !u!4 &1046190971 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1078275456256098402, guid: debd9a9bc3a9de4fd9b9dd08de8baded,
@@ -271,7 +340,7 @@ PrefabInstance:
     - target: {fileID: 2321688844597083770, guid: 353226fa01a9fec84852e24c24765e2e,
         type: 3}
       propertyPath: m_RootOrder
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 2321688844597083770, guid: 353226fa01a9fec84852e24c24765e2e,
         type: 3}
@@ -570,7 +639,7 @@ PrefabInstance:
     - target: {fileID: 6832252661823022274, guid: 4c74365b01f5ccae78980ba08dc1ee89,
         type: 3}
       propertyPath: m_RootOrder
-      value: 3
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 6832252661823022274, guid: 4c74365b01f5ccae78980ba08dc1ee89,
         type: 3}
@@ -778,7 +847,7 @@ PrefabInstance:
     - target: {fileID: 1323987720094816886, guid: 111cefa5bd480be1da3f3525f66ea721,
         type: 3}
       propertyPath: m_RootOrder
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 1323987720094816886, guid: 111cefa5bd480be1da3f3525f66ea721,
         type: 3}

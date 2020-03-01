@@ -10,7 +10,7 @@ public class CharactersManager : MonoBehaviour
     void Awake()
     {
         _managerNPCController = GameObject.Find("Manager").GetComponent<NPCController>();
-        _playerController = GameObject.FindWithTag("Player").GetComponent<PlayerController>();
+        _playerController = FindObjectOfType<PlayerController>();
     }
 
     public void TriggerManagerDialogue()

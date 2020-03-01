@@ -6,25 +6,26 @@ using UnityEngine.Serialization;
 
 public class PlayerController : MonoBehaviour
 {
-	public bool godMode;
 	public static int points { get; private set; }
-	public static int lives { get; private set; } = 3;
+	public static int lives { get { return _lives; } set { _lives = value <= 3 ? value : 3; } }
+
 	[Header("Movement config")]
 	public float movementSpeed = 1.75f, jumpHeight = 1f;
-    public Vector2 velocity;
-    public GameObject indicatorTarget;
+	public GameObject indicatorTarget;
 
+	private static int _lives = 3;
     private DialogueManager _dialogueManager;
     private InteractableController[] _interactables;
     private Dictionary<InteractableController, float> _interactablesDistances = new Dictionary<InteractableController, float>();
     private Animator _animator;
     private Rigidbody2D _rb;
     private bool _isGrounded;
+    private float _inputAxisX, _inputAxisY;
 
     void Awake()
     {
-	    _dialogueManager = GameObject.FindWithTag("GameManagers").GetComponent<DialogueManager>();
-        _interactables = GameObject.FindObjectsOfType<InteractableController>();
+	    _dialogueManager = FindObjectOfType<DialogueManager>();
+        _interactables = FindObjectsOfType<InteractableController>();
         
         _animator = GetComponent<Animator>();
         _rb = GetComponent<Rigidbody2D>();
@@ -45,9 +46,7 @@ public class PlayerController : MonoBehaviour
 	    {
 		    indicatorTarget = closest.Key.gameObject;
 		    if (Input.GetButtonDown("Interact"))
-		    {
 			    closest.Key.Interact();
-		    }
 	    } else
 	    {
 		    indicatorTarget = null;
@@ -57,8 +56,6 @@ public class PlayerController : MonoBehaviour
     public void IncrementLives(int value)
     {
 	    lives += value;
-	    if (lives > 3)
-		    lives = 3;
     }
 
     public void SetLives(int value)
@@ -84,56 +81,36 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
 	    UpdateIndicator();
-	    
-	    if( Input.GetAxisRaw("Horizontal") == 1 )
-	    {
-		    velocity.x = 1;
-		    // Flips sprite when necessary
-		    if( transform.localScale.x < 0f && Time.timeScale == 1f)
-			    transform.localScale = new Vector3( -transform.localScale.x, transform.localScale.y, transform.localScale.z );
-		    // Plays run animation when grounded
-		    if( velocity.x != 0 && _isGrounded )
-			    _animator.Play( Animator.StringToHash( "Run" ) );
-	    }
-	    else if( Input.GetAxisRaw("Horizontal") == -1 )
-	    {
-		    velocity.x = -1;
-		    // Flips sprite when necessary
-		    if( transform.localScale.x > 0f && Time.timeScale == 1f)
-			    transform.localScale = new Vector3( -transform.localScale.x, transform.localScale.y, transform.localScale.z );
-		    // Plays run animation when grounded
-		    if(  _isGrounded )
-			    _animator.Play( Animator.StringToHash( "Run" ) );
-	    }
-	    else
-	    {
-		    velocity.x = 0;
-		    // Plays idle animation when grounded
-		    if( _isGrounded )
-			    _animator.Play( Animator.StringToHash( "Idle" ) );
-	    }
+	    _inputAxisX = Input.GetAxisRaw("Horizontal");
+	    _inputAxisY = Input.GetAxisRaw("Vertical");
 	    
 	    // Only jump when grounded
-	    if( (_isGrounded && Input.GetAxisRaw("Vertical") == 1) || (_isGrounded && Input.GetButtonDown("Jump")) )
+	    if( (_isGrounded && _inputAxisY == 1) || (_isGrounded && Input.GetButtonDown("Jump")) )
 	    {
 		    _isGrounded = false;
 		    _rb.AddForce(new Vector2(0.0f, 2.0f) * jumpHeight, ForceMode2D.Impulse);		
-	    }
-
-	    // Plays jumping animation when off the ground
-	    if( !_isGrounded )
-	    {
-		    _animator.Play( Animator.StringToHash( "Jump" ) );
+		    AudioManager.instance.PlayOnce("PlayerJump");
 	    }
 	    
-	    if (!godMode) return;
-	    points = 9999;
-	    lives = 9999;
+	    // Flips sprite to the appropriate direction
+	    if( _inputAxisX == 1 && transform.localScale.x < 0f && Time.timeScale == 1f)
+			transform.localScale = new Vector3( -transform.localScale.x, transform.localScale.y, transform.localScale.z );
+	    else if( _inputAxisX == -1 && transform.localScale.x > 0f && Time.timeScale == 1f)
+			transform.localScale = new Vector3( -transform.localScale.x, transform.localScale.y, transform.localScale.z );
+	    
+	    // Plays the appropriate animation
+	    _animator.Play(Animator.StringToHash(_inputAxisX != 0 && _isGrounded ? "Run" : _isGrounded ? "Idle" : "Jump"));
+	    
+	    // Plays sound when walking
+	    if (_inputAxisX != 0 && _isGrounded && _rb.velocity.x != 0)
+		    AudioManager.instance.PlayOnce("PlayerWalk");
+	    else
+		    AudioManager.instance.Stop("PlayerWalk");
     }
 
     void FixedUpdate()
     {
 	    // Moves the player
-	    _rb.velocity = new Vector2(velocity.x * movementSpeed, _rb.velocity.y);
+	    _rb.velocity = new Vector2(_inputAxisX * movementSpeed, _rb.velocity.y);
     }
 }

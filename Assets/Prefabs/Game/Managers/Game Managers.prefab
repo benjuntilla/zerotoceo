@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 5990509898109174935}
   - component: {fileID: 8188174242281949055}
   m_Layer: 0
-  m_Name: Level Managers
+  m_Name: Game Managers
   m_TagString: GameManagers
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -60,19 +60,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentDialogue: 
-  ui: {fileID: 0}
-  dialogueUI: {fileID: 0}
-  primaryButtonObject: {fileID: 0}
-  secondaryButtonObject: {fileID: 0}
-  tertiaryButtonObject: {fileID: 0}
-  primaryButtonText: {fileID: 0}
-  secondaryButtonText: {fileID: 0}
-  tertiaryButtonText: {fileID: 0}
-  titleText: {fileID: 0}
-  dialogueText: {fileID: 0}
-  primaryButton: {fileID: 0}
-  secondaryButton: {fileID: 0}
-  tertiaryButton: {fileID: 0}
 --- !u!114 &5990509898109174932
 MonoBehaviour:
   m_ObjectHideFlags: 0

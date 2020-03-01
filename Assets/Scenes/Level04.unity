@@ -121,6 +121,75 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1001 &211286163
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 2103458854451862421, guid: 996869d7c988a16d1ad7b58dd6e1e970,
+        type: 3}
+      propertyPath: m_Name
+      value: Audio Manager
+      objectReference: {fileID: 0}
+    - target: {fileID: 4749149139053753032, guid: 996869d7c988a16d1ad7b58dd6e1e970,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4749149139053753032, guid: 996869d7c988a16d1ad7b58dd6e1e970,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4749149139053753032, guid: 996869d7c988a16d1ad7b58dd6e1e970,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4749149139053753032, guid: 996869d7c988a16d1ad7b58dd6e1e970,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4749149139053753032, guid: 996869d7c988a16d1ad7b58dd6e1e970,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4749149139053753032, guid: 996869d7c988a16d1ad7b58dd6e1e970,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4749149139053753032, guid: 996869d7c988a16d1ad7b58dd6e1e970,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4749149139053753032, guid: 996869d7c988a16d1ad7b58dd6e1e970,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4749149139053753032, guid: 996869d7c988a16d1ad7b58dd6e1e970,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4749149139053753032, guid: 996869d7c988a16d1ad7b58dd6e1e970,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4749149139053753032, guid: 996869d7c988a16d1ad7b58dd6e1e970,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 996869d7c988a16d1ad7b58dd6e1e970, type: 3}
 --- !u!1 &443338976
 GameObject:
   m_ObjectHideFlags: 0
@@ -151,7 +220,7 @@ Transform:
   - {fileID: 970107524}
   - {fileID: 2198199764582844713}
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &667261237
 PrefabInstance:
@@ -163,7 +232,7 @@ PrefabInstance:
     - target: {fileID: 5990509898109174928, guid: c9c3507149ffecaff9d6c16ff4f05183,
         type: 3}
       propertyPath: m_Name
-      value: Level Managers
+      value: Game Managers
       objectReference: {fileID: 0}
     - target: {fileID: 5990509898109174930, guid: c9c3507149ffecaff9d6c16ff4f05183,
         type: 3}
@@ -293,7 +362,7 @@ PrefabInstance:
     - target: {fileID: 2321688844597083770, guid: 353226fa01a9fec84852e24c24765e2e,
         type: 3}
       propertyPath: m_RootOrder
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 2321688844597083770, guid: 353226fa01a9fec84852e24c24765e2e,
         type: 3}
@@ -794,7 +863,7 @@ PrefabInstance:
     - target: {fileID: 2146051372977360350, guid: 9f063b9fd93145180b7c8b01bf6d7071,
         type: 3}
       propertyPath: m_RootOrder
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 2146051372977360350, guid: 9f063b9fd93145180b7c8b01bf6d7071,
         type: 3}
@@ -1020,7 +1089,7 @@ PrefabInstance:
     - target: {fileID: 4243312917298921795, guid: 69bcd9e22bf123a5d9efdace32b4f370,
         type: 3}
       propertyPath: m_RootOrder
-      value: 3
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 4243312917298921795, guid: 69bcd9e22bf123a5d9efdace32b4f370,
         type: 3}

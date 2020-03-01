@@ -24,7 +24,7 @@ public class SaveManager : MonoBehaviour
     void Awake ()
     {
         _levelManager = GetComponent<LevelManager>();
-        _uiManager = GameObject.FindWithTag("UI").GetComponent<UIManager>();
+        _uiManager = FindObjectOfType<UIManager>();
         _uiManager.uiReadyEvent.AddListener(CheckLoadOrNew);
         _minigameManager = GetComponent<MinigameManager>();
         _dialogueManager = GetComponent<DialogueManager>();

@@ -27,11 +27,10 @@ public class UIManager : MonoBehaviour
 
     void Awake()
     {
-        var gameManagers = GameObject.FindWithTag("GameManagers");
-        if (!gameManagers) return;
-        _saveManager = gameManagers.GetComponent<SaveManager>();
-        _levelManager = gameManagers.GetComponent<LevelManager>();
-        _minigameManager = gameManagers.GetComponent<MinigameManager>();
+        if (!GameObject.FindWithTag("GameManagers")) return;
+        _saveManager = FindObjectOfType<SaveManager>();
+        _levelManager = FindObjectOfType<LevelManager>();
+        _minigameManager = FindObjectOfType<MinigameManager>();
         if (SceneManager.GetActiveScene().buildIndex >= 5)
             _minigameManager = GameObject.FindWithTag("GameManagers").GetComponent<MinigameManager>();
 
