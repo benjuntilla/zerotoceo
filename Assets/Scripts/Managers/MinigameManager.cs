@@ -4,6 +4,9 @@ using Cinemachine;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+[RequireComponent(typeof(SaveManager))]
+[RequireComponent(typeof(LevelManager))]
+[RequireComponent(typeof(IMinigameManager))]
 public class MinigameManager : MonoBehaviour
 {
     private SaveManager _saveManager;

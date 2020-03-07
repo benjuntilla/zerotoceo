@@ -4022,6 +4022,7 @@ MonoBehaviour:
   exitEvent:
     m_PersistentCalls:
       m_Calls: []
+  cursorTexture: {fileID: 2800000, guid: 8b8ada5f40dc78fc1abb6ed5bde942e2, type: 3}
   closingMenuText: Your father sees you as worthy of his position, and he relinquishes
     his spot as CEO to you. He retires to a private island in an undisclosed location,
     leaving the rest of his fortune and his shares in the company to you. It seems

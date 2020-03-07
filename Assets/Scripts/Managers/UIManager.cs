@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using Cinemachine;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
@@ -14,6 +15,7 @@ public class UIManager : MonoBehaviour
     private MinigameManager _minigameManager;
     private SaveManager _saveManager;
     private LevelManager _levelManager;
+    private DialogueManager _dialogueManager;
     private Queue<string> _popupQueue = new Queue<string>();
     private PlayerController _playerController;
     private Rigidbody2D _playerRb;
@@ -22,17 +24,20 @@ public class UIManager : MonoBehaviour
     public TextMeshProUGUI hudPointsText, modalText, levelEndMenuText, levelEndMenuTitle, popupText, menuFullTitle, menuFullText, menuFullButtonText, menuFullControlsText, minigameEndMenuText;
     public Animator fadeAnimator, popupAnimator, menuFullAnimator;
     public CanvasGroup menuFullCanvasGroup;
+    public Texture2D cursorTexture;
     public GUIStyle debugStyle;
     public UnityEvent uiReadyEvent = new UnityEvent(), exitEvent = new UnityEvent();
     [TextArea(3, 10)]
     public string closingMenuText, openingMenuText, gameOverText, grandmaMinigameText, coinMinigameText, trashMinigameText;
 
-    void Awake()
+    void Start()
     {
+        Cursor.SetCursor(cursorTexture, Vector2.zero, CursorMode.Auto);
         if (!GameObject.FindWithTag("GameManagers")) return;
         _saveManager = FindObjectOfType<SaveManager>();
         _levelManager = FindObjectOfType<LevelManager>();
         _minigameManager = FindObjectOfType<MinigameManager>();
+        _dialogueManager = FindObjectOfType<DialogueManager>();
         if (_levelManager.currentLevelType == LevelManager.LevelType.Level)
         {
             _playerController = FindObjectOfType<PlayerController>();
@@ -140,6 +145,7 @@ public class UIManager : MonoBehaviour
 
     public void TriggerModal (string id)
     {
+        Time.timeScale = 0;
         _modalAction = id;
         switch (id)
         {
@@ -176,6 +182,7 @@ public class UIManager : MonoBehaviour
 
     public void ConfirmModal()
     {
+        Time.timeScale = 1;
         switch (_modalAction)
         {
             case "minigame":
@@ -493,6 +500,22 @@ public class UIManager : MonoBehaviour
 
     void Update ()
     {
+        // Cursor logic
+        if (_levelManager.currentLevelType == LevelManager.LevelType.Menu ||
+            _levelManager.levelName == "Minigame_Coin" ||
+            Time.timeScale == 0 ||
+            (_levelManager.currentLevelType == LevelManager.LevelType.Level && _dialogueManager.currentDialogue != ""))
+        {
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+        }
+        else
+        {
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.lockState = CursorLockMode.Confined;
+            Cursor.visible = false;
+        }
+        
         // Detect when to trigger a popup in queue
         if (_popupQueue.Count > 0 && _popupReady)
             TriggerPopup();

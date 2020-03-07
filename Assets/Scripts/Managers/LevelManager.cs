@@ -17,6 +17,7 @@ public class LevelManager : MonoBehaviour
         {"minigameBonus", 0}
     };
     public int levelIndex;
+    public string levelName;
     public Dictionary<int, int> nextLevelRequirements;
     public LevelType currentLevelType;
 
@@ -38,6 +39,7 @@ public class LevelManager : MonoBehaviour
         _charactersManager = GetComponent<CharactersManager>();
         _saveManager = GetComponent<SaveManager>();
         levelIndex = SceneManager.GetActiveScene().buildIndex;
+        levelName = SceneManager.GetActiveScene().name;
         nextLevelRequirements = new Dictionary<int, int>()
         {
             {1, levelOne},
