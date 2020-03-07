@@ -517,7 +517,7 @@ public class UIManager : MonoBehaviour
         }
         
         # region Update HUD
-        if (hudUI)
+        if (_levelManager.currentLevelType == LevelManager.LevelType.Level)
         {
             hudPointsText.SetText($"Points: {_playerController.points}");
         

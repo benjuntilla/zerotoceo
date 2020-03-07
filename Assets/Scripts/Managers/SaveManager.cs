@@ -64,6 +64,7 @@ public class SaveManager : MonoBehaviour
 
     public void Save ()
     {
+        if (_levelManager.currentLevelType == LevelManager.LevelType.Minigame) return;
         // Retrieve character positions
         var characters = new List<GameObject>(_npcList) { _player };
         var characterPositions = new Dictionary<string, float[]>();
