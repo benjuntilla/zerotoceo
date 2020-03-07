@@ -33,8 +33,11 @@ public class UIManager : MonoBehaviour
         _saveManager = FindObjectOfType<SaveManager>();
         _levelManager = FindObjectOfType<LevelManager>();
         _minigameManager = FindObjectOfType<MinigameManager>();
-        _playerController = FindObjectOfType<PlayerController>();
-        _playerRb = GameObject.FindWithTag("Player").GetComponent<Rigidbody2D>();
+        if (_levelManager.currentLevelType == LevelManager.LevelType.Level)
+        {
+            _playerController = FindObjectOfType<PlayerController>();
+            _playerRb = GameObject.FindWithTag("Player").GetComponent<Rigidbody2D>();
+        }
         if (_levelManager.currentLevelType == LevelManager.LevelType.Minigame)
             _minigameManager = GameObject.FindWithTag("GameManagers").GetComponent<MinigameManager>();
 
