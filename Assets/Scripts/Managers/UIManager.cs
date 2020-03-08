@@ -32,7 +32,6 @@ public class UIManager : MonoBehaviour
 
     void Start()
     {
-        Cursor.SetCursor(cursorTexture, Vector2.zero, CursorMode.Auto);
         if (!GameObject.FindWithTag("GameManagers")) return;
         _saveManager = FindObjectOfType<SaveManager>();
         _levelManager = FindObjectOfType<LevelManager>();
@@ -506,6 +505,7 @@ public class UIManager : MonoBehaviour
             Time.timeScale == 0 ||
             (_levelManager.currentLevelType == LevelManager.LevelType.Level && _dialogueManager.currentDialogue != ""))
         {
+            Cursor.SetCursor(cursorTexture, Vector2.zero, CursorMode.Auto);
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
         }
