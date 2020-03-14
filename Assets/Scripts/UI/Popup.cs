@@ -13,12 +13,12 @@ namespace UI
         private Queue<string> _queue = new Queue<string>();
         private bool _triggeredLevelUpPopup, _isReady = true;
         private LevelManager _levelManager;
-        private PlayerController _playerController;
+        private Player _player;
 
         void Start()
         {
             _levelManager = FindObjectOfType<LevelManager>();
-            _playerController = FindObjectOfType<PlayerController>();
+            _player = FindObjectOfType<Player>();
         }
 
         public void Queue(string id)
@@ -65,7 +65,7 @@ namespace UI
                 Trigger();
 
             // Trigger the level up popup when appropriate
-            if (_levelManager.currentLevelType == LevelManager.LevelType.Level && _playerController.points >= _levelManager.nextLevelRequirements[_levelManager.levelIndex] && !_triggeredLevelUpPopup)
+            if (_levelManager.currentLevelType == LevelManager.LevelType.Level && _player.points >= _levelManager.nextLevelRequirements[_levelManager.levelIndex] && !_triggeredLevelUpPopup)
             {
                 _triggeredLevelUpPopup = true;
                 Queue("levelUp");

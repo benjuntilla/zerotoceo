@@ -6,7 +6,7 @@ namespace UI
     {
         private bool _enabled;
         private LevelManager _levelManager;
-        private PlayerController _playerController;
+        private Player _player;
         private Rigidbody2D _playerRb;
         private Vector2 _playerVelocity;
 
@@ -17,7 +17,7 @@ namespace UI
             _levelManager = FindObjectOfType<LevelManager>();
             if (_levelManager.currentLevelType == LevelManager.LevelType.Level)
             {
-                _playerController = FindObjectOfType<PlayerController>();
+                _player = FindObjectOfType<Player>();
                 _playerRb = GameObject.FindWithTag("Player").GetComponent<Rigidbody2D>();
             }
         }
@@ -33,8 +33,8 @@ namespace UI
                     log =
                         $"X Velocity: {_playerVelocity.x}\n" +
                         $"Y Velocity: {_playerVelocity.y}\n" +
-                        $"Points: {_playerController.points}\n" +
-                        $"Lives: {_playerController.lives}\n" +
+                        $"Points: {_player.points}\n" +
+                        $"Lives: {_player.lives}\n" +
                         $"Level: {_levelManager.levelIndex}\n" +
                         $"Timescale: {Time.timeScale}\n";
                     GUI.Label(new Rect(10, 100, 999, 999), log, debugStyle); // Rectangle dimensions are as follows: (distance from left edge, distance from top edge, width, height)

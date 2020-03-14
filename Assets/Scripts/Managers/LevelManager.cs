@@ -8,7 +8,7 @@ public class LevelManager : MonoBehaviour
 {
     private SaveManager _saveManager;
     private CharactersManager _charactersManager;
-    private PlayerController _playerController;
+    private Player _player;
     private static bool _nextLevelFlag;
 
     public Dictionary<string, int> scoreboard = new Dictionary<string, int>()
@@ -67,7 +67,7 @@ public class LevelManager : MonoBehaviour
     {
         _charactersManager = GetComponent<CharactersManager>();
         _saveManager = GetComponent<SaveManager>();
-        _playerController = FindObjectOfType<PlayerController>();
+        _player = FindObjectOfType<Player>();
         
         // Initialize next level when needed
         if (_nextLevelFlag)
@@ -76,7 +76,7 @@ public class LevelManager : MonoBehaviour
 
     public void InitializeNextLevel()
     {
-        _playerController.lives++;
+        _player.lives++;
         _charactersManager.TriggerManagerDialogue();
         _saveManager.Save();
         _nextLevelFlag = false;

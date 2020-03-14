@@ -13,14 +13,14 @@ public class DialogueManager : MonoBehaviour
 
     private LevelManager _levelManager;
     private MinigameManager _minigameManager;
-    private PlayerController _playerController;
+    private Player _player;
     private Popup _popup;
 
     void Start()
     {
         _levelManager = GetComponent<LevelManager>();
         _minigameManager = GetComponent<MinigameManager>();
-        _playerController = FindObjectOfType<PlayerController>();
+        _player = FindObjectOfType<Player>();
         _popup = FindObjectOfType<Popup>();
     }
     public void TriggerDialogue(TextAsset inkAsset)
@@ -34,18 +34,18 @@ public class DialogueManager : MonoBehaviour
 
         // Set external functions and observe needed variables
         dialogue.BindExternalFunction("GetGameLevel", () => _levelManager.levelIndex);
-        dialogue.BindExternalFunction("GetPlayerXP", () => _playerController.points);
+        dialogue.BindExternalFunction("GetPlayerXP", () => _player.points);
         dialogue.BindExternalFunction("GetRequiredPoints", () => _levelManager.nextLevelRequirements[_levelManager.levelIndex]);
         dialogue.BindExternalFunction("GetMinigameProgression", () => _minigameManager.minigameProgression);
         if (dialogue.variablesState["xp"] != null)
         {
             dialogue.ObserveVariable("xp", (varName, newValue) =>
             {
-                if ((int) newValue > _playerController.points)
-                    _levelManager.scoreboard["dialogueBonus"] += (int) newValue - _playerController.points;
+                if ((int) newValue > _player.points)
+                    _levelManager.scoreboard["dialogueBonus"] += (int) newValue - _player.points;
                 else
-                    _levelManager.scoreboard["dialoguePenalty"] += _playerController.points - (int) newValue;
-                _playerController.points = (int) newValue;
+                    _levelManager.scoreboard["dialoguePenalty"] += _player.points - (int) newValue;
+                _player.points = (int) newValue;
             });
         }
         if (dialogue.variablesState["pendingMinigame"] != null)

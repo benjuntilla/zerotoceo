@@ -17,7 +17,7 @@ public class SaveManager : MonoBehaviour
     private DialogueManager _dialogueManager;
     private GameObject _player;
     private GameObject[] _npcList;
-    private PlayerController _playerController;
+    private Player _playerController;
     private Popup _popup;
     private string _savePath;
     
@@ -35,7 +35,7 @@ public class SaveManager : MonoBehaviour
         _player = GameObject.FindWithTag("Player");
         _npcList = GameObject.FindGameObjectsWithTag("NPC");
         if (_player != null)
-            _playerController = _player.GetComponent<PlayerController>();
+            _playerController = _player.GetComponent<Player>();
         CheckLoadOrNew();
     }
 
