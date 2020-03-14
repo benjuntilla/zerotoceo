@@ -29,6 +29,18 @@ namespace UI
             _minigameManager = FindObjectOfType<MinigameManager>();
             _player = FindObjectOfType<Player>();
             _imagesObject = GetComponentInChildren<Image>().gameObject.transform.parent.gameObject;
+            
+            TriggerAppropriateMenu();
+        }
+
+        private void TriggerAppropriateMenu()
+        {
+            if (_levelManager.levelIndex == 1 && !SaveManager.loadFlag)
+                Trigger("opening");
+            else if (_levelManager.currentLevelType == LevelManager.LevelType.Minigame && MinigameManager.minigameId != "")
+                Trigger(MinigameManager.minigameName);
+            else if (_levelManager.currentLevelType == LevelManager.LevelType.Minigame && MinigameManager.minigameId == "")
+                Trigger(_minigameManager.ResolveEmptyMinigame()); 
         }
 
         public void Trigger(string id)
