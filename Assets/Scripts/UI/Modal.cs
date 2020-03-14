@@ -87,7 +87,7 @@ namespace UI
             {
                 case "minigame":
                     _hud.Disable();
-                    _minigameManager.InitializeMinigame();
+                    _minigameManager.PrepareMinigame();
                     _fade.FadeIn(() =>
                     {
                         _levelManager.LoadLevel(MinigameManager.minigameName);

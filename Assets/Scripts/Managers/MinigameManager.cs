@@ -6,11 +6,11 @@ using UnityEngine.SceneManagement;
 
 [RequireComponent(typeof(SaveManager))]
 [RequireComponent(typeof(LevelManager))]
-[RequireComponent(typeof(IMinigameManager))]
+[RequireComponent(typeof(Minigame))]
 public class MinigameManager : MonoBehaviour
 {
     private SaveManager _saveManager;
-    private IMinigameManager _minigameManager;
+    private Minigame _minigame;
     private LevelManager _levelManager;
     private Player _player;
     private Modal _modal;
@@ -54,7 +54,7 @@ public class MinigameManager : MonoBehaviour
         _player = FindObjectOfType<Player>();
         _levelManager = GetComponent<LevelManager>();
         _saveManager = GetComponent<SaveManager>();
-        _minigameManager = GetComponent<IMinigameManager>();
+        _minigame = GetComponent<Minigame>();
         _modal = FindObjectOfType<Modal>();
     }
 
@@ -72,11 +72,11 @@ public class MinigameManager : MonoBehaviour
                 minigameId = $"Minigame_Coin_{defaultDifficulty.ToString()}";
                 break;
         }
-        InitializeMinigame();
+        PrepareMinigame();
         return minigameName;
     }
 
-    public void InitializeMinigame()
+    public void PrepareMinigame()
     {
         minigameStatus = Status.InProgress;
         var splitName = minigameId.Split('_');
@@ -86,36 +86,28 @@ public class MinigameManager : MonoBehaviour
             _saveManager.Save();
     }
 
-    public void StartMinigame()
+    public void InitializeMinigame()
     {
-        if (_minigameManager.countDownNecessary)
-            StartCoroutine(BeginCountdown());
+        if (_minigame.timerStartTime != 0)
+            _minigame.Invoke(nameof(Minigame.StartMinigame), 3);
         else
-            _minigameManager.StartGame();
-    }
-
-    private IEnumerator BeginCountdown()
-    {
-        // TODO: Trigger UI event
-        yield return new WaitForSeconds(3);
-        _minigameManager.StartGame();
+            _minigame.StartMinigame();
     }
 
     public void Pass()
     {
+        if (minigameStatus != Status.InProgress) return;
         minigameStatus = Status.Passed;
         _modal.Trigger("minigamePass");
     }
 
     public void Fail()
     {
+        if (minigameStatus != Status.InProgress) return;
         minigameStatus = Status.Failed;
         _modal.Trigger("minigameFail");
     }
-
-    /// <summary>
-    ///  Manipulates player attributes based on whether a minigame was passed or failed
-    /// </summary>
+    
     private void CheckPassOrFail()
     {
         switch (minigameStatus)

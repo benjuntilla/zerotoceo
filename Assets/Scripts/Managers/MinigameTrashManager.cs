@@ -1,21 +1,17 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
 
 [RequireComponent(typeof(MinigameManager))]
-public class MinigameTrashManager : MonoBehaviour, IMinigameManager
+public class MinigameTrashManager : Minigame
 {
     private int _trashCount;
     private GameObject _characters, _ui;
-    private TextMeshProUGUI _timerText;
-    private MinigameManager _minigameManager;
     // Config
     private float _instantiateDelay;
-    private int _timer, _playerMovementSpeed;
+    private int _playerMovementSpeed;
     private bool _gameOver;
-    
-    public bool countDownNecessary { get; set; } = true;
+
     [Header("Game Config")]
     public List<GameObject> trashPrefabs;
     public float trashTorque = 90f, trashGravity;
@@ -50,24 +46,21 @@ public class MinigameTrashManager : MonoBehaviour, IMinigameManager
     }
     public HardDifficultyConfig hardDifficultyConfig;
     #endregion
-    
+
     void Start()
     {
         _ui = GameObject.FindWithTag("UI");
-        _timerText = _ui.transform.Find("HUD").gameObject.transform.Find("Timer").gameObject.GetComponent<TextMeshProUGUI>();
-        _minigameManager = GetComponent<MinigameManager>();
         _characters = GameObject.Find("Characters");
         
-        _timerText.SetText("Time left: 0 seconds");
         LoadDifficultyConfig();
     }
 
-    public void StartGame()
+    public override void StartMinigame()
     {
-        StartCoroutine(InstantiateLoop());
-        StartCoroutine(Timer());
+        StartCoroutine(InstantiateTrashLoop());
+        StartCoroutine(StartTimer());
     }
-    
+
     private void LoadDifficultyConfig()
     {
         switch (MinigameManager.minigameDifficulty)
@@ -76,53 +69,32 @@ public class MinigameTrashManager : MonoBehaviour, IMinigameManager
                 trashGravity = hardDifficultyConfig.trashGravity;
                 _playerMovementSpeed = hardDifficultyConfig.playerMovementSpeed;
                 _instantiateDelay = hardDifficultyConfig.instantiateDelay;
-                _timer = hardDifficultyConfig.timer;
+                timerStartTime = hardDifficultyConfig.timer;
                 break;
             case "Medium":
                 trashGravity = mediumDifficultyConfig.trashGravity;
                 _playerMovementSpeed = mediumDifficultyConfig.playerMovementSpeed;
                 _instantiateDelay = mediumDifficultyConfig.instantiateDelay;
-                _timer = mediumDifficultyConfig.timer;
+                timerStartTime = mediumDifficultyConfig.timer;
                 break;
             default: // "Easy"
                 trashGravity = easyDifficultyConfig.trashGravity;
                 _playerMovementSpeed = easyDifficultyConfig.playerMovementSpeed;
                 _instantiateDelay = easyDifficultyConfig.instantiateDelay;
-                _timer = easyDifficultyConfig.timer;
+                timerStartTime = easyDifficultyConfig.timer;
                 break;
         }
         
         GameObject.FindWithTag("Player").GetComponent<IMinigamePlayer>().movementSpeed = _playerMovementSpeed;
     }
 
-    private void InstantiateTrash()
-    {
-        var trash = Instantiate(trashPrefabs[Random.Range(0, trashPrefabs.Count)], new Vector3(Random.Range(-8f, 8f), 6f, 0f), Quaternion.identity);
-        trash.transform.parent = _characters.transform;
-    }
-
-    private IEnumerator InstantiateLoop()
+    private IEnumerator InstantiateTrashLoop()
     {
         while (true)
         {
-            InstantiateTrash();
+            var trash = Instantiate(trashPrefabs[Random.Range(0, trashPrefabs.Count)], new Vector3(Random.Range(-8f, 8f), 6f, 0f), Quaternion.identity);
+            trash.transform.parent = _characters.transform;
             yield return new WaitForSeconds(_instantiateDelay);
         }
-    }
-
-    private IEnumerator Timer()
-    {
-        for (var i = _timer; i >= 0; i--)
-        {
-            _timerText.SetText($"Time left: {i} seconds");
-            yield return new WaitForSeconds(1);
-        }
-        _minigameManager.Pass();
-    }
-
-    public void TestFail()
-    {
-        if (MinigameManager.minigameStatus == MinigameManager.Status.InProgress)
-            _minigameManager.Fail();
     }
 }

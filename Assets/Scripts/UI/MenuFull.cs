@@ -238,7 +238,7 @@ namespace UI
                     FadeOut(() =>
                     {
                         Enable();
-                        _minigameManager.StartMinigame();
+                        _minigameManager.InitializeMinigame();
                     });
                     break;
             }

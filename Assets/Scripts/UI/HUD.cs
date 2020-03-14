@@ -1,4 +1,5 @@
-﻿using TMPro;
+﻿using System.Linq;
+using TMPro;
 using UnityEngine;
 
 namespace UI
@@ -7,12 +8,16 @@ namespace UI
     {
         private LevelManager _levelManager;
         private Player _player;
-        
-        public TextMeshProUGUI hudPointsText;
-        public GameObject heartOne, heartTwo, heartThree, futureToken, businessToken, leaderToken, americaToken;
+        private TextMeshProUGUI _pointsText, _timerText;
+        private Minigame _minigameManagerInterface;
+
+        public GameObject heartOne, heartTwo, heartThree, futureToken, businessToken, leaderToken, americaToken, points, tokens, hearts, timer;
         
         void Start()
         {
+            _minigameManagerInterface = FindObjectsOfType<MonoBehaviour>().OfType<Minigame>().First();
+            _pointsText = points.GetComponent<TextMeshProUGUI>();
+            _timerText = timer.GetComponent<TextMeshProUGUI>();
             _levelManager = FindObjectOfType<LevelManager>();
             _player = FindObjectOfType<Player>();
             blocksRaycasts = false;
@@ -21,13 +26,18 @@ namespace UI
         protected override void Update()
         {
             base.Update();
+            if (!_levelManager) return;
             if (_levelManager.currentLevelType == LevelManager.LevelType.Level)
             {
+                Helper.DisableChildren(gameObject);
+                points.SetActive(true);
+                tokens.SetActive(true);
+                hearts.SetActive(true);
                 Enable();
-                hudPointsText.SetText($"Points: {_player.points}");
+
+                _pointsText.SetText($"Points: {_player.points}");
         
-                foreach (Transform child in heartOne.transform.parent)
-                    child.gameObject.SetActive(false);
+                Helper.DisableChildren(hearts);
                 switch (_player.lives)
                 {
                     case 1:
@@ -44,8 +54,7 @@ namespace UI
                         break;
                 }
         
-                foreach (Transform child in futureToken.transform.parent)
-                    child.gameObject.SetActive(false);
+                Helper.DisableChildren(tokens);
                 switch (_levelManager.levelIndex)
                 {
                     case 2:
@@ -67,6 +76,17 @@ namespace UI
                         americaToken.SetActive(true);
                         break;
                 }
+            }
+            else if (_levelManager.currentLevelType == LevelManager.LevelType.Minigame && _minigameManagerInterface.timerStartTime != 0)
+            {
+                Helper.DisableChildren(gameObject);
+                timer.SetActive(true);
+                Enable();
+                _timerText.SetText($"Time left: {_minigameManagerInterface.timerCurrentTime} seconds");
+            }
+            else
+            {
+                Disable();
             }
         }
     }

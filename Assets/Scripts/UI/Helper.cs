@@ -1,5 +1,6 @@
 ﻿using TMPro;
 using System.Collections;
+using UnityEngine;
 
 namespace UI
 {
@@ -15,6 +16,12 @@ namespace UI
                 textObject.SetText(t);
                 yield return null; // Wait a frame
             }
+        }
+
+        public static void DisableChildren(GameObject parent)
+        {
+            foreach (Transform child in parent.transform)
+                 child.gameObject.SetActive(false);
         }
     } 
 }

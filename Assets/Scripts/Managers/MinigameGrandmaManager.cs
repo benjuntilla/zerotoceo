@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
-public class MinigameGrandmaManager : MonoBehaviour, IMinigameManager
+public class MinigameGrandmaManager : Minigame
 {
 	private GameObject _player, _world, _roads, _characters;
 	private Collidable _playerCollidable;
@@ -15,7 +16,6 @@ public class MinigameGrandmaManager : MonoBehaviour, IMinigameManager
 	private int _maxRoadPopulation;
 	private float _carDecayTime, _carWaitTime, _carMovementSpeed, _playerMovementSpeed;
 
-	public bool countDownNecessary { get; set; } = false;
 	[Header("Game Config")]
 	public GameObject carPrefab;
 	public List<Sprite> carSprites;
@@ -53,8 +53,8 @@ public class MinigameGrandmaManager : MonoBehaviour, IMinigameManager
 	}
 	public HardDifficultyConfig hardDifficultyConfig;
 	#endregion
-	
-	void Awake()
+
+	void Start()
 	{
 		_player = GameObject.FindWithTag("Player").gameObject;
 		_playerScript = _player.GetComponent<IMinigamePlayer>();
@@ -77,10 +77,6 @@ public class MinigameGrandmaManager : MonoBehaviour, IMinigameManager
 		}
 		
 		LoadDifficultyConfig();
-	}
-
-	public void StartGame()
-	{
 	}
 
 	private void LoadDifficultyConfig()

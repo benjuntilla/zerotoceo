@@ -16,7 +16,7 @@ public class Trash : MonoBehaviour
         _rigidbody2D = GetComponent<Rigidbody2D>();
         _collidable = GetComponent<Collidable>();
         
-        _collidable.primaryCollisionEvent.AddListener(_minigameTrashManager.TestFail);
+        _collidable.primaryCollisionEvent.AddListener(_minigameManager.Fail);
         _collidable.primaryCollisionEvent.AddListener(FreezePosition);
         _collidable.primaryCollisionEvent.AddListener(_collidable.DisableCollisionEvents);
         _collidable.secondaryCollisionEvent.AddListener(delegate{Destroy(gameObject);});
