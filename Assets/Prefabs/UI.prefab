@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 1365532225}
   - component: {fileID: 1365532227}
   - component: {fileID: 1365532226}
-  - component: {fileID: 3311358489098602342}
   - component: {fileID: 3022665787852178465}
   - component: {fileID: 5065832781758068999}
   - component: {fileID: 7927126864295957987}
@@ -81,25 +80,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!95 &3311358489098602342
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1365532224}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: d20c111cc8b8bc1a09a3451b36ecb8d2, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!114 &3022665787852178465
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -126,8 +106,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d712654052cd2798970cdd63e41c4e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  text: {fileID: 2135829860}
-  animator: {fileID: 3311358489098602342}
 --- !u!225 &7927126864295957987
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -10871,7 +10849,6 @@ GameObject:
   - component: {fileID: 4939439669522384061}
   - component: {fileID: 9219768968078168967}
   - component: {fileID: 721149747324275470}
-  - component: {fileID: 2044838561196509350}
   - component: {fileID: 4575575304852837073}
   - component: {fileID: 9217288681950394126}
   - component: {fileID: 8216802889830046131}
@@ -10923,7 +10900,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 0}
+  m_Color: {r: 0, g: 0, b: 0, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -10938,25 +10915,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!95 &2044838561196509350
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4829806491964651144}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 1d835974994108cd585fd7913f33bd7a, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!114 &4575575304852837073
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10969,7 +10927,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 81d5f2267d9147ab1a63dcd96befe2ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animator: {fileID: 2044838561196509350}
+  fadeDuration: 0.5
 --- !u!225 &9217288681950394126
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -13682,7 +13640,6 @@ GameObject:
   - component: {fileID: 5658291238788599710}
   - component: {fileID: 1223684827870268963}
   - component: {fileID: 7389199668473203010}
-  - component: {fileID: 5150134168914176519}
   - component: {fileID: 4242870350433147765}
   - component: {fileID: 1905657601743524966}
   - component: {fileID: 8258563233489736582}
@@ -13765,25 +13722,6 @@ CanvasGroup:
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
---- !u!95 &5150134168914176519
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8057189871013076870}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 5effc6281675f7b4b936190dcf4b0e93, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!114 &4242870350433147765
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13796,6 +13734,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a9ed6be32fa984c91babec227e6b3f7c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  fadeDuration: 0.5
   playerTwo: {fileID: 4029011959893258361}
   playerThree: {fileID: 2580657424396843118}
   playerFour: {fileID: 5972037081020617283}
@@ -13803,7 +13742,6 @@ MonoBehaviour:
   businessToken: {fileID: 7206128477510495317}
   leaderToken: {fileID: 6045878436524888120}
   americaToken: {fileID: 8867454117988871848}
-  animator: {fileID: 5150134168914176519}
   titleText: {fileID: 5020781866506604548}
   bodyText: {fileID: 1915086202079755603}
   buttonText: {fileID: 2502831094128890894}

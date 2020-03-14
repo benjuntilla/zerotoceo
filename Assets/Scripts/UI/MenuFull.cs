@@ -4,10 +4,9 @@ using UnityEngine.UI;
 
 namespace UI
 {
-    public class MenuFull : UIObject
+    public class MenuFull : Fadeable
     {
         public GameObject playerTwo, playerThree, playerFour, futureToken, businessToken, leaderToken, americaToken;
-        public Animator animator;
         public TextMeshProUGUI titleText, bodyText, buttonText, controlsText;
         [TextArea(3, 10)]
         public string closingMenuText, openingMenuText, gameOverText, grandmaMinigameText, coinMinigameText, trashMinigameText;
@@ -51,7 +50,7 @@ namespace UI
             switch (id)
             {
                 case "opening":
-                    _fade.FadeOutThenAction(() =>
+                    _fade.FadeOut(() =>
                     {
                         Time.timeScale = 0f;
                     });
@@ -68,10 +67,10 @@ namespace UI
                     break;
                 case "closing":
                     Time.timeScale = 1f;
-                    StartCoroutine(Helper.PlayInThenAction(animator, () =>
+                    FadeIn(() =>
                     {
                         Time.timeScale = 0f;
-                    }));                
+                    });                
                     titleText.SetText("You Beat the Game!");
                     _typeCoroutine = StartCoroutine(Helper.TypeText(bodyText, closingMenuText));
                     buttonText.SetText("Main Menu");
@@ -83,7 +82,7 @@ namespace UI
                     buttonText.SetText("Continue");
                     break;
                 case "Minigame_Grandma":
-                    _fade.FadeOutThenAction(() =>
+                    _fade.FadeOut(() =>
                     {
                         Time.timeScale = 0f;
                     });                
@@ -92,7 +91,7 @@ namespace UI
                     buttonText.SetText("Continue");
                     break;
                 case "Minigame_Trash":
-                    _fade.FadeOutThenAction(() =>
+                    _fade.FadeOut(() =>
                     {
                         Time.timeScale = 0f;
                     });                
@@ -101,7 +100,7 @@ namespace UI
                     buttonText.SetText("Continue");
                     break;
                 case "Minigame_Coin":
-                    _fade.FadeOutThenAction(() =>
+                    _fade.FadeOut(() =>
                     {
                         Time.timeScale = 0f;
                     });                
@@ -172,7 +171,7 @@ namespace UI
                         {
                             Time.timeScale = 1f;
                             StopAllCoroutines();
-                            _fade.FadeInThenAction(() =>
+                            _fade.FadeIn(() =>
                             {
                                 Disable();
                                 _levelManager.LoadNextLevel();
@@ -197,12 +196,12 @@ namespace UI
                         break;
                     case 2:
                         Time.timeScale = 1f;
-                        StartCoroutine(Helper.PlayOutThenAction(animator, () =>
+                        FadeOut(() =>
                         {
                             Disable();
                             bodyText.enabled = true;
                             controlsText.enabled = false;
-                        }));
+                        });
                         _levelManager.InitializeNextLevel();
                         break;
                 }
@@ -220,14 +219,14 @@ namespace UI
             switch (_action)
             {
                 case "death":
-                    _fade.FadeInThenAction(() =>
+                    _fade.FadeIn(() =>
                     {
                         _levelManager.LoadLevel(0);
                     });
                     break;
                 case "closing":
                     Time.timeScale = 1f;
-                    _fade.FadeInThenAction(() =>
+                    _fade.FadeIn(() =>
                     {
                         _levelManager.LoadLevel(0);
                     });
@@ -236,11 +235,11 @@ namespace UI
                 case "Minigame_Trash":
                 case "Minigame_Grandma":
                     Time.timeScale = 1f;
-                    StartCoroutine(Helper.PlayOutThenAction(animator, () =>
+                    FadeOut(() =>
                     {
                         Enable();
                         _minigameManager.StartMinigame();
-                    }));
+                    });
                     break;
             }
         }

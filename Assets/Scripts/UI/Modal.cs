@@ -88,14 +88,14 @@ namespace UI
                 case "minigame":
                     _hud.Disable();
                     _minigameManager.InitializeMinigame();
-                    _fade.FadeInThenAction(() =>
+                    _fade.FadeIn(() =>
                     {
                         _levelManager.LoadLevel(MinigameManager.minigameName);
                     });
                     break;
                 case "minigameFail":
                 case "minigamePass":
-                    _fade.FadeInThenAction(() =>
+                    _fade.FadeIn(() =>
                     {
                         _hud.Enable();
                         _levelManager.LoadSavedLevel();
@@ -112,21 +112,21 @@ namespace UI
                 case "loadFromMain":
                     _pauseMenu.ResumeGame();
                     Disable();
-                    _fade.FadeInThenAction(() =>
+                    _fade.FadeIn(() =>
                     {
                         _levelManager.LoadSavedLevel();
                     });
                     break;
                 case "new":
                     _pauseMenu.ResumeGame();
-                    _fade.FadeInThenAction(() =>
+                    _fade.FadeIn(() =>
                     {
                         _levelManager.LoadLevel(1);
                     });
                     break;
                 case "main":
                     _pauseMenu.ResumeGame();
-                    _fade.FadeInThenAction(() =>
+                    _fade.FadeIn(() =>
                     {
                         _levelManager.LoadLevel(0);
                     });
