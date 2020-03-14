@@ -6,7 +6,7 @@ using UnityEngine;
 public class MinigameTrashManager : Minigame
 {
     private int _trashCount;
-    private GameObject _characters, _ui;
+    private GameObject _characters;
     // Config
     private float _instantiateDelay;
     private int _playerMovementSpeed;
@@ -49,7 +49,6 @@ public class MinigameTrashManager : Minigame
 
     void Start()
     {
-        _ui = GameObject.FindWithTag("UI");
         _characters = GameObject.Find("Characters");
         
         LoadDifficultyConfig();

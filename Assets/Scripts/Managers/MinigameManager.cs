@@ -89,7 +89,7 @@ public class MinigameManager : MonoBehaviour
     public void InitializeMinigame()
     {
         if (_minigame.timerStartTime != 0)
-            _minigame.Invoke(nameof(Minigame.StartMinigame), 3);
+            _minigame.Invoke(nameof(Minigame.StartMinigame), 2);
         else
             _minigame.StartMinigame();
     }

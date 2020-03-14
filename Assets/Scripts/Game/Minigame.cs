@@ -23,7 +23,7 @@ public abstract class Minigame : MonoBehaviour
     {
         if (timerStartTime != 0);
         {
-            for (timerCurrentTime = timerStartTime; timerCurrentTime >= 0; timerCurrentTime--)
+            for (timerCurrentTime = timerStartTime; timerCurrentTime >= 1; timerCurrentTime--)
             {
                 if (timerCurrentTime <= cooldownTime)
                     OnCooldownEnter();
