@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using TMPro;
+﻿using TMPro;
 using UnityEngine;
 
 namespace UI
@@ -9,13 +8,13 @@ namespace UI
         private LevelManager _levelManager;
         private Player _player;
         private TextMeshProUGUI _pointsText, _timerText;
-        private Minigame _minigameManagerInterface;
+        private Minigame _minigame;
 
         public GameObject heartOne, heartTwo, heartThree, futureToken, businessToken, leaderToken, americaToken, points, tokens, hearts, timer;
         
         void Start()
         {
-            _minigameManagerInterface = FindObjectsOfType<MonoBehaviour>().OfType<Minigame>().First();
+            _minigame = FindObjectOfType<Minigame>();
             _pointsText = points.GetComponent<TextMeshProUGUI>();
             _timerText = timer.GetComponent<TextMeshProUGUI>();
             _levelManager = FindObjectOfType<LevelManager>();
@@ -77,12 +76,12 @@ namespace UI
                         break;
                 }
             }
-            else if (_levelManager.currentLevelType == LevelManager.LevelType.Minigame && _minigameManagerInterface.timerStartTime != 0)
+            else if (_levelManager.currentLevelType == LevelManager.LevelType.Minigame && _minigame.timerStartTime != 0)
             {
                 Helper.DisableChildren(gameObject);
                 timer.SetActive(true);
                 Enable();
-                _timerText.SetText($"Time left: {_minigameManagerInterface.timerCurrentTime} seconds");
+                _timerText.SetText($"Time left: {_minigame.timerCurrentTime} seconds");
             }
             else
             {
