@@ -6,7 +6,7 @@ using UnityEngine;
 public class MinigameGrandmaManager : MonoBehaviour, IMinigameManager
 {
 	private GameObject _player, _world, _roads, _characters;
-	private Collidable _playerCollidable;
+	private CollidableController _playerCollidableController;
 	private IMinigamePlayer _playerScript;
 	private int _roadCount;
 	private int[] _roadPopulations;
@@ -58,7 +58,7 @@ public class MinigameGrandmaManager : MonoBehaviour, IMinigameManager
 	{
 		_player = GameObject.FindWithTag("Player").gameObject;
 		_playerScript = _player.GetComponent<IMinigamePlayer>();
-		_playerCollidable = _player.GetComponent<Collidable>();
+		_playerCollidableController = _player.GetComponent<CollidableController>();
 		_characters = GameObject.Find("Characters");
 		_world = GameObject.FindWithTag("World");
 		_roads = _world.transform.Find("Roads").gameObject;
@@ -148,7 +148,7 @@ public class MinigameGrandmaManager : MonoBehaviour, IMinigameManager
 		car.transform.parent = _characters.transform;
 		
 		// Add to the player's target collisions
-		_playerCollidable.secondaryCollisionObjects.Add(car);
+		_playerCollidableController.secondaryCollisionObjects.Add(car);
 
 		// Set random sprite
 		car.GetComponent<SpriteRenderer>().sprite = carSprites[Random.Range(0, carSprites.Count)];

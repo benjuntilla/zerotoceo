@@ -6,7 +6,7 @@ namespace UI
     public class HUD : UIObject
     {
         private LevelManager _levelManager;
-        private Player _player;
+        private PlayerController _playerController;
         
         public TextMeshProUGUI hudPointsText;
         public GameObject heartOne, heartTwo, heartThree, futureToken, businessToken, leaderToken, americaToken;
@@ -14,7 +14,7 @@ namespace UI
         void Start()
         {
             _levelManager = FindObjectOfType<LevelManager>();
-            _player = FindObjectOfType<Player>();
+            _playerController = FindObjectOfType<PlayerController>();
             blocksRaycasts = false;
         }
 
@@ -23,11 +23,11 @@ namespace UI
             if (_levelManager.currentLevelType == LevelManager.LevelType.Level)
             {
                 Enable();
-                hudPointsText.SetText($"Points: {_player.points}");
+                hudPointsText.SetText($"Points: {_playerController.points}");
         
                 foreach (Transform child in heartOne.transform.parent)
                     child.gameObject.SetActive(false);
-                switch (_player.lives)
+                switch (_playerController.lives)
                 {
                     case 1:
                         heartOne.SetActive(true);

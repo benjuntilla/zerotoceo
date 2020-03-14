@@ -12,7 +12,7 @@ public class MinigameManager : MonoBehaviour
     private SaveManager _saveManager;
     private IMinigameManager _minigameManager;
     private LevelManager _levelManager;
-    private Player _player;
+    private PlayerController _playerController;
     private Modal _modal;
 
     public readonly Dictionary<string, int> minigamePoints = new Dictionary<string, int>()
@@ -51,7 +51,7 @@ public class MinigameManager : MonoBehaviour
 
     void Start()
     {
-        _player = FindObjectOfType<Player>();
+        _playerController = FindObjectOfType<PlayerController>();
         _levelManager = GetComponent<LevelManager>();
         _saveManager = GetComponent<SaveManager>();
         _minigameManager = GetComponent<IMinigameManager>();
@@ -122,13 +122,13 @@ public class MinigameManager : MonoBehaviour
         {
             case Status.Failed:
                 minigameStatus = Status.None;
-                _player.lives--;
-                if (_player.lives != 0)
+                _playerController.lives--;
+                if (_playerController.lives != 0)
                     _saveManager.Save();
                 break;
             case Status.Passed:
                 minigameStatus = Status.None;
-                _player.lives += minigamePoints[minigameId];
+                _playerController.lives += minigamePoints[minigameId];
                 _levelManager.scoreboard["minigameBonus"] += minigamePoints[minigameId];
                 minigameId = ""; // Clears the variable so the minigame cannot be replayed
                 minigameProgression++;
