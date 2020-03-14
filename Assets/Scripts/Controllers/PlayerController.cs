@@ -1,8 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
+using UI;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 public class PlayerController : MonoBehaviour
 {
@@ -19,16 +18,21 @@ public class PlayerController : MonoBehaviour
     private Dictionary<InteractableController, float> _interactablesDistances = new Dictionary<InteractableController, float>();
     private Animator _animator;
     private Rigidbody2D _rb;
+    private MenuFull _menuFull;
     private bool _isGrounded;
     private float _inputAxisX, _inputAxisY;
 
     void Awake()
     {
+	    _animator = GetComponent<Animator>();
+	    _rb = GetComponent<Rigidbody2D>();
+    }
+
+    void Start()
+    {
 	    _dialogueManager = FindObjectOfType<DialogueManager>();
         _interactables = FindObjectsOfType<InteractableController>();
-        
-        _animator = GetComponent<Animator>();
-        _rb = GetComponent<Rigidbody2D>();
+        _menuFull = FindObjectOfType<MenuFull>();
     }
 
     private void UpdateIndicator()
@@ -42,7 +46,7 @@ public class PlayerController : MonoBehaviour
 	    var closest = _interactablesDistances.OrderBy(k => k.Value).FirstOrDefault();
 
 	    // Activate indicator & allow for interaction when the player is near an interactable
-	    if (Mathf.RoundToInt(closest.Key.transform.position.x) == Mathf.RoundToInt(transform.position.x) && _dialogueManager.currentDialogue == "")
+	    if (Mathf.RoundToInt(closest.Key.transform.position.x) == Mathf.RoundToInt(transform.position.x) && _dialogueManager.currentDialogueName == "")
 	    {
 		    indicatorTarget = closest.Key.gameObject;
 		    if (Input.GetButtonDown("Interact"))
@@ -62,8 +66,8 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
 	    UpdateIndicator();
-	    _inputAxisX = Input.GetAxisRaw("Horizontal");
-	    _inputAxisY = Input.GetAxisRaw("Vertical");
+	    _inputAxisX = Time.timeScale == 1f ? Input.GetAxisRaw("Horizontal") : 0;
+	    _inputAxisY = Time.timeScale == 1f ? Input.GetAxisRaw("Vertical") : 0;
 	    
 	    // Only jump when grounded
 	    if( (_isGrounded && _inputAxisY == 1) || (_isGrounded && Input.GetButtonDown("Jump")) )
@@ -74,9 +78,9 @@ public class PlayerController : MonoBehaviour
 	    }
 	    
 	    // Flips sprite to the appropriate direction
-	    if( _inputAxisX == 1 && transform.localScale.x < 0f && Time.timeScale == 1f)
+	    if( _inputAxisX == 1 && transform.localScale.x < 0f)
 			transform.localScale = new Vector3( -transform.localScale.x, transform.localScale.y, transform.localScale.z );
-	    else if( _inputAxisX == -1 && transform.localScale.x > 0f && Time.timeScale == 1f)
+	    else if( _inputAxisX == -1 && transform.localScale.x > 0f)
 			transform.localScale = new Vector3( -transform.localScale.x, transform.localScale.y, transform.localScale.z );
 	    
 	    // Plays the appropriate animation
@@ -87,6 +91,10 @@ public class PlayerController : MonoBehaviour
 		    AudioManager.instance.PlayOnce("PlayerWalk");
 	    else
 		    AudioManager.instance.Stop("PlayerWalk");
+	    
+	    // Triggers death menu when appropriate
+	    if (_lives == 0)
+		    _menuFull.Trigger("death");
     }
 
     void FixedUpdate()

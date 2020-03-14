@@ -1,6 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using Cinemachine;
+using UI;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -10,10 +10,10 @@ using UnityEngine.SceneManagement;
 public class MinigameManager : MonoBehaviour
 {
     private SaveManager _saveManager;
-    private UIManager _uiManager;
     private IMinigameManager _minigameManager;
     private LevelManager _levelManager;
     private PlayerController _playerController;
+    private Modal _modal;
 
     public readonly Dictionary<string, int> minigamePoints = new Dictionary<string, int>()
     {
@@ -49,17 +49,16 @@ public class MinigameManager : MonoBehaviour
         Hard
     };
 
-    void Awake()
+    void Start()
     {
         _playerController = FindObjectOfType<PlayerController>();
         _levelManager = GetComponent<LevelManager>();
         _saveManager = GetComponent<SaveManager>();
         _minigameManager = GetComponent<IMinigameManager>();
-        _uiManager = FindObjectOfType<UIManager>();
-        _uiManager.exitEvent.AddListener(delegate { minigameStatus = Status.None; });
+        _modal = FindObjectOfType<Modal>();
     }
 
-    public string ResolveEmptyMinigame() // For debug purposes
+    public string ResolveEmptyMinigame()
     {
         switch (SceneManager.GetActiveScene().buildIndex)
         {
@@ -83,7 +82,8 @@ public class MinigameManager : MonoBehaviour
         var splitName = minigameId.Split('_');
         minigameName = $"{splitName[0]}_{splitName[1]}";
         minigameDifficulty = splitName[2];
-        _saveManager.Save();
+        if (_saveManager != null)
+            _saveManager.Save();
     }
 
     public void StartMinigame()
@@ -104,13 +104,13 @@ public class MinigameManager : MonoBehaviour
     public void Pass()
     {
         minigameStatus = Status.Passed;
-        _uiManager.TriggerMinigameEndMenu(true);
+        _modal.Trigger("minigamePass");
     }
 
     public void Fail()
     {
         minigameStatus = Status.Failed;
-        _uiManager.TriggerMinigameEndMenu(false);
+        _modal.Trigger("minigameFail");
     }
 
     /// <summary>

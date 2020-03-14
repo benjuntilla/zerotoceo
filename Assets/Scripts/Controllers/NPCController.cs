@@ -44,12 +44,12 @@ public class NPCController : MonoBehaviour
     {
         // Set indicators based on certain conditions
         _exclamation.SetActive(dialogueTriggered);
-        _dots.SetActive(_dialogueManager.currentDialogue == _interactableController.dialogue.name);
+        _dots.SetActive(_dialogueManager.currentDialogueName == _interactableController.dialogue.name);
 
         // Controls when the NPC follows the player, stands still, or wanders depending on the current dialogue status
-        if (dialogueTriggered || _dialogueManager.currentDialogue == _interactableController.dialogue.name)
+        if (dialogueTriggered || _dialogueManager.currentDialogueName == _interactableController.dialogue.name)
         {
-            if (_dialogueManager.currentDialogue != _interactableController.dialogue.name && _nearPlayer)
+            if (_dialogueManager.currentDialogueName != _interactableController.dialogue.name && _nearPlayer)
             {
                 _interactableController.TriggerDialogue();
                 dialogueTriggered = false;
@@ -89,9 +89,9 @@ public class NPCController : MonoBehaviour
         }
         
         // Looks at the player when having a dialogue
-        if (_dialogueManager.currentDialogue == _interactableController.dialogue.name && _player.transform.position.x > transform.position.x && transform.localScale.x < 0f && Time.timeScale == 1f)
+        if (_dialogueManager.currentDialogueName == _interactableController.dialogue.name && _player.transform.position.x > transform.position.x && transform.localScale.x < 0f && Time.timeScale == 1f)
             transform.localScale = new Vector3( -transform.localScale.x, transform.localScale.y, transform.localScale.z );
-        else if (_dialogueManager.currentDialogue == _interactableController.dialogue.name && _player.transform.position.x < transform.position.x && transform.localScale.x > 0f && Time.timeScale == 1f)
+        else if (_dialogueManager.currentDialogueName == _interactableController.dialogue.name && _player.transform.position.x < transform.position.x && transform.localScale.x > 0f && Time.timeScale == 1f)
             transform.localScale = new Vector3( -transform.localScale.x, transform.localScale.y, transform.localScale.z );
         
         // Plays the appropriate animation

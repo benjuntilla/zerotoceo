@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -36,8 +37,6 @@ public class LevelManager : MonoBehaviour
     
     void Awake()
     {
-        _charactersManager = GetComponent<CharactersManager>();
-        _saveManager = GetComponent<SaveManager>();
         levelIndex = SceneManager.GetActiveScene().buildIndex;
         levelName = SceneManager.GetActiveScene().name;
         nextLevelRequirements = new Dictionary<int, int>()
@@ -62,18 +61,19 @@ public class LevelManager : MonoBehaviour
         {
             currentLevelType = LevelType.Minigame;
         }
+    }
 
-        // Get PlayerController when needed
-        if (currentLevelType == LevelType.Level)
-        {
-            _playerController = FindObjectOfType<PlayerController>();
-        }
-
+    void Start()
+    {
+        _charactersManager = GetComponent<CharactersManager>();
+        _saveManager = GetComponent<SaveManager>();
+        _playerController = FindObjectOfType<PlayerController>();
+        
         // Initialize next level when needed
         if (_nextLevelFlag)
             InitializeNextLevel();
     }
-    
+
     public void InitializeNextLevel()
     {
         _playerController.lives++;
@@ -85,6 +85,7 @@ public class LevelManager : MonoBehaviour
     public void LoadLevel(object param)
     {
         _nextLevelFlag = false;
+        SaveManager.loadFlag = false;
         if (param is string)
             SceneManager.LoadScene((string) param);
         else if (param is int)
@@ -94,6 +95,14 @@ public class LevelManager : MonoBehaviour
     public void LoadNextLevel()
     {
         _nextLevelFlag = true;
-        LoadLevel(levelIndex++);
+        SaveManager.loadFlag = false;
+        SceneManager.LoadScene(levelIndex++);
+    }
+
+    public void LoadSavedLevel()
+    {
+        _nextLevelFlag = false;
+        SaveManager.loadFlag = true;
+        SceneManager.LoadScene(_saveManager.GetSavedLevelIndex());
     }
 }

@@ -1,29 +1,29 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using UI;
 using UnityEngine;
 using UnityEngine.Events;
 
 public class InteractableController : MonoBehaviour
 {
-    private UIManager _uiManager;
     private LevelManager _levelManager;
     private DialogueManager _dialogueManager;
     private CharactersManager _charactersManager;
     private GameObject _indicator;
     private PlayerController _playerController;
+    private Modal _modal;
+    private MenuFull _menuFull;
     
     public UnityEvent interactionMethods;
     public TextAsset dialogue;
 
-    void Awake()
+    void Start()
     {
         _dialogueManager = FindObjectOfType<DialogueManager>();
         _levelManager = FindObjectOfType<LevelManager>();
         _charactersManager = FindObjectOfType<CharactersManager>();
-        _uiManager = FindObjectOfType<UIManager>();
         _indicator = gameObject.transform.Find("Indicator").gameObject;
         _playerController = FindObjectOfType<PlayerController>();
+        _modal = FindObjectOfType<Modal>();
+        _menuFull = FindObjectOfType<MenuFull>();
     }
 
     public void Interact()
@@ -34,7 +34,7 @@ public class InteractableController : MonoBehaviour
     public void TestIfMinigame()
     {
         if (MinigameManager.minigameId != "")
-            _uiManager.TriggerModal("minigame");
+            _modal.Trigger("minigame");
         else
             TriggerDialogue();
     }
@@ -42,7 +42,7 @@ public class InteractableController : MonoBehaviour
     public void TestIfCanLevelUp()
     {
         if (_playerController.points >= _levelManager.nextLevelRequirements[_levelManager.levelIndex])
-            _uiManager.TriggerLevelEndMenu();
+            _menuFull.Trigger("levelEnd");
         else
             TriggerDialogue();
     }
