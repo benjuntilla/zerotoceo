@@ -38,7 +38,7 @@ namespace UI
                     PopInThenOut(5);
                     break;
                 case "save":
-                    _text.SetText("fsfjselfjlskfjklsejflksjeklfjlsjfsjelfjslefjsjfeklsklejfk.");
+                    _text.SetText("Game Saved.");
                     PopInThenOut(2);
                     break;
                 case "levelUp":
