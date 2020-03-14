@@ -21,7 +21,7 @@ namespace UI
         private LevelManager _levelManager;
         private MinigameManager _minigameManager;
         private Coroutine _typeCoroutine;
-        private PlayerController _playerController;
+        private Player _player;
         private GameObject _imagesObject;
         
         void Start()
@@ -30,7 +30,7 @@ namespace UI
             _saveManager = FindObjectOfType<SaveManager>();
             _levelManager = FindObjectOfType<LevelManager>();
             _minigameManager = FindObjectOfType<MinigameManager>();
-            _playerController = FindObjectOfType<PlayerController>();
+            _player = FindObjectOfType<Player>();
             _imagesObject = GetComponentInChildren<Image>().gameObject.transform.parent.gameObject;
         }
 
@@ -130,7 +130,7 @@ namespace UI
                             $"Dialogue bonus: {_levelManager.scoreboard["dialogueBonus"]}\n" +
                             $"Dialogue penalty: {_levelManager.scoreboard["dialoguePenalty"]}\n" +
                             $"Minigame bonus: {_levelManager.scoreboard["minigameBonus"]}\n" +
-                            $"Total points: {_playerController.points}\n"
+                            $"Total points: {_player.points}\n"
                         );
                         if (_levelManager.levelIndex == 4) // Skip the clothing slide on level 4 since it doesnt exist
                             _counter++;
