@@ -9,24 +9,23 @@ namespace UI
 
         void Start()
         {
-            blocksRaycasts = false;
-            Enable();
+            FadeOutThenAction(() => {});
         }
 
         public void FadeOutThenAction(Action action)
         {
-            blocksRaycasts = true;
+            Enable();
             StopAllCoroutines();
             StartCoroutine(Helper.PlayOutThenAction(animator, () =>
             {
-                blocksRaycasts = false;
+                Disable();
                 action();
             }));
         }
         
         public void FadeInThenAction(Action action)
         {
-            blocksRaycasts = true;
+            Enable();
             StopAllCoroutines();
             StartCoroutine(Helper.PlayInThenAction(animator, action));
         }
