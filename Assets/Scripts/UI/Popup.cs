@@ -58,8 +58,9 @@ namespace UI
             }));
         }
 
-        void Update()
+        protected override void Update()
         {
+            base.Update();
             // Trigger queued popups
             if (_queue.Count > 0 && _isReady)
                 Trigger();

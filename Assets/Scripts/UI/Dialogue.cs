@@ -106,8 +106,9 @@ namespace UI
             _dialogueManager.ClickTertiaryButton();
         }
 
-        void Update()
+        protected override void Update()
         {
+            base.Update();
             UpdatePosition();
             UpdateUI();
             UpdateText();

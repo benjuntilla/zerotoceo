@@ -18,8 +18,9 @@ namespace UI
             blocksRaycasts = false;
         }
 
-        void Update()
+        protected override void Update()
         {
+            base.Update();
             if (_levelManager.currentLevelType == LevelManager.LevelType.Level)
             {
                 Enable();

@@ -8,7 +8,6 @@ namespace UI
     {
         public GameObject playerTwo, playerThree, playerFour, futureToken, businessToken, leaderToken, americaToken;
         public Animator animator;
-        public CanvasGroup menuFullCanvasGroup;
         public TextMeshProUGUI titleText, bodyText, buttonText, controlsText;
         [TextArea(3, 10)]
         public string closingMenuText, openingMenuText, gameOverText, grandmaMinigameText, coinMinigameText, trashMinigameText;
@@ -17,7 +16,6 @@ namespace UI
         private int _counter;
         private string _action;
         private Fade _fade;
-        private SaveManager _saveManager;
         private LevelManager _levelManager;
         private MinigameManager _minigameManager;
         private Coroutine _typeCoroutine;
@@ -27,7 +25,6 @@ namespace UI
         void Start()
         {
             _fade = FindObjectOfType<Fade>();
-            _saveManager = FindObjectOfType<SaveManager>();
             _levelManager = FindObjectOfType<LevelManager>();
             _minigameManager = FindObjectOfType<MinigameManager>();
             _player = FindObjectOfType<Player>();
@@ -36,19 +33,15 @@ namespace UI
 
         public void Trigger(string id)
         {
-            _counter = 0;
-            menuFullCanvasGroup.blocksRaycasts = true;
             Enable();
+            _counter = 0;
             _action = id;
             switch (id)
             {
                 case "opening":
-                    menuFullCanvasGroup.blocksRaycasts = false;
                     _fade.FadeOutThenAction(() =>
                     {
-                        menuFullCanvasGroup.blocksRaycasts = true;
                         Time.timeScale = 0f;
-                        Enable();
                     });
                     titleText.SetText("The beginning");
                     _typeCoroutine = StartCoroutine(Helper.TypeText(bodyText, openingMenuText));
@@ -63,10 +56,8 @@ namespace UI
                     break;
                 case "closing":
                     Time.timeScale = 1f;
-                    menuFullCanvasGroup.blocksRaycasts = false;
                     StartCoroutine(Helper.PlayInThenAction(animator, () =>
                     {
-                        menuFullCanvasGroup.blocksRaycasts = true;
                         Time.timeScale = 0f;
                     }));                
                     titleText.SetText("You Beat the Game!");
@@ -80,10 +71,8 @@ namespace UI
                     buttonText.SetText("Continue");
                     break;
                 case "Minigame_Grandma":
-                    menuFullCanvasGroup.blocksRaycasts = false;
                     _fade.FadeOutThenAction(() =>
                     {
-                        menuFullCanvasGroup.blocksRaycasts = true;
                         Time.timeScale = 0f;
                     });                
                     titleText.SetText("Minigame: Cross the street");
@@ -91,10 +80,8 @@ namespace UI
                     buttonText.SetText("Continue");
                     break;
                 case "Minigame_Trash":
-                    menuFullCanvasGroup.blocksRaycasts = false;
                     _fade.FadeOutThenAction(() =>
                     {
-                        menuFullCanvasGroup.blocksRaycasts = true;
                         Time.timeScale = 0f;
                     });                
                     titleText.SetText("Minigame: Collect the trash");
@@ -102,10 +89,8 @@ namespace UI
                     buttonText.SetText("Continue");
                     break;
                 case "Minigame_Coin":
-                    menuFullCanvasGroup.blocksRaycasts = false;
                     _fade.FadeOutThenAction(() =>
                     {
-                        menuFullCanvasGroup.blocksRaycasts = true;
                         Time.timeScale = 0f;
                     });                
                     titleText.SetText("Minigame: Sort the coins");
@@ -194,7 +179,6 @@ namespace UI
                 switch (_counter)
                 {
                     case 1:
-                        menuFullCanvasGroup.blocksRaycasts = true;
                         titleText.SetText("Controls");
                         bodyText.enabled = false;
                         controlsText.enabled = true;
@@ -221,7 +205,6 @@ namespace UI
         {
             if (_typeCoroutine != null)
                 StopCoroutine(_typeCoroutine);
-            menuFullCanvasGroup.blocksRaycasts = false;
             switch (_action)
             {
                 case "death":

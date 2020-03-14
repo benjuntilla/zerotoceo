@@ -19,8 +19,9 @@ namespace UI
             Time.timeScale = 1f;
         }
 
-        void Update()
+        protected override void Update()
         {
+            base.Update();
             if (Input.GetKeyDown(KeyCode.Escape) && SceneManager.GetActiveScene().buildIndex != 0)
             {
                 if (Time.timeScale == 0f)
