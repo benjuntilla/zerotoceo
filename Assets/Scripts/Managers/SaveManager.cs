@@ -105,8 +105,7 @@ public class SaveManager : MonoBehaviour
 
         // Save data into system
         var formatter = new BinaryFormatter();
-        var path = Application.persistentDataPath + "/savedata";
-        var stream = new FileStream(path, FileMode.Create);
+        var stream = new FileStream(_savePath, FileMode.Create);
         formatter.Serialize(stream, data);
         stream.Close();
         

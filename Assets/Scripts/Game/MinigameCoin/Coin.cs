@@ -10,8 +10,7 @@ public abstract class Coin : MonoBehaviour
     
     void Start()
     {
-        var gameManagers = GameObject.FindWithTag("GameManagers");
-        minigameManager = gameManagers.GetComponent<MinigameManager>();
+        minigameManager = FindObjectOfType<MinigameManager>();
         draggable = GetComponent<Draggable>();
         collidable = GetComponent<Collidable>();
         
@@ -21,11 +20,10 @@ public abstract class Coin : MonoBehaviour
         draggable.dragEvent.AddListener(collidable.DisableCollisionEvents);
         draggable.dropEvent.AddListener(collidable.EnableCollisionEvents);
         
-        var dropRegions = GameObject.FindWithTag("World").transform.Find("Drop Regions").gameObject;
-        pennyRegion = dropRegions.transform.Find("Penny Region").gameObject;
-        nickelRegion = dropRegions.transform.Find("Nickel Region").gameObject;
-        dimeRegion = dropRegions.transform.Find("Dime Region").gameObject;
-        quarterRegion = dropRegions.transform.Find("Quarter Region").gameObject;
+        pennyRegion = GameObject.Find("Penny Region").gameObject;
+        nickelRegion = GameObject.Find("Nickel Region").gameObject;
+        dimeRegion = GameObject.Find("Dime Region").gameObject;
+        quarterRegion = GameObject.Find("Quarter Region").gameObject;
 
         ApplyCollisionObjects();
     }
