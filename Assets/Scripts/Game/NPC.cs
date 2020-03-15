@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using Random = UnityEngine.Random;
 
 public class NPC : MonoBehaviour
@@ -10,6 +11,7 @@ public class NPC : MonoBehaviour
     public int wanderIntervalMax = 4;
 	public float runSpeed = 1f;
     public bool standStill = true;
+    public float proximityThreshold = 0.75f;
 
     private DialogueManager _dialogueManager;
 	private Animator _animator;
@@ -22,7 +24,7 @@ public class NPC : MonoBehaviour
     private float _lastMoveTime;
     private bool _wander = true, _isGrounded, _followPlayer, _nearPlayer;
 
-    void Awake()
+    void Start()
     {
         _dialogueManager = FindObjectOfType<DialogueManager>();
         _rb = GetComponent<Rigidbody2D>();
@@ -61,7 +63,7 @@ public class NPC : MonoBehaviour
         }
 
         // Determines whether the NPC is near the player
-        _nearPlayer = Mathf.RoundToInt(_player.transform.position.x) == Mathf.RoundToInt(transform.position.x);
+        _nearPlayer = Math.Abs(_player.transform.position.x - transform.position.x) < proximityThreshold;
 
         // Randomly sets the movement direction when wandering
         if (_wander && Time.realtimeSinceStartup - _lastMoveTime > _interval)
