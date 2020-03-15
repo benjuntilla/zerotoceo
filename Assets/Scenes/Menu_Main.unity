@@ -845,6 +845,11 @@ PrefabInstance:
       propertyPath: m_SizeDelta.x
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2440361373130561412, guid: 353226fa01a9fec84852e24c24765e2e,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2772350601992790899, guid: 353226fa01a9fec84852e24c24765e2e,
         type: 3}
       propertyPath: m_Sprite
@@ -1271,6 +1276,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e15dfa6d2c444ab52b05b8d0f8aabdb9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  loaded: 0
 --- !u!4 &1501926685
 Transform:
   m_ObjectHideFlags: 0

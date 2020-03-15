@@ -76,7 +76,6 @@ public class LevelManager : MonoBehaviour
 
     public void InitializeNextLevel()
     {
-        _player.lives++;
         _charactersManager.TriggerManagerDialogue();
         _saveManager.Save();
         _nextLevelFlag = false;
@@ -85,7 +84,7 @@ public class LevelManager : MonoBehaviour
     public void LoadLevel(object param)
     {
         _nextLevelFlag = false;
-        SaveManager.loadFlag = false;
+        _saveManager.DisableLoadFlag();
         if (param is string)
             SceneManager.LoadScene((string) param);
         else if (param is int)
@@ -95,14 +94,14 @@ public class LevelManager : MonoBehaviour
     public void LoadNextLevel()
     {
         _nextLevelFlag = true;
-        SaveManager.loadFlag = false;
+        _saveManager.DisableLoadFlag();
         SceneManager.LoadScene(levelIndex++);
     }
 
     public void LoadSavedLevel()
     {
         _nextLevelFlag = false;
-        SaveManager.loadFlag = true;
+        _saveManager.EnableLoadFlag();
         SceneManager.LoadScene(_saveManager.GetSavedLevelIndex());
     }
 }

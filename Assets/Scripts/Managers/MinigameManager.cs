@@ -14,6 +14,7 @@ public class MinigameManager : MonoBehaviour
     private LevelManager _levelManager;
     private Player _player;
     private Modal _modal;
+    private static bool _returningFromMinigame;
 
     public readonly Dictionary<string, int> minigamePoints = new Dictionary<string, int>()
     {
@@ -27,10 +28,10 @@ public class MinigameManager : MonoBehaviour
         {"Minigame_Coin_Medium", 75},
         {"Minigame_Coin_Hard", 100},
     };
-    public static string minigameId = ""; // Full id of minigame e.g., Minigame_Grandma_Easy
-    public static string minigameName = ""; // First two parts of the minigame id e.g., Minigame_Grandma
-    public static string minigameDifficulty = ""; // Just the last part of the minigame id containing the difficulty
-    public static Status minigameStatus = Status.None;
+    public static string minigameId { get; private set; } = ""; // Full id of minigame e.g., Minigame_Grandma_Easy
+    public static string minigameName { get; private set; } = ""; // First two parts of the minigame id e.g., Minigame_Grandma
+    public static string minigameDifficulty { get; private set; }= ""; // Just the last part of the minigame id containing the difficulty
+    public static Status minigameStatus { get; private set; } = Status.None;
     public Difficulty defaultDifficulty = Difficulty.Easy; // Used for debugging
     public int minigameProgression; // Count of minigames passed on a level by level basis
 
@@ -99,6 +100,7 @@ public class MinigameManager : MonoBehaviour
         if (minigameStatus != Status.InProgress) return;
         minigameStatus = Status.Passed;
         _minigame.StopTimer();
+        _returningFromMinigame = true;
         _modal.Trigger("minigamePass");
     }
 
@@ -107,27 +109,38 @@ public class MinigameManager : MonoBehaviour
         if (minigameStatus != Status.InProgress) return;
         minigameStatus = Status.Failed;
         _minigame.StopTimer();
+        _returningFromMinigame = true;
         _modal.Trigger("minigameFail");
     }
-    
+
+    public void SetMinigameStatus(Status status)
+    {
+        if (_returningFromMinigame) return;
+        minigameStatus = status;
+    }
+
+    public void SetMinigameID(string id)
+    {
+        minigameId = id;
+    }
+
     private void CheckPassOrFail()
     {
-        switch (minigameStatus)
+        if (minigameStatus == Status.Failed)
         {
-            case Status.Failed:
-                minigameStatus = Status.None;
-                _player.lives--;
-                if (_player.lives != 0)
-                    _saveManager.Save();
-                break;
-            case Status.Passed:
-                minigameStatus = Status.None;
-                _player.lives += minigamePoints[minigameId];
-                _levelManager.scoreboard["minigameBonus"] += minigamePoints[minigameId];
-                minigameId = ""; // Clears the variable so the minigame cannot be replayed
-                minigameProgression++;
+            minigameStatus = Status.None;
+            _player.lives--;
+            if (_player.lives != 0)
                 _saveManager.Save();
-                break;
+        }
+        else if (minigameStatus == Status.Passed)
+        {
+            minigameStatus = Status.None;
+            _player.points += minigamePoints[minigameId];
+            _levelManager.scoreboard["minigameBonus"] += minigamePoints[minigameId];
+            minigameId = ""; // Clears the variable so the minigame cannot be replayed
+            minigameProgression++;
+            _saveManager.Save();
         }
     }
 

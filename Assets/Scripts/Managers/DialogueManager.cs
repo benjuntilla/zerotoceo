@@ -52,8 +52,8 @@ public class DialogueManager : MonoBehaviour
         {
             dialogue.ObserveVariable("pendingMinigame", (varName, newValue) =>
             {
-                MinigameManager.minigameStatus = MinigameManager.Status.Pending;
-                MinigameManager.minigameId = (string) newValue;
+                _minigameManager.SetMinigameStatus(MinigameManager.Status.Pending);
+                _minigameManager.SetMinigameID((string) newValue);
                 _popup.Queue("minigame");
             });
         }

@@ -20,6 +20,7 @@ namespace UI
         private Coroutine _typeCoroutine;
         private Player _player;
         private GameObject _imagesObject;
+        private SaveManager _saveManager;
         
         void Start()
         {
@@ -28,13 +29,14 @@ namespace UI
             _minigameManager = FindObjectOfType<MinigameManager>();
             _player = FindObjectOfType<Player>();
             _imagesObject = GetComponentInChildren<Image>().gameObject.transform.parent.gameObject;
+            _saveManager = FindObjectOfType<SaveManager>();
             
             TriggerAppropriateMenu();
         }
 
         private void TriggerAppropriateMenu()
         {
-            if (_levelManager.levelIndex == 1 && !SaveManager.loadFlag)
+            if (_levelManager.levelIndex == 1 && !_saveManager.loaded)
                 Trigger("opening");
             else if (_levelManager.currentLevelType == LevelManager.LevelType.Minigame && MinigameManager.minigameId != "")
                 Trigger(MinigameManager.minigameName);

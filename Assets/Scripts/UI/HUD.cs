@@ -15,8 +15,8 @@ namespace UI
         private Slider _timerSlider, _countdownSlider;
         private bool _countdownTriggered, _countdownInProgress;
         private CanvasGroup _countdownCanvasGroup, _pointsIndicatorCanvasGroup;
-        private int _cachedPoints;
         private Sequence _pointsIndicatorSequence;
+        private static int _cachedPoints;
 
         public GameObject heartOne, heartTwo, heartThree, futureToken, businessToken, leaderToken, americaToken, points, tokens, hearts, timer, countdown, pointsIndicator, pointsNumber;
 
@@ -92,7 +92,7 @@ namespace UI
             }
         }
 
-        public void TriggerPointsIndicator()
+        private void TriggerPointsIndicator()
         {
             if (_pointsIndicatorSequence != null && _pointsIndicatorSequence.IsActive() && _pointsIndicatorSequence.IsPlaying()) return;
             _pointsIndicatorSequence = DOTween.Sequence();
