@@ -10,23 +10,27 @@ namespace UI
     {
         private LevelManager _levelManager;
         private Player _player;
-        private TextMeshProUGUI _pointsText, _timerText, _countdownText;
+        private TextMeshProUGUI _pointsNumberText, _timerText, _countdownText, _pointsIndicatorText;
         private Minigame _minigame;
         private Slider _timerSlider, _countdownSlider;
         private bool _countdownTriggered, _countdownInProgress;
-        private CanvasGroup _countdownCanvasGroup;
+        private CanvasGroup _countdownCanvasGroup, _pointsIndicatorCanvasGroup;
+        private int _cachedPoints;
+        private Sequence _pointsIndicatorSequence;
 
-        public GameObject heartOne, heartTwo, heartThree, futureToken, businessToken, leaderToken, americaToken, points, tokens, hearts, timer, countdown;
-        
+        public GameObject heartOne, heartTwo, heartThree, futureToken, businessToken, leaderToken, americaToken, points, tokens, hearts, timer, countdown, pointsIndicator, pointsNumber;
+
         void Start()
         {
             _minigame = FindObjectOfType<Minigame>();
-            _pointsText = points.GetComponent<TextMeshProUGUI>();
+            _pointsNumberText = pointsNumber.GetComponent<TextMeshProUGUI>();
             _countdownText = countdown.GetComponentInChildren<TextMeshProUGUI>();
             _countdownSlider = countdown.GetComponentInChildren<Slider>();
             _timerText = timer.GetComponentInChildren<TextMeshProUGUI>();
             _timerSlider = timer.GetComponentInChildren<Slider>();
             _countdownCanvasGroup = countdown.GetComponentInChildren<CanvasGroup>();
+            _pointsIndicatorCanvasGroup = pointsIndicator.GetComponent<CanvasGroup>();
+            _pointsIndicatorText = pointsIndicator.GetComponent<TextMeshProUGUI>();
             
             _levelManager = FindObjectOfType<LevelManager>();
             _player = FindObjectOfType<Player>();
@@ -41,7 +45,13 @@ namespace UI
             hearts.SetActive(true);
             Enable();
 
-            _pointsText.SetText($"Points: {_player.points}");
+            _pointsNumberText.SetText(_player.points.ToString());
+            if (_cachedPoints != _player.points)
+            {
+                _pointsIndicatorText.SetText($"+{_player.points - _cachedPoints}");
+                _cachedPoints = _player.points;
+                TriggerPointsIndicator();
+            }
             Helper.DisableChildren(hearts);
             switch (_player.lives)
             {
@@ -80,6 +90,21 @@ namespace UI
                     americaToken.SetActive(true);
                     break;
             }
+        }
+
+        public void TriggerPointsIndicator()
+        {
+            if (_pointsIndicatorSequence != null && _pointsIndicatorSequence.IsActive() && _pointsIndicatorSequence.IsPlaying()) return;
+            _pointsIndicatorSequence = DOTween.Sequence();
+            _pointsIndicatorSequence.Append(_pointsIndicatorCanvasGroup.DOFade(0, 1.5f)).Join(            
+                pointsIndicator.gameObject.transform.DOMoveY(pointsIndicator.gameObject.transform.position.y - 10, 1.5f).OnComplete(() =>
+                {
+                    pointsIndicator.SetActive(false);
+                    pointsIndicator.transform.Translate(new Vector3(0, 10, 0));
+                }));
+            pointsIndicator.SetActive(true);
+            _pointsIndicatorCanvasGroup.alpha = 1;
+            _pointsIndicatorSequence.Play();
         }
 
         private void UpdateMinigameHUD()
