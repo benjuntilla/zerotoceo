@@ -8476,7 +8476,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 4076270524026237614}
-        m_MethodName: Disable
+        m_MethodName: Dismiss
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

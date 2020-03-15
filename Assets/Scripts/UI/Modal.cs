@@ -7,8 +7,8 @@ namespace UI
     {
         public TextMeshProUGUI modalText;
         public GameObject primaryButton, secondaryButton;
+        public string action { get; private set; }
         
-        private string _action;
         private TextMeshProUGUI _primaryButtonText, _secondaryButtonText;
         private HUD _hud;
         private PauseMenu _pauseMenu;
@@ -29,18 +29,17 @@ namespace UI
             _secondaryButtonText = secondaryButton.GetComponentInChildren<TextMeshProUGUI>();
         }
 
-        public void Trigger (string id)
+        public void Trigger(string id)
         {
-            // !! Default options !!
+            Enable();
             Time.timeScale = 0;
+            action = id;
+            
             modalText.alignment = TextAlignmentOptions.Justified;
             primaryButton.SetActive(true);
             secondaryButton.SetActive(true);
             _primaryButtonText.SetText("yes");
             _secondaryButtonText.SetText("no");
-            // !! Default options !!
-            _action = id;
-            Enable();
             switch (id)
             {
                 case "minigame":
@@ -56,7 +55,8 @@ namespace UI
                     modalText.alignment = TextAlignmentOptions.Left;
                     _primaryButtonText.SetText("ok");
                     secondaryButton.SetActive(false);
-                    modalText.SetText($"You passed the minigame. (Gained {_minigameManager.minigamePoints[MinigameManager.minigameId]} points)");
+                    modalText.SetText(
+                        $"You passed the minigame. (Gained {_minigameManager.minigamePoints[MinigameManager.minigameId]} points)");
                     break;
                 case "save":
                     modalText.SetText("Are you sure you want to save? This will overwrite current save data!");
@@ -68,22 +68,22 @@ namespace UI
                     modalText.SetText("Load save data?");
                     break;
                 case "new":
-                    modalText.SetText("Are you sure you want to start a new game? This will NOT load previous save data!");
+                    modalText.SetText(
+                        "Are you sure you want to start a new game? This will NOT load previous save data!");
                     break;
                 case "quit":
                     modalText.SetText("Are you sure you want to quit? This will discard unsaved game data!");
                     break;
                 case "main":
-                    modalText.SetText("Are you sure you want to exit to the main menu? This will discard unsaved game data!");
+                    modalText.SetText(
+                        "Are you sure you want to exit to the main menu? This will discard unsaved game data!");
                     break;
             }
         }
-        
+
         public void Confirm ()
         {
-            Time.timeScale = 1;
-            Disable();
-            switch (_action)
+            switch (action)
             {
                 case "minigame":
                     _hud.Disable();
@@ -135,6 +135,16 @@ namespace UI
                     Application.Quit();
                     break;
             }
+            action = null;
+            Time.timeScale = 1;
+            Disable();
+        }
+
+        public void Dismiss()
+        {
+            action = null;
+            Time.timeScale = 1;
+            Disable();
         }
     }
 }

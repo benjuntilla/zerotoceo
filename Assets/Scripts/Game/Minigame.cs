@@ -21,16 +21,14 @@ public abstract class Minigame : MonoBehaviour
 
     protected IEnumerator StartTimer()
     {
-        if (timerStartTime != 0);
+        if (timerStartTime == 0) yield break;
+        for (timerCurrentTime = timerStartTime; timerCurrentTime >= 1; timerCurrentTime--)
         {
-            for (timerCurrentTime = timerStartTime; timerCurrentTime >= 1; timerCurrentTime--)
-            {
-                if (timerCurrentTime <= cooldownTime)
-                    OnCooldownEnter();
-                yield return new WaitForSeconds(1);
-            }
-            OnTimerDone();
+            if (timerCurrentTime <= cooldownTime)
+                OnCooldownEnter();
+            yield return new WaitForSeconds(1);
         }
+        OnTimerDone();
     }
 
     protected virtual void OnCooldownEnter() { }
