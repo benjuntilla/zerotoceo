@@ -82,28 +82,16 @@ namespace UI
                     buttonText.SetText("Continue");
                     break;
                 case "Minigame_Grandma":
-                    _fade.FadeOut(() =>
-                    {
-                        Time.timeScale = 0f;
-                    });                
                     titleText.SetText("Minigame: Cross the street");
                     _typeCoroutine = StartCoroutine(Helper.TypeText(bodyText, grandmaMinigameText));
                     buttonText.SetText("Continue");
                     break;
                 case "Minigame_Trash":
-                    _fade.FadeOut(() =>
-                    {
-                        Time.timeScale = 0f;
-                    });                
                     titleText.SetText("Minigame: Collect the trash");
                     _typeCoroutine = StartCoroutine(Helper.TypeText(bodyText, trashMinigameText));
                     buttonText.SetText("Continue");
                     break;
                 case "Minigame_Coin":
-                    _fade.FadeOut(() =>
-                    {
-                        Time.timeScale = 0f;
-                    });                
                     titleText.SetText("Minigame: Sort the coins");
                     _typeCoroutine = StartCoroutine(Helper.TypeText(bodyText, coinMinigameText));
                     buttonText.SetText("Continue");
@@ -234,10 +222,9 @@ namespace UI
                 case "Minigame_Coin":
                 case "Minigame_Trash":
                 case "Minigame_Grandma":
-                    Time.timeScale = 1f;
                     FadeOut(() =>
                     {
-                        Enable();
+                        Disable();
                         _minigameManager.InitializeMinigame();
                     });
                     break;

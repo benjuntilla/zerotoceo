@@ -89,15 +89,16 @@ public class MinigameManager : MonoBehaviour
     public void InitializeMinigame()
     {
         if (_minigame.timerStartTime != 0)
-            _minigame.Invoke(nameof(Minigame.StartMinigame), 2);
+            _minigame.Invoke(nameof(Minigame.OnMinigameStart), 2);
         else
-            _minigame.StartMinigame();
+            _minigame.OnMinigameStart();
     }
 
     public void Pass()
     {
         if (minigameStatus != Status.InProgress) return;
         minigameStatus = Status.Passed;
+        _minigame.StopTimer();
         _modal.Trigger("minigamePass");
     }
 
@@ -105,6 +106,7 @@ public class MinigameManager : MonoBehaviour
     {
         if (minigameStatus != Status.InProgress) return;
         minigameStatus = Status.Failed;
+        _minigame.StopTimer();
         _modal.Trigger("minigameFail");
     }
     

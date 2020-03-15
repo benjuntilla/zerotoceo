@@ -19,7 +19,7 @@ MonoBehaviour:
   - {fileID: 904394260891592953, guid: e3e0206ce72e7372b890e03ce4f30a00, type: 3}
   - {fileID: 6977521501964469805, guid: 5fafa6d89522b02d989565d5437ea727, type: 3}
   - {fileID: 8102090394943287169, guid: ba560b50a65b6e1008a13e4f601fdb79, type: 3}
-  trashTorque: 360
+  trashTorque: 90
   trashGravity: 0
   easyDifficultyConfig:
     trashGravity: 0.75

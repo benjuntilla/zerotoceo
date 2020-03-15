@@ -45,10 +45,10 @@ public class MinigameCoinManager : Minigame
         LoadDifficultyConfig();
     }
 
-    public override void StartMinigame()
+    public override void OnMinigameStart()
     {
+        base.OnMinigameStart();
         _instantiateLoop = StartCoroutine(InstantiateLoop());
-        StartCoroutine(StartTimer());    
     }
 
     private void LoadDifficultyConfig()

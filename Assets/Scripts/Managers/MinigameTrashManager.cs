@@ -14,7 +14,8 @@ public class MinigameTrashManager : Minigame
 
     [Header("Game Config")]
     public List<GameObject> trashPrefabs;
-    public float trashTorque = 90f, trashGravity;
+    public float trashTorque = 90f; 
+    [HideInInspector] public float trashGravity;
     # region public config classes
     [System.Serializable]
     public class EasyDifficultyConfig
@@ -54,10 +55,10 @@ public class MinigameTrashManager : Minigame
         LoadDifficultyConfig();
     }
 
-    public override void StartMinigame()
+    public override void OnMinigameStart()
     {
+        base.OnMinigameStart();
         StartCoroutine(InstantiateTrashLoop());
-        StartCoroutine(StartTimer());
     }
 
     private void LoadDifficultyConfig()
@@ -84,7 +85,7 @@ public class MinigameTrashManager : Minigame
                 break;
         }
         
-        GameObject.FindWithTag("Player").GetComponent<IMinigamePlayer>().movementSpeed = _playerMovementSpeed;
+        minigamePlayer.movementSpeed = _playerMovementSpeed;
     }
 
     private IEnumerator InstantiateTrashLoop()

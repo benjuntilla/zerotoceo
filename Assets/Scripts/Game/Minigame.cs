@@ -8,18 +8,17 @@ public abstract class Minigame : MonoBehaviour
     public int timerStartTime;
     
     protected MinigameManager minigameManager;
+    protected MinigamePlayer minigamePlayer;
+
+    private Coroutine _timer;
 
     protected virtual void Awake()
     {
         minigameManager = FindObjectOfType<MinigameManager>();
+        minigamePlayer = FindObjectOfType<MinigamePlayer>();
     }
 
-    public virtual void StartMinigame()
-    {
-        StartCoroutine(StartTimer());
-    }
-
-    protected IEnumerator StartTimer()
+    private IEnumerator Timer()
     {
         if (timerStartTime == 0) yield break;
         for (timerCurrentTime = timerStartTime; timerCurrentTime >= 1; timerCurrentTime--)
@@ -29,6 +28,25 @@ public abstract class Minigame : MonoBehaviour
             yield return new WaitForSeconds(1);
         }
         OnTimerDone();
+    }
+
+    public void StartTimer()
+    {
+        _timer = StartCoroutine(Timer());
+    }
+
+    public void StopTimer()
+    {
+        if (_timer != null)
+            StopCoroutine(_timer);
+        timerCurrentTime = 0;
+    }
+    
+    public virtual void OnMinigameStart()
+    {
+        StartTimer();
+        if (minigamePlayer != null)
+            minigamePlayer.blockInput = false;
     }
 
     protected virtual void OnCooldownEnter() { }

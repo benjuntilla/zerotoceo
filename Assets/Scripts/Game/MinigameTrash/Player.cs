@@ -2,13 +2,11 @@
 
 namespace MinigameTrash
 {
-	public class Player : MonoBehaviour, IMinigamePlayer
+	public class Player : MinigamePlayer
 	{
-    	public float movementSpeed { get; set; }
-    
-    	void Update()
-    	{
-        	transform.Translate(Input.GetAxis("Horizontal") * movementSpeed * Time.deltaTime,0,0);
-    	}
+		protected override void Move()
+		{
+			rigidBody.velocity = new Vector2(input.x * movementSpeed, 0);
+		}
 	}
 }

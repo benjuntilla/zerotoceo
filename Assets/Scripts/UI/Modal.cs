@@ -46,12 +46,14 @@ namespace UI
                     modalText.SetText("Do you want to start the minigame?");
                     break;
                 case "minigameFail":
+                    Time.timeScale = 1f;
                     modalText.alignment = TextAlignmentOptions.Left;
                     _primaryButtonText.SetText("ok");
                     secondaryButton.SetActive(false);
                     modalText.SetText($"You failed the minigame. (Lost 1 life)");
                     break;
                 case "minigamePass":
+                    Time.timeScale = 1f;
                     modalText.alignment = TextAlignmentOptions.Left;
                     _primaryButtonText.SetText("ok");
                     secondaryButton.SetActive(false);

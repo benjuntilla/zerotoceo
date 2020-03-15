@@ -6,9 +6,8 @@ using Random = UnityEngine.Random;
 
 public class MinigameGrandmaManager : Minigame
 {
-	private GameObject _player, _world, _roads, _characters;
+	private GameObject _world, _roads, _characters;
 	private Collidable _playerCollidable;
-	private IMinigamePlayer _playerScript;
 	private int _roadCount;
 	private int[] _roadPopulations;
 	private string[] _roadDirections;
@@ -56,9 +55,7 @@ public class MinigameGrandmaManager : Minigame
 
 	void Start()
 	{
-		_player = GameObject.FindWithTag("Player").gameObject;
-		_playerScript = _player.GetComponent<IMinigamePlayer>();
-		_playerCollidable = _player.GetComponent<Collidable>();
+		_playerCollidable = GameObject.FindWithTag("Player").gameObject.GetComponent<Collidable>();
 		_characters = GameObject.Find("Characters");
 		_world = GameObject.FindWithTag("World");
 		_roads = _world.transform.Find("Roads").gameObject;
@@ -106,7 +103,7 @@ public class MinigameGrandmaManager : Minigame
 				break;
 		}
 		
-		_playerScript.movementSpeed = _playerMovementSpeed;
+		minigamePlayer.movementSpeed = _playerMovementSpeed;
 	}
 
 	private IEnumerator InstantiateCar()

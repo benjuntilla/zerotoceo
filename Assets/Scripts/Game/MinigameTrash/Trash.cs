@@ -8,7 +8,7 @@ public class Trash : MonoBehaviour
     private Rigidbody2D _rigidbody2D;
     private Collidable _collidable;
     
-    void Awake()
+    void Start()
     {
         var gameManagers = GameObject.FindWithTag("GameManagers");
         _minigameManager = gameManagers.GetComponent<MinigameManager>();
@@ -17,7 +17,6 @@ public class Trash : MonoBehaviour
         _collidable = GetComponent<Collidable>();
         
         _collidable.primaryCollisionEvent.AddListener(_minigameManager.Fail);
-        _collidable.primaryCollisionEvent.AddListener(FreezePosition);
         _collidable.primaryCollisionEvent.AddListener(_collidable.DisableCollisionEvents);
         _collidable.secondaryCollisionEvent.AddListener(delegate{Destroy(gameObject);});
         
@@ -31,10 +30,4 @@ public class Trash : MonoBehaviour
         _rigidbody2D.gravityScale = _minigameTrashManager.trashGravity;
         _rigidbody2D.AddTorque(_minigameTrashManager.trashTorque, ForceMode2D.Impulse);
     }
-
-    private void FreezePosition()
-    {
-        _rigidbody2D.constraints = RigidbodyConstraints2D.FreezePositionY;
-        _rigidbody2D.freezeRotation = true;
-    } 
 }

@@ -1544,20 +1544,5 @@ PrefabInstance:
       propertyPath: m_Name
       value: Minigame Trash Player
       objectReference: {fileID: 0}
-    - target: {fileID: 8809154876160291198, guid: 2197f2ae16e1ab04b84f0b0106df0ffd,
-        type: 3}
-      propertyPath: m_GravityScale
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8809154876160291198, guid: 2197f2ae16e1ab04b84f0b0106df0ffd,
-        type: 3}
-      propertyPath: m_Mass
-      value: 0.0001
-      objectReference: {fileID: 0}
-    - target: {fileID: 8809154876160291198, guid: 2197f2ae16e1ab04b84f0b0106df0ffd,
-        type: 3}
-      propertyPath: m_UseAutoMass
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2197f2ae16e1ab04b84f0b0106df0ffd, type: 3}
