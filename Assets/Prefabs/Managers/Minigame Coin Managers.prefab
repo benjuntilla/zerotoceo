@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cooldownTime: 3
+  timerStartTime: 0
   pennyPrefab: {fileID: 404933990090198254, guid: 30c77f4b548ea884c8afcbf7c98fcba6,
     type: 3}
   nickelPrefab: {fileID: 2937107588407146795, guid: 97b8203a8b6c5469ab6b22fac2a9dac4,
@@ -96,16 +97,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 282207552939847807, guid: 1e849e623a30e87778d72d77e6b4c70e,
-        type: 3}
-      propertyPath: m_LocalScale.x
-      value: 1.15
-      objectReference: {fileID: 0}
-    - target: {fileID: 282207552939847807, guid: 1e849e623a30e87778d72d77e6b4c70e,
-        type: 3}
-      propertyPath: m_LocalScale.y
-      value: 1.15
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1e849e623a30e87778d72d77e6b4c70e, type: 3}
