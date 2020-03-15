@@ -2,24 +2,24 @@
 
 public class CharactersManager : MonoBehaviour
 {
-    private NPCController _managerNPCController;
-    private PlayerController _playerController;
+    private NPC _managerNPC;
+    private Player _player;
 
     public GameObject indicatorTarget;
 
     void Awake()
     {
-        _managerNPCController = GameObject.Find("Manager").GetComponent<NPCController>();
-        _playerController = FindObjectOfType<PlayerController>();
+        _managerNPC = GameObject.Find("Manager").GetComponent<NPC>();
+        _player = FindObjectOfType<Player>();
     }
 
     public void TriggerManagerDialogue()
     {
-        _managerNPCController.dialogueTriggered = true;
+        _managerNPC.dialogueTriggered = true;
     }
 
     void Update()
     {
-        indicatorTarget = _playerController.indicatorTarget;
+        indicatorTarget = _player.indicatorTarget;
     }
 }

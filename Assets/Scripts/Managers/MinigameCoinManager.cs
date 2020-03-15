@@ -1,21 +1,16 @@
 ﻿using System.Collections;
-using TMPro;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 [RequireComponent(typeof(MinigameManager))]
-public class MinigameCoinManager : MonoBehaviour, IMinigameManager
+public class MinigameCoinManager : Minigame
 {
     private GameObject _characters;
-    private TextMeshProUGUI _timerText;
-    private MinigameManager _minigameManager;
-    private IEnumerator _instantiateLoop;
+    private Coroutine _instantiateLoop;
     // Config
     private float _instantiateDelay;
-    private int _timer;
 
-    public bool countDownNecessary { get; set; } = true;
     [Header("Game Config")]
-    public int cooldownTime = 2;
     public GameObject pennyPrefab, nickelPrefab, dimePrefab, quarterPrefab;
     # region public config classes
     [System.Serializable]
@@ -42,46 +37,41 @@ public class MinigameCoinManager : MonoBehaviour, IMinigameManager
     }
     public HardDifficultyConfig hardDifficultyConfig;
     #endregion
-    
+
     void Start()
     {
         _characters = GameObject.Find("Characters");
-        _minigameManager = GetComponent<MinigameManager>();
-        _timerText = GameObject.FindWithTag("UI").transform.Find("HUD").transform.Find("Timer").gameObject.GetComponent<TextMeshProUGUI>();
 
-        _instantiateLoop = InstantiateLoop();
-        _timerText.SetText($"Time left: {_timer} seconds");
         LoadDifficultyConfig();
     }
 
-    public void StartGame()
+    public override void OnMinigameStart()
     {
-        StartCoroutine(_instantiateLoop);
-        StartCoroutine(Timer());
+        base.OnMinigameStart();
+        _instantiateLoop = StartCoroutine(InstantiateLoop());
     }
-    
+
     private void LoadDifficultyConfig()
     {
         switch (MinigameManager.minigameDifficulty)
         {
             case "Hard":
                 _instantiateDelay = hardDifficultyConfig.instantiateDelay;
-                _timer = hardDifficultyConfig.timer;
+                timerStartTime = hardDifficultyConfig.timer;
                 break;
             case "Medium":
                 _instantiateDelay = mediumDifficultyConfig.instantiateDelay;
-                _timer = mediumDifficultyConfig.timer;
+                timerStartTime = mediumDifficultyConfig.timer;
                 break;
             default: // case "Easy":
                 _instantiateDelay = easyDifficultyConfig.instantiateDelay;
-                _timer = easyDifficultyConfig.timer;
+                timerStartTime = easyDifficultyConfig.timer;
                 break;
         }
     }
 
     private void InstantiateCoin()
     {
-        // Instantiate trash
         GameObject coin;
         switch (Random.Range(0, 4))
         {
@@ -109,24 +99,17 @@ public class MinigameCoinManager : MonoBehaviour, IMinigameManager
             yield return new WaitForSeconds(_instantiateDelay);
         }
     }
-
-    private void CheckPass()
+    
+    protected override void OnTimerDone()
     {
         if (_characters.transform.childCount == 0)
-            _minigameManager.Pass();
+            minigameManager.Pass();
         else
-            _minigameManager.Fail();
+            minigameManager.Fail();    
     }
 
-    private IEnumerator Timer()
+    protected override void OnCooldownEnter()
     {
-        for (var i = _timer; i >= 0; i--)
-        {
-            _timerText.SetText($"Time left: {i} seconds");
-            yield return new WaitForSeconds(1);
-            if (i == cooldownTime)
-                StopCoroutine(_instantiateLoop);
-        }
-        CheckPass();
+        StopCoroutine(_instantiateLoop);
     }
 }

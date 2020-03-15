@@ -1,19 +1,19 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using Cinemachine;
+using UI;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 [RequireComponent(typeof(SaveManager))]
 [RequireComponent(typeof(LevelManager))]
-[RequireComponent(typeof(IMinigameManager))]
+[RequireComponent(typeof(Minigame))]
 public class MinigameManager : MonoBehaviour
 {
     private SaveManager _saveManager;
-    private UIManager _uiManager;
-    private IMinigameManager _minigameManager;
+    private Minigame _minigame;
     private LevelManager _levelManager;
-    private PlayerController _playerController;
+    private Player _player;
+    private Modal _modal;
 
     public readonly Dictionary<string, int> minigamePoints = new Dictionary<string, int>()
     {
@@ -49,17 +49,16 @@ public class MinigameManager : MonoBehaviour
         Hard
     };
 
-    void Awake()
+    void Start()
     {
-        _playerController = FindObjectOfType<PlayerController>();
+        _player = FindObjectOfType<Player>();
         _levelManager = GetComponent<LevelManager>();
         _saveManager = GetComponent<SaveManager>();
-        _minigameManager = GetComponent<IMinigameManager>();
-        _uiManager = FindObjectOfType<UIManager>();
-        _uiManager.exitEvent.AddListener(delegate { minigameStatus = Status.None; });
+        _minigame = GetComponent<Minigame>();
+        _modal = FindObjectOfType<Modal>();
     }
 
-    public string ResolveEmptyMinigame() // For debug purposes
+    public string ResolveEmptyMinigame()
     {
         switch (SceneManager.GetActiveScene().buildIndex)
         {
@@ -73,62 +72,57 @@ public class MinigameManager : MonoBehaviour
                 minigameId = $"Minigame_Coin_{defaultDifficulty.ToString()}";
                 break;
         }
-        InitializeMinigame();
+        PrepareMinigame();
         return minigameName;
     }
 
-    public void InitializeMinigame()
+    public void PrepareMinigame()
     {
         minigameStatus = Status.InProgress;
         var splitName = minigameId.Split('_');
         minigameName = $"{splitName[0]}_{splitName[1]}";
         minigameDifficulty = splitName[2];
-        _saveManager.Save();
+        if (_saveManager != null)
+            _saveManager.Save();
     }
 
-    public void StartMinigame()
+    public void InitializeMinigame()
     {
-        if (_minigameManager.countDownNecessary)
-            StartCoroutine(BeginCountdown());
+        if (_minigame.timerStartTime != 0)
+            _minigame.Invoke(nameof(Minigame.OnMinigameStart), 2);
         else
-            _minigameManager.StartGame();
-    }
-
-    private IEnumerator BeginCountdown()
-    {
-        // TODO: Trigger UI event
-        yield return new WaitForSeconds(3);
-        _minigameManager.StartGame();
+            _minigame.OnMinigameStart();
     }
 
     public void Pass()
     {
+        if (minigameStatus != Status.InProgress) return;
         minigameStatus = Status.Passed;
-        _uiManager.TriggerMinigameEndMenu(true);
+        _minigame.StopTimer();
+        _modal.Trigger("minigamePass");
     }
 
     public void Fail()
     {
+        if (minigameStatus != Status.InProgress) return;
         minigameStatus = Status.Failed;
-        _uiManager.TriggerMinigameEndMenu(false);
+        _minigame.StopTimer();
+        _modal.Trigger("minigameFail");
     }
-
-    /// <summary>
-    ///  Manipulates player attributes based on whether a minigame was passed or failed
-    /// </summary>
+    
     private void CheckPassOrFail()
     {
         switch (minigameStatus)
         {
             case Status.Failed:
                 minigameStatus = Status.None;
-                _playerController.lives--;
-                if (_playerController.lives != 0)
+                _player.lives--;
+                if (_player.lives != 0)
                     _saveManager.Save();
                 break;
             case Status.Passed:
                 minigameStatus = Status.None;
-                _playerController.lives += minigamePoints[minigameId];
+                _player.lives += minigamePoints[minigameId];
                 _levelManager.scoreboard["minigameBonus"] += minigamePoints[minigameId];
                 minigameId = ""; // Clears the variable so the minigame cannot be replayed
                 minigameProgression++;
