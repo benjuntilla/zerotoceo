@@ -11,9 +11,9 @@ GameObject:
   - component: {fileID: 1078275456256098402}
   - component: {fileID: 1078275456256098403}
   - component: {fileID: 1078275456256098404}
-  - component: {fileID: 1078275456256098405}
-  - component: {fileID: 1078275456256098457}
   - component: {fileID: 2805185111206472391}
+  - component: {fileID: 5759841388078292267}
+  - component: {fileID: 7798386611431189634}
   m_Layer: 9
   m_Name: Minigame Grandma Player
   m_TagString: Player
@@ -106,108 +106,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 4
---- !u!60 &1078275456256098405
-PolygonCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1078275456256098400}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1, y: 1}
-    newSize: {x: 1, y: 1}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  m_Points:
-    m_Paths:
-    - - {x: 0.056149006, y: 0.33837047}
-      - {x: -0.050769806, y: 0.38622615}
-      - {x: -0.17528391, y: 0.34472135}
-      - {x: -0.22594261, y: 0.24251446}
-      - {x: -0.22655773, y: 0.057436585}
-      - {x: -0.21972132, y: -0.17821656}
-      - {x: -0.22754812, y: -0.1796736}
-      - {x: -0.11820078, y: -0.2788031}
-      - {x: 0.006233692, y: -0.28251588}
-      - {x: 0.10398626, y: -0.18167205}
-      - {x: 0.09178877, y: 0.27148086}
---- !u!114 &1078275456256098457
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1078275456256098400}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cc3d3b20637dd9a03a8542e49ffe85c2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  primaryCollisionObjects:
-  - {fileID: 0}
-  secondaryCollisionObjects:
-  - {fileID: 2856826835805653673, guid: ed08fbe11580f2269881801ec6f02238, type: 3}
-  primaryCollisionEvent:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 0}
-        m_MethodName: Pass
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 1078275456256098457}
-        m_MethodName: DisableCollisionEvents
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  secondaryCollisionEvent:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 0}
-        m_MethodName: Fail
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 1078275456256098457}
-        m_MethodName: DisableCollisionEvents
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
 --- !u!114 &2805185111206472391
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -222,3 +120,40 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   movementSpeed: 0
   blockInput: 1
+--- !u!114 &5759841388078292267
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1078275456256098400}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cc3d3b20637dd9a03a8542e49ffe85c2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  primaryCollisionObjects:
+  - {fileID: 0}
+  secondaryCollisionObjects: []
+  primaryCollisionEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  secondaryCollisionEvent:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!70 &7798386611431189634
+CapsuleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1078275456256098400}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: -0.058956385, y: 0.04913044}
+  m_Size: {x: 0.22963572, y: 0.58730483}
+  m_Direction: 0

@@ -14,6 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cooldownTime: 0
   timerStartTime: 0
+  carWaitTime: 0
+  carMovementSpeed: 0
+  playerMovementSpeed: 0
+  maxRandomSpawnTime: 0.5
   carPrefab: {fileID: 2856826835805653673, guid: ed08fbe11580f2269881801ec6f02238,
     type: 3}
   carSprites:
@@ -22,22 +26,16 @@ MonoBehaviour:
   - {fileID: 21300000, guid: e8686006a426b5f82a5cbf89337867b9, type: 3}
   - {fileID: 21300000, guid: c62478319332c111cbc3383259cc4196, type: 3}
   easyDifficultyConfig:
-    maxRoadPopulation: 8
     playerMovementSpeed: 4
     carMovementSpeed: 4
-    carDecayTime: 6
     carWaitTime: 1.5
   mediumDifficultyConfig:
-    maxRoadPopulation: 6
     playerMovementSpeed: 5
     carMovementSpeed: 5
-    carDecayTime: 5
     carWaitTime: 1
   hardDifficultyConfig:
-    maxRoadPopulation: 8
     playerMovementSpeed: 6
     carMovementSpeed: 6
-    carDecayTime: 5
     carWaitTime: 0.75
 --- !u!1001 &5657629857252917794
 PrefabInstance:
