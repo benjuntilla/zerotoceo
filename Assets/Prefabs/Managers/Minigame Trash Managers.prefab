@@ -12,13 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc755fca7743f1e809176b61d2e7f9e2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cooldownTime: 2
+  timerStartTime: 0
   trashPrefabs:
   - {fileID: 3184626863952347077, guid: 9b93ca024357abc84ad0937f7c64a306, type: 3}
   - {fileID: 904394260891592953, guid: e3e0206ce72e7372b890e03ce4f30a00, type: 3}
   - {fileID: 6977521501964469805, guid: 5fafa6d89522b02d989565d5437ea727, type: 3}
   - {fileID: 8102090394943287169, guid: ba560b50a65b6e1008a13e4f601fdb79, type: 3}
-  playerPrefab: {fileID: 8809154876160291194, guid: 2197f2ae16e1ab04b84f0b0106df0ffd,
-    type: 3}
   trashTorque: 360
   trashGravity: 0
   easyDifficultyConfig:
