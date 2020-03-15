@@ -39,11 +39,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _basicSettings:
     baseBuildFolder: Builds
-    buildPath: $YEAR-$MONTH-$DAY/$BUILD/$RELEASE_TYPE/$PLATFORM/$ARCHITECTURE/$DISTRIBUTION
+    buildPath: '$RELEASE_TYPE/$PLATFORM/$ARCHITECTURE '
     openFolderPostBuild: 1
   _productParameters:
     buildCounter: 0
-    lastGeneratedVersion: 1
+    lastGeneratedVersion: 1.0
     version: 1.0
     autoGenerate: 0
   _releaseTypeList:
