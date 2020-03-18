@@ -14,6 +14,7 @@ public class MinigameManager : MonoBehaviour
     private LevelManager _levelManager;
     private Player _player;
     private Modal _modal;
+    private HUD _hud;
     private static bool _returningFromMinigame;
 
     public readonly Dictionary<string, int> minigamePoints = new Dictionary<string, int>()
@@ -33,7 +34,7 @@ public class MinigameManager : MonoBehaviour
     public static string minigameDifficulty { get; private set; }= ""; // Just the last part of the minigame id containing the difficulty
     public static Status minigameStatus { get; private set; } = Status.None;
     public Difficulty defaultDifficulty = Difficulty.Easy; // Used for debugging
-    public int minigameProgression; // Count of minigames passed on a level by level basis
+    [HideInInspector] public int minigameProgression; // Count of minigames passed on a level by level basis
 
     public enum Status
     {
@@ -57,6 +58,7 @@ public class MinigameManager : MonoBehaviour
         _saveManager = GetComponent<SaveManager>();
         _minigame = GetComponent<Minigame>();
         _modal = FindObjectOfType<Modal>();
+        _hud = FindObjectOfType<HUD>();
     }
 
     public string ResolveEmptyMinigame()
@@ -90,7 +92,7 @@ public class MinigameManager : MonoBehaviour
     public void InitializeMinigame()
     {
         if (_minigame.timerStartTime != 0)
-            _minigame.Invoke(nameof(Minigame.OnMinigameStart), 2);
+            _hud.StartCoroutine(_hud.TriggerCountdown(_minigame.OnMinigameStart));
         else
             _minigame.OnMinigameStart();
     }

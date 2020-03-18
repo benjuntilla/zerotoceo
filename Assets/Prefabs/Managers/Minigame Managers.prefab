@@ -45,7 +45,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 670b9bd34594a8bd4bea14a036a7db4b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  defaultDifficulty: 2
+  defaultDifficulty: 0
+  minigameProgression: 0
 --- !u!114 &7130301914371746915
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -58,6 +59,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 145fe73b4b6f0cd4881d9b667bb73c83, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  levelIndex: 0
+  levelName: 
+  currentLevelType: 0
   levelOne: 100
   levelTwo: 200
   levelThree: 300
@@ -74,3 +78,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e15dfa6d2c444ab52b05b8d0f8aabdb9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  loaded: 0

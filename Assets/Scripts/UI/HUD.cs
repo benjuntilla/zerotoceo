@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using DG.Tweening;
 using TMPro;
 using UnityEngine;
@@ -13,7 +14,7 @@ namespace UI
         private TextMeshProUGUI _pointsNumberText, _timerText, _countdownText, _pointsIndicatorText;
         private Minigame _minigame;
         private Slider _timerSlider, _countdownSlider;
-        private bool _countdownTriggered, _countdownInProgress;
+        private bool _countdownInProgress;
         private CanvasGroup _countdownCanvasGroup, _pointsIndicatorCanvasGroup;
         private Sequence _pointsIndicatorSequence;
         private static int _cachedPoints;
@@ -48,7 +49,8 @@ namespace UI
             _pointsNumberText.SetText(_player.points.ToString());
             if (_cachedPoints != _player.points)
             {
-                _pointsIndicatorText.SetText($"+{_player.points - _cachedPoints}");
+                var gain = _player.points - _cachedPoints;
+                _pointsIndicatorText.SetText(gain > 0 ? $"+{gain}" : $"{gain}");
                 _cachedPoints = _player.points;
                 TriggerPointsIndicator();
             }
@@ -117,13 +119,11 @@ namespace UI
             _timerText.SetText($"Time left: {_minigame.timerCurrentTime} seconds");
             _timerSlider.maxValue = _minigame.timerStartTime;
             _timerSlider.value = _minigame.timerCurrentTime;
-            if (!_countdownTriggered && _minigame.timerStartTime != 0)
-                StartCoroutine(TriggerCountdown());
         }
 
-        private IEnumerator TriggerCountdown()
+        public IEnumerator TriggerCountdown(Action cb = null)
         {
-            _countdownTriggered = _countdownInProgress = true;
+            _countdownInProgress = true;
             for (var i = 3; i >= 1; i--)
             {
                 _countdownText.SetText(i.ToString());
@@ -132,6 +132,7 @@ namespace UI
             }
             _countdownText.SetText("0");
             _countdownSlider.value = 0;
+            cb?.Invoke();
             _countdownCanvasGroup.DOFade(0, 0.5f).OnComplete(() => { _countdownInProgress = false; });
         }
 

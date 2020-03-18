@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -10,20 +11,24 @@ namespace MinigameGrandma
 		private GameObject _world, _roads, _characters;
 		private Vector2[] _roadSpawnVectors;
 
-		[HideInInspector] public float carWaitTime, carMovementSpeed, playerMovementSpeed;
-		[HideInInspector] public List<GameObject> carArray = new List<GameObject>();
+		[Header("Public fields")]
+		public float carSpawnTime;
+		public float carMovementSpeed;
+		public float playerMovementSpeed;
+		public List<GameObject> cars = new List<GameObject>(), carTriggers = new List<GameObject>();
 		[Header("Game Config")] 
-		public float maxRandomSpawnTime;
+		public float carSpeedMultiplier = 4f;
+		public float carSpawnMultiplier = 0.25f;
+		public float maxSpawnFluctuationPercentage = 0.25f;
 		public GameObject carPrefab;
 		public List<Sprite> carSprites;
-		
 		#region public config classes
 		[System.Serializable]
 		public class EasyDifficultyConfig
 		{
 			public float playerMovementSpeed = 4;
 			public float carMovementSpeed = 4;
-			public float carWaitTime = 1f;
+			public float carSpawnTime = 1f;
 		}
 		public EasyDifficultyConfig easyDifficultyConfig;
 		
@@ -32,7 +37,7 @@ namespace MinigameGrandma
 		{
 			public float playerMovementSpeed = 4;
 			public float carMovementSpeed = 4;
-			public float carWaitTime = 1f;
+			public float carSpawnTime = 1f;
 		}
 		public MediumDifficultyConfig mediumDifficultyConfig;
 		
@@ -41,7 +46,7 @@ namespace MinigameGrandma
 		{
 			public float playerMovementSpeed = 4;
 			public float carMovementSpeed = 4;
-			public float carWaitTime = 1f;
+			public float carSpawnTime = 1f;
 		}
 		public HardDifficultyConfig hardDifficultyConfig;
 		#endregion
@@ -52,17 +57,10 @@ namespace MinigameGrandma
 			_world = GameObject.FindWithTag("World");
 			_roads = _world.transform.Find("Roads").gameObject;
 			
-			// Randomize road spawn points
-			_roadSpawnVectors = new Vector2[_roads.transform.childCount];
-			for (var i = 0; i < _roads.transform.childCount; i++)
-			{
-				if (Random.Range(0, 2) == 0)
-					_roadSpawnVectors[i] = new Vector2(_roads.transform.GetChild(i).position.x, 10);
-				else
-					_roadSpawnVectors[i] = _roadSpawnVectors[i] = new Vector2(_roads.transform.GetChild(i).position.x, -10); 
-			}
-			
 			LoadDifficultyConfig();
+			RandomizeRoadDirections();
+			SpeedUpCars();
+			StartCoroutine(CarSpawnCoroutine());
 		}
 
 		private void LoadDifficultyConfig()
@@ -72,30 +70,53 @@ namespace MinigameGrandma
 				case "Hard":
 					playerMovementSpeed = hardDifficultyConfig.playerMovementSpeed;
 					carMovementSpeed = hardDifficultyConfig.carMovementSpeed;
-					carWaitTime = hardDifficultyConfig.carWaitTime;
+					carSpawnTime = hardDifficultyConfig.carSpawnTime;
 					break;
 				case "Medium":
 					playerMovementSpeed = mediumDifficultyConfig.playerMovementSpeed;
 					carMovementSpeed = mediumDifficultyConfig.carMovementSpeed;
-					carWaitTime = mediumDifficultyConfig.carWaitTime;
+					carSpawnTime = mediumDifficultyConfig.carSpawnTime;
 					break;
 				default: // "Easy"
 					playerMovementSpeed = easyDifficultyConfig.playerMovementSpeed;
 					carMovementSpeed = easyDifficultyConfig.carMovementSpeed;
-					carWaitTime = easyDifficultyConfig.carWaitTime;
+					carSpawnTime = easyDifficultyConfig.carSpawnTime;
 					break;
 			}
-			
-			minigamePlayer.movementSpeed = playerMovementSpeed;
+		}
+
+		private void RandomizeRoadDirections()
+		{
+			_roadSpawnVectors = new Vector2[_roads.transform.childCount];
+			for (var i = 0; i < _roads.transform.childCount; i++)
+			{
+				var road = _roads.transform.GetChild(i).gameObject;
+				if (Random.Range(0, 2) == 0)
+					_roadSpawnVectors[i] = new Vector2(road.transform.position.x, 10);
+				else
+					_roadSpawnVectors[i] = _roadSpawnVectors[i] = new Vector2(road.transform.position.x, -10);
+			}
+		}
+
+		private void SpeedUpCars()
+		{
+			carMovementSpeed *= carSpeedMultiplier;
+			carSpawnTime *= carSpawnMultiplier;
+		}
+
+		private void SlowDownCars()
+		{
+			carMovementSpeed /= carSpeedMultiplier;
+			carSpawnTime /= carSpawnMultiplier;
 		}
 
 		public override void OnMinigameStart()
 		{
 			base.OnMinigameStart();
-			StartCoroutine(CarSpawnLoop());
+			SlowDownCars();
 		}
 
-		private IEnumerator CarSpawnLoop()
+		private IEnumerator CarSpawnCoroutine()
 		{
 			while (true)
 			{
@@ -103,22 +124,23 @@ namespace MinigameGrandma
 				{
 					StartCoroutine(SpawnCar(_roadSpawnVectors[i]));
 				}
-				yield return new WaitForSeconds(carWaitTime);
+				yield return new WaitForSeconds(carSpawnTime);
 			}
 		}
 
 		private IEnumerator SpawnCar(Vector2 position)
 		{
 			// Wait for a short, arbitrary duration to make the cars more random 
-			yield return new WaitForSeconds(Random.Range(0f, maxRandomSpawnTime));
+			yield return new WaitForSeconds(Random.Range(0f, carSpawnTime * maxSpawnFluctuationPercentage));
 
 			var car = Instantiate(carPrefab, position, Quaternion.identity);
 			car.transform.parent = _characters.transform;
-			carArray.Add(car);
-			if (position.y > 0)
-				car.GetComponent<Car>().direction = -1;
-			else
-				car.GetComponent<Car>().direction = 1;
+			cars.Add(car);
+		}
+
+		private void Update()
+		{
+			carTriggers = cars.Select(x => x.transform.GetChild(0).gameObject).ToList();
 		}
 	}
 }

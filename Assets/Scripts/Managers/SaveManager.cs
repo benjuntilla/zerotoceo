@@ -10,9 +10,10 @@ using UnityEngine;
 [RequireComponent(typeof(DialogueManager))]
 public class SaveManager : MonoBehaviour
 {
-    public bool loaded;
+    [HideInInspector] public bool loaded;
 
     private MinigameManager _minigameManager;
+    private Minigame _minigame;
     private LevelManager _levelManager;
     private DialogueManager _dialogueManager;
     private GameObject _player;
@@ -26,10 +27,8 @@ public class SaveManager : MonoBehaviour
     {
         _savePath = Application.persistentDataPath + "/saveData";
         loaded = _loadFlag;
-    }
-
-    void Start ()
-    {
+        
+        _minigame = GetComponent<Minigame>();
         _levelManager = GetComponent<LevelManager>();
         _minigameManager = GetComponent<MinigameManager>();
         _dialogueManager = GetComponent<DialogueManager>();
@@ -78,7 +77,7 @@ public class SaveManager : MonoBehaviour
 
     public void Save ()
     {
-        if (_levelManager.currentLevelType == LevelManager.LevelType.Minigame) return;
+        if (_minigame) return;
         // Retrieve character positions
         var characters = new List<GameObject>(_npcList) { _player };
         var characterPositions = new Dictionary<string, float[]>();

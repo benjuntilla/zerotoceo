@@ -6,16 +6,22 @@ public abstract class MinigamePlayer : MonoBehaviour
     public bool blockInput = true;
 
     protected Rigidbody2D rigidBody;
+    protected Collider2D playerCollider;
     protected Vector2 input;
 
     private void Awake()
     {
         rigidBody = GetComponent<Rigidbody2D>();
+        playerCollider = GetComponent<Collider2D>();
     }
-    
+
     protected virtual void OnUpdate() {}
 
     protected virtual void Move() {}
+
+    public virtual void OnMinigameFail() {}
+    
+    public virtual void OnMinigamePass() {}
 
     private void Update()
     {

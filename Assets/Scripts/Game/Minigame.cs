@@ -4,6 +4,7 @@ using UnityEngine;
 public abstract class Minigame : MonoBehaviour
 {
     public int timerCurrentTime { get; private set; }
+    [Header("Timer Config")]
     public int cooldownTime;
     public int timerStartTime;
     
@@ -18,7 +19,7 @@ public abstract class Minigame : MonoBehaviour
         minigamePlayer = FindObjectOfType<MinigamePlayer>();
     }
 
-    private IEnumerator Timer()
+    private IEnumerator TimerCoroutine()
     {
         if (timerStartTime == 0) yield break;
         for (timerCurrentTime = timerStartTime; timerCurrentTime >= 1; timerCurrentTime--)
@@ -32,7 +33,7 @@ public abstract class Minigame : MonoBehaviour
 
     public void StartTimer()
     {
-        _timer = StartCoroutine(Timer());
+        _timer = StartCoroutine(TimerCoroutine());
     }
 
     public void StopTimer()

@@ -1,5 +1,6 @@
 ﻿using TMPro;
 using System.Collections;
+using DG.Tweening;
 using UnityEngine;
 
 namespace UI
@@ -22,6 +23,11 @@ namespace UI
         {
             foreach (Transform child in parent.transform)
                  child.gameObject.SetActive(false);
+        }
+
+        public static bool IsTweenPlaying(Tween tween)
+        {
+            return (tween != null && tween.IsActive() && tween.IsPlaying());
         }
     } 
 }

@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 1078275456256098404}
   - component: {fileID: 2805185111206472391}
   - component: {fileID: 5759841388078292267}
-  - component: {fileID: 7798386611431189634}
+  - component: {fileID: 1642699691810354243}
   m_Layer: 9
   m_Name: Minigame Grandma Player
   m_TagString: Player
@@ -97,11 +97,11 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 1
+  m_Mass: 30
   m_LinearDrag: 0
-  m_AngularDrag: 0.05
+  m_AngularDrag: 999
   m_GravityScale: 0
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 6d5d969d365e718608cb4f02b18fb2c3, type: 2}
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 1
@@ -135,13 +135,51 @@ MonoBehaviour:
   primaryCollisionObjects:
   - {fileID: 0}
   secondaryCollisionObjects: []
+  tertiaryCollisionObjects: []
   primaryCollisionEvent:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_MethodName: Pass
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 5759841388078292267}
+        m_MethodName: DisableCollisionEvents
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 2805185111206472391}
+        m_MethodName: OnMinigamePass
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   secondaryCollisionEvent:
     m_PersistentCalls:
       m_Calls: []
---- !u!70 &7798386611431189634
+  tertiaryCollisionEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  insideTrigger: 0
+--- !u!70 &1642699691810354243
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -154,6 +192,6 @@ CapsuleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.058956385, y: 0.04913044}
-  m_Size: {x: 0.22963572, y: 0.58730483}
+  m_Offset: {x: -0.060617447, y: 0.045463085}
+  m_Size: {x: 0.19998783, y: 0.5643054}
   m_Direction: 0
