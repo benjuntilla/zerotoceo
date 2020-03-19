@@ -16,26 +16,16 @@ public class MinigameManager : MonoBehaviour
     private Modal _modal;
     private HUD _hud;
     private static bool _returningFromMinigame;
-
-    public readonly Dictionary<string, int> minigamePoints = new Dictionary<string, int>()
-    {
-        {"Minigame_Grandma_Easy", 50},
-        {"Minigame_Grandma_Medium", 75},
-        {"Minigame_Grandma_Hard", 100},
-        {"Minigame_Trash_Easy", 50},
-        {"Minigame_Trash_Medium", 75},
-        {"Minigame_Trash_Hard", 100},
-        {"Minigame_Coin_Easy", 50},
-        {"Minigame_Coin_Medium", 75},
-        {"Minigame_Coin_Hard", 100},
-    };
+    
     public static string minigameId { get; private set; } = ""; // Full id of minigame e.g., Minigame_Grandma_Easy
     public static string minigameName { get; private set; } = ""; // First two parts of the minigame id e.g., Minigame_Grandma
     public static string minigameDifficulty { get; private set; }= ""; // Just the last part of the minigame id containing the difficulty
     public static Status minigameStatus { get; private set; } = Status.None;
-    public Difficulty defaultDifficulty = Difficulty.Easy; // Used for debugging
     [HideInInspector] public int minigameProgression; // Count of minigames passed on a level by level basis
-
+    [Header("Minigame Config")]
+    public Difficulty defaultDifficulty = Difficulty.Easy; // Used for debugging
+    public int easyPointGain, mediumPointGain, hardPointGain;
+    
     public enum Status
     {
         None,
@@ -126,6 +116,21 @@ public class MinigameManager : MonoBehaviour
         minigameId = id;
     }
 
+    public int PotentialPointGain()
+    {
+        switch (minigameDifficulty)
+        {
+            case "Easy":
+                return easyPointGain;
+            case "Medium":
+                return mediumPointGain;
+            case "Hard":
+                return hardPointGain;
+            default:
+                return 0;
+        }
+    }
+
     private void CheckPassOrFail()
     {
         if (minigameStatus == Status.Failed)
@@ -138,8 +143,8 @@ public class MinigameManager : MonoBehaviour
         else if (minigameStatus == Status.Passed)
         {
             minigameStatus = Status.None;
-            _player.points += minigamePoints[minigameId];
-            _levelManager.scoreboard["minigameBonus"] += minigamePoints[minigameId];
+            _player.points += PotentialPointGain();
+            _levelManager.scoreboard["minigameBonus"] += PotentialPointGain();
             minigameId = ""; // Clears the variable so the minigame cannot be replayed
             minigameProgression++;
             _saveManager.Save();

@@ -16,10 +16,10 @@ public class LevelManager : MonoBehaviour
         {"dialoguePenalty", 0},
         {"minigameBonus", 0}
     };
-    public int levelIndex;
-    public string levelName;
-    public Dictionary<int, int> nextLevelRequirements;
-    public LevelType currentLevelType;
+    public int levelIndex { get; private set; }
+    public string levelName { get; private set; }
+    public Dictionary<int, int> nextLevelRequirements { get; private set; }
+    public LevelType currentLevelType { get; private set; }
 
     [Header("Level XP Requirements")]
     public int levelOne = 100;

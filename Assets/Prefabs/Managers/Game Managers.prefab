@@ -47,6 +47,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e15dfa6d2c444ab52b05b8d0f8aabdb9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  loaded: 0
 --- !u!114 &5990509898109174933
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -59,7 +60,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9497b0eb42cbfcdd6a6970b1bf35ff52, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentDialogue: 
+  currentDialogueName: 
 --- !u!114 &5990509898109174932
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -72,12 +73,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 145fe73b4b6f0cd4881d9b667bb73c83, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  levelIndex: 0
-  currentLevelType: 0
   levelOne: 100
-  levelTwo: 225
-  levelThree: 450
-  levelFour: 800
+  levelTwo: 125
+  levelThree: 225
+  levelFour: 350
 --- !u!114 &5990509898109174935
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -90,8 +89,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 670b9bd34594a8bd4bea14a036a7db4b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  defaultDifficulty: 0
   minigameProgression: 0
+  defaultDifficulty: 0
+  easyPointGain: 50
+  mediumPointGain: 75
+  hardPointGain: 100
 --- !u!114 &8188174242281949055
 MonoBehaviour:
   m_ObjectHideFlags: 0

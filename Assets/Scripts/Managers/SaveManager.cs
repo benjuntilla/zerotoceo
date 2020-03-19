@@ -134,7 +134,6 @@ public class SaveManager : MonoBehaviour
         if (data == null) return;
         
         // Apply data
-        _levelManager.levelIndex = data.level;
         _levelManager.scoreboard = data.scoreboard;
         _playerController.points = data.points;
         _playerController.lives = data.lives;

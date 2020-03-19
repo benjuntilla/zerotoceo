@@ -58,7 +58,7 @@ namespace UI
                     _primaryButtonText.SetText("ok");
                     secondaryButton.SetActive(false);
                     modalText.SetText(
-                        $"You passed the minigame. (Gained {_minigameManager.minigamePoints[MinigameManager.minigameId]} points)");
+                        $"You passed the minigame. (Gained {_minigameManager.PotentialPointGain()} points)");
                     break;
                 case "save":
                     modalText.SetText("Are you sure you want to save? This will overwrite current save data!");
