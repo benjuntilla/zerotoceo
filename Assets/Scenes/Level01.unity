@@ -1344,18 +1344,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c9c3507149ffecaff9d6c16ff4f05183, type: 3}
---- !u!114 &1899522967 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 2146051371749369499, guid: 9f063b9fd93145180b7c8b01bf6d7071,
-    type: 3}
-  m_PrefabInstance: {fileID: 2146051371240265094}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cfdf2eebb5b126e8aa40f3d0d1d5f732, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &193091449385861215
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2202,16 +2190,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalPosition.x
       value: 10.69
-      objectReference: {fileID: 0}
-    - target: {fileID: 2146051371749369499, guid: 9f063b9fd93145180b7c8b01bf6d7071,
-        type: 3}
-      propertyPath: interactionMethods.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 1899522967}
-    - target: {fileID: 2146051371749369499, guid: 9f063b9fd93145180b7c8b01bf6d7071,
-        type: 3}
-      propertyPath: interactionMethods.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: TestIfCanLevelUp
       objectReference: {fileID: 0}
     - target: {fileID: 2146051371813183708, guid: 9f063b9fd93145180b7c8b01bf6d7071,
         type: 3}

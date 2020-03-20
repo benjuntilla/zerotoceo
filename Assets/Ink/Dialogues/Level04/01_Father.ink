@@ -1,5 +1,5 @@
 ﻿# father
-INCLUDE ../Generic.ink
+INCLUDE ../Helper.ink
 VAR minigames = 0
 
 -> start
