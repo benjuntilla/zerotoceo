@@ -7,11 +7,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 5968443053714933408, guid: 6046af2432b4f0fbf85238ba202c5054,
-        type: 3}
-      propertyPath: proximityThreshold
-      value: 0.5
-      objectReference: {fileID: 0}
     - target: {fileID: 5968443053714933409, guid: 6046af2432b4f0fbf85238ba202c5054,
         type: 3}
       propertyPath: dialogue
