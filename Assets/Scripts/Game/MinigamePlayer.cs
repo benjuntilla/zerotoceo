@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public abstract class MinigamePlayer : MonoBehaviour
@@ -8,11 +9,18 @@ public abstract class MinigamePlayer : MonoBehaviour
     protected Rigidbody2D rigidBody;
     protected Collider2D playerCollider;
     protected Vector2 input;
+    
+    private MinigameManager _minigameManager;
 
-    private void Awake()
+    protected virtual void Awake()
     {
         rigidBody = GetComponent<Rigidbody2D>();
         playerCollider = GetComponent<Collider2D>();
+    }
+
+    protected virtual void Start()
+    {
+        _minigameManager = FindObjectOfType<MinigameManager>();
     }
 
     protected virtual void OnUpdate() {}
@@ -25,7 +33,7 @@ public abstract class MinigamePlayer : MonoBehaviour
 
     private void Update()
     {
-        if (MinigameManager.minigameStatus == MinigameManager.Status.InProgress && !blockInput)
+        if (MinigameManager.minigameInfo.status == MinigameManager.Status.InProgress && !blockInput)
             input = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
         else
             input = new Vector2(0, 0);

@@ -65,19 +65,19 @@ namespace MinigameGrandma
 
 		private void LoadDifficultyConfig()
 		{
-			switch (MinigameManager.minigameDifficulty)
+			switch (MinigameManager.minigameInfo.difficulty)
 			{
-				case "Hard":
+				case MinigameManager.Difficulty.Hard:
 					playerMovementSpeed = hardDifficultyConfig.playerMovementSpeed;
 					carMovementSpeed = hardDifficultyConfig.carMovementSpeed;
 					carSpawnTime = hardDifficultyConfig.carSpawnTime;
 					break;
-				case "Medium":
+				case MinigameManager.Difficulty.Medium:
 					playerMovementSpeed = mediumDifficultyConfig.playerMovementSpeed;
 					carMovementSpeed = mediumDifficultyConfig.carMovementSpeed;
 					carSpawnTime = mediumDifficultyConfig.carSpawnTime;
 					break;
-				default: // "Easy"
+				case MinigameManager.Difficulty.Easy:
 					playerMovementSpeed = easyDifficultyConfig.playerMovementSpeed;
 					carMovementSpeed = easyDifficultyConfig.carMovementSpeed;
 					carSpawnTime = easyDifficultyConfig.carSpawnTime;

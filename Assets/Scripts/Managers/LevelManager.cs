@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using Ink.Runtime;
+using UI;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -8,6 +10,11 @@ public class LevelManager : MonoBehaviour
 {
     private SaveManager _saveManager;
     private CharactersManager _charactersManager;
+    private Player _player;
+    private Modal _modal;
+    private MinigameManager _minigameManager;
+    private MenuFull _menuFull;
+    private int _potentialExperience;
     private static bool _nextLevelFlag;
 
     public Dictionary<string, int> scoreboard = new Dictionary<string, int>()
@@ -19,7 +26,7 @@ public class LevelManager : MonoBehaviour
     public int levelIndex { get; private set; }
     public string levelName { get; private set; }
     public Dictionary<int, int> nextLevelRequirements { get; private set; }
-    public LevelType currentLevelType { get; private set; }
+    public LevelType currentLevelType;
 
     [Header("Level XP Requirements")]
     public int levelOne = 100;
@@ -36,6 +43,8 @@ public class LevelManager : MonoBehaviour
     
     void Awake()
     {
+        _charactersManager = GetComponent<CharactersManager>();
+        _saveManager = GetComponent<SaveManager>();
         levelIndex = SceneManager.GetActiveScene().buildIndex;
         levelName = SceneManager.GetActiveScene().name;
         nextLevelRequirements = new Dictionary<int, int>()
@@ -45,30 +54,31 @@ public class LevelManager : MonoBehaviour
             {3, levelThree},
             {4, levelFour}
         };
-        
-        // Set level type
-        var level = SceneManager.GetActiveScene().buildIndex;
-        if (level == 0)
-        {
-            currentLevelType = LevelType.Menu;
-        }
-        else if (level == 1 || level == 2 || level == 3 || level == 4)
-        {
-            currentLevelType = LevelType.Level;
-        }
-        else if (level == 5 || level == 6 || level == 7)
-        {
-            currentLevelType = LevelType.Minigame;
-        }
     }
 
     void Start()
     {
-        _charactersManager = GetComponent<CharactersManager>();
-        _saveManager = GetComponent<SaveManager>();
+        _player = FindObjectOfType<Player>();
+        _modal = FindObjectOfType<Modal>();
+        _menuFull = FindObjectOfType<MenuFull>();
+        _minigameManager = FindObjectOfType<MinigameManager>();
         
+        CalculatePotentialPoints();
         if (_nextLevelFlag)
             InitializeNextLevel();
+    }
+
+    private void CalculatePotentialPoints()
+    {
+        var interactables = FindObjectsOfType<Interactable>();
+        foreach (var interactable in interactables)
+        {
+            var dialogue = new Story(interactable.dialogue.text);
+            if (dialogue.globalTags.Count > 1)
+                _potentialExperience += Int32.Parse(dialogue.globalTags[1]);
+            if (dialogue.globalTags.Count > 2)
+                _potentialExperience += _minigameManager.PotentialPointGain(dialogue.globalTags[2]);
+        }
     }
 
     public void InitializeNextLevel()
@@ -101,5 +111,16 @@ public class LevelManager : MonoBehaviour
         _nextLevelFlag = false;
         _saveManager.EnableLoadFlag();
         SceneManager.LoadScene(_saveManager.GetSavedLevelIndex());
+    }
+
+    public void TryLevelUp(Action cb)
+    {
+        if (_player.points >= nextLevelRequirements[levelIndex]) _menuFull.Trigger("levelEnd");
+        else cb.Invoke();
+    }
+
+    private void Update()
+    {
+        if (_potentialExperience - scoreboard["dialoguePenalty"] < nextLevelRequirements[levelIndex]) _modal.Trigger("softLock");
     }
 }

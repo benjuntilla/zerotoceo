@@ -5,8 +5,9 @@ namespace MinigameGrandma
 {
     public class Player : MinigamePlayer
     {
-        private void Start()
+        protected override void Start()
         {
+            base.Start();
             movementSpeed = FindObjectOfType<MinigameGrandmaManager>().playerMovementSpeed;
         }
 

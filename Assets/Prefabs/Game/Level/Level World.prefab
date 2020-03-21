@@ -180,7 +180,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 2146051371749369499}
-        m_MethodName: TestIfCanLevelUp
+        m_MethodName: TryLevelUp
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1695,7 +1695,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 2146051372347712302}
-        m_MethodName: TestIfMinigame
+        m_MethodName: TryTriggerMinigame
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

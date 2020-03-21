@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System;
 using UI;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -17,15 +16,32 @@ public class MinigameManager : MonoBehaviour
     private HUD _hud;
     private static bool _returningFromMinigame;
     
-    public static string minigameId { get; private set; } = ""; // Full id of minigame e.g., Minigame_Grandma_Easy
-    public static string minigameName { get; private set; } = ""; // First two parts of the minigame id e.g., Minigame_Grandma
-    public static string minigameDifficulty { get; private set; }= ""; // Just the last part of the minigame id containing the difficulty
-    public static Status minigameStatus { get; private set; } = Status.None;
-    [HideInInspector] public int minigameProgression; // Count of minigames passed on a level by level basis
+    public static MinigameInfo minigameInfo { get; private set; } = new MinigameInfo();
+    [HideInInspector] public int minigameProgression;
     [Header("Minigame Config")]
-    public Difficulty defaultDifficulty = Difficulty.Easy; // Used for debugging
+    public Difficulty defaultDifficulty = Difficulty.Easy;
     public int easyPointGain, mediumPointGain, hardPointGain;
     
+    public class MinigameInfo
+    {
+        public readonly string id;
+        public readonly string name;
+        public readonly Difficulty difficulty;
+        public Status status { get; private set; }
+        public void SetStatus(Status set)
+        {
+            status = set; 
+        }
+        public MinigameInfo(string id = "", Status status = Status.None)
+        {
+            this.status = status;
+            if (id == "") return;
+            var split = id.Split('_');
+            this.id = id;
+            name = $"{split[0]}_{split[1]}";
+            difficulty = (Difficulty) Enum.Parse(typeof(Difficulty), split[2]);
+        }
+    }
     public enum Status
     {
         None,
@@ -49,6 +65,28 @@ public class MinigameManager : MonoBehaviour
         _minigame = GetComponent<Minigame>();
         _modal = FindObjectOfType<Modal>();
         _hud = FindObjectOfType<HUD>();
+
+        CheckPassOrFail();
+    }
+    
+    private void CheckPassOrFail()
+    {
+        if (minigameInfo.status == Status.Failed)
+        {
+            minigameInfo.SetStatus(Status.None);
+            _player.lives--;
+            if (_player.lives != 0)
+                _saveManager.Save();
+        }
+        else if (minigameInfo.status == Status.Passed)
+        {
+            minigameInfo.SetStatus(Status.None);
+            _player.points += CurrentPotentialPointGain();
+            _levelManager.scoreboard["minigameBonus"] += CurrentPotentialPointGain();
+            minigameInfo = new MinigameInfo();
+            minigameProgression++;
+            _saveManager.Save();
+        }
     }
 
     public string ResolveEmptyMinigame()
@@ -56,25 +94,22 @@ public class MinigameManager : MonoBehaviour
         switch (SceneManager.GetActiveScene().buildIndex)
         {
             case 5:
-                minigameId = $"Minigame_Grandma_{defaultDifficulty.ToString()}";
+                minigameInfo = new MinigameInfo($"Minigame_Grandma_{defaultDifficulty.ToString()}", Status.InProgress);
                 break;
             case 6:
-                minigameId = $"Minigame_Trash_{defaultDifficulty.ToString()}";
+                minigameInfo = new MinigameInfo($"Minigame_Trash{defaultDifficulty.ToString()}", Status.InProgress);
                 break;
             case 7:
-                minigameId = $"Minigame_Coin_{defaultDifficulty.ToString()}";
+                minigameInfo = new MinigameInfo($"Minigame_Coin{defaultDifficulty.ToString()}", Status.InProgress);
                 break;
         }
         PrepareMinigame();
-        return minigameName;
+        return minigameInfo.name;
     }
 
     public void PrepareMinigame()
     {
-        minigameStatus = Status.InProgress;
-        var splitName = minigameId.Split('_');
-        minigameName = $"{splitName[0]}_{splitName[1]}";
-        minigameDifficulty = splitName[2];
+        minigameInfo.SetStatus(Status.InProgress);
         if (_saveManager != null)
             _saveManager.Save();
     }
@@ -89,8 +124,8 @@ public class MinigameManager : MonoBehaviour
 
     public void Pass()
     {
-        if (minigameStatus != Status.InProgress) return;
-        minigameStatus = Status.Passed;
+        if (minigameInfo.status != Status.InProgress) return;
+        minigameInfo.SetStatus(Status.Passed);
         _minigame.StopTimer();
         _returningFromMinigame = true;
         _modal.Trigger("minigamePass");
@@ -98,62 +133,47 @@ public class MinigameManager : MonoBehaviour
 
     public void Fail()
     {
-        if (minigameStatus != Status.InProgress) return;
-        minigameStatus = Status.Failed;
+        if (minigameInfo.status != Status.InProgress) return;
+        minigameInfo.SetStatus(Status.Failed);
         _minigame.StopTimer();
         _returningFromMinigame = true;
         _modal.Trigger("minigameFail");
     }
 
-    public void SetMinigameStatus(Status status)
+    public static void SetMinigame(string id, Status status)
     {
-        if (_returningFromMinigame) return;
-        minigameStatus = status;
+        if (!_returningFromMinigame) minigameInfo = new MinigameInfo(id, status);
     }
 
-    public void SetMinigameID(string id)
+    public static void ResetMinigame()
     {
-        minigameId = id;
+        minigameInfo = new MinigameInfo();
     }
 
-    public int PotentialPointGain()
+    public int CurrentPotentialPointGain()
     {
-        switch (minigameDifficulty)
+        return PotentialPointGain(minigameInfo.id);
+    }
+
+    public int PotentialPointGain(string id)
+    {
+        var minigame = new MinigameInfo(id);
+        switch (minigame.difficulty)
         {
-            case "Easy":
+            case Difficulty.Easy:
                 return easyPointGain;
-            case "Medium":
+            case Difficulty.Medium:
                 return mediumPointGain;
-            case "Hard":
+            case Difficulty.Hard:
                 return hardPointGain;
             default:
                 return 0;
         }
     }
 
-    private void CheckPassOrFail()
+    public void TryTriggerMinigame(Action cb)
     {
-        if (minigameStatus == Status.Failed)
-        {
-            minigameStatus = Status.None;
-            _player.lives--;
-            if (_player.lives != 0)
-                _saveManager.Save();
-        }
-        else if (minigameStatus == Status.Passed)
-        {
-            minigameStatus = Status.None;
-            _player.points += PotentialPointGain();
-            _levelManager.scoreboard["minigameBonus"] += PotentialPointGain();
-            minigameId = ""; // Clears the variable so the minigame cannot be replayed
-            minigameProgression++;
-            _saveManager.Save();
-        }
-    }
-
-    private void Update()
-    {
-        if (_levelManager.currentLevelType != LevelManager.LevelType.Level) return;
-        CheckPassOrFail();
+        if (minigameInfo.id != "") _modal.Trigger("minigame");
+        else cb.Invoke();
     }
 }

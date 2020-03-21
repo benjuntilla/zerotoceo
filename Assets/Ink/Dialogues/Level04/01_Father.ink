@@ -1,4 +1,5 @@
 ﻿# father
+# 999
 INCLUDE ../Helper.ink
 VAR minigames = 0
 

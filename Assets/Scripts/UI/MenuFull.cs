@@ -36,9 +36,9 @@ namespace UI
         {
             if (_levelManager.levelIndex == 1 && !_saveManager.loaded)
                 Trigger("opening");
-            else if (_levelManager.currentLevelType == LevelManager.LevelType.Minigame && MinigameManager.minigameId != "")
-                Trigger(MinigameManager.minigameName);
-            else if (_levelManager.currentLevelType == LevelManager.LevelType.Minigame && MinigameManager.minigameId == "")
+            else if (_levelManager.currentLevelType == LevelManager.LevelType.Minigame && MinigameManager.minigameInfo.id != null)
+                Trigger(MinigameManager.minigameInfo.name);
+            else if (_levelManager.currentLevelType == LevelManager.LevelType.Minigame && MinigameManager.minigameInfo.id == null)
                 Trigger(_minigameManager.ResolveEmptyMinigame()); 
         }
 

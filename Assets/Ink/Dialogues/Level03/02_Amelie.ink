@@ -1,4 +1,6 @@
 ﻿# amelie
+# 0
+# Minigame_Coin_Easy
 INCLUDE ../Helper.ink
 
 -> start

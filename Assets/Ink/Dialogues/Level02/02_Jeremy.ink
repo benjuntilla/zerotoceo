@@ -1,4 +1,6 @@
 ﻿# jeremy
+# 0
+# Minigame_Trash_Easy
 INCLUDE ../Helper.ink
 
 -> start

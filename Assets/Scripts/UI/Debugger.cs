@@ -23,7 +23,7 @@ namespace UI
         void OnGUI()
         {
             if (!_enabled ) return;
-            var log = "";
+            string log;
             if (_levelManager.currentLevelType == LevelManager.LevelType.Level)
             {
                 _playerVelocity = _playerRb.velocity;
@@ -33,7 +33,8 @@ namespace UI
                     $"Points: {_player.points}\n" +
                     $"Lives: {_player.lives}\n" +
                     $"Level: {_levelManager.levelIndex}\n" +
-                    $"Minigame Status: {MinigameManager.minigameStatus}\n" +
+                    $"Minigame Id: {MinigameManager.minigameInfo.id}\n" +
+                    $"Minigame Status: {MinigameManager.minigameInfo.status.ToString()}\n" +
                     $"Timescale: {Time.timeScale}\n";
                 GUI.Label(new Rect(10, 100, 999, 999), log,
                     debugStyle); // Rectangle dimensions are as follows: (distance from left edge, distance from top edge, width, height)
@@ -41,8 +42,8 @@ namespace UI
             else if (_levelManager.currentLevelType == LevelManager.LevelType.Minigame)
             {
                 log =
-                    $"Minigame ID: {MinigameManager.minigameId}\n" +
-                    $"Minigame Status: {MinigameManager.minigameStatus}\n" +
+                    $"Minigame ID: {MinigameManager.minigameInfo.id}\n" +
+                    $"Minigame Status: {MinigameManager.minigameInfo.status.ToString()}\n" +
                     $"Timescale: {Time.timeScale}\n";
                 GUI.Label(new Rect(10, 10, 999, 999), log,
                     debugStyle); // Rectangle dimensions are as follows: (distance from left edge, distance from top edge, width, height)

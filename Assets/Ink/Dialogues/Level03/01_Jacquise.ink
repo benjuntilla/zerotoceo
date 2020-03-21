@@ -1,4 +1,5 @@
 ﻿# jacquise
+# 20
 INCLUDE ../Helper.ink
 
 -> start
@@ -12,7 +13,7 @@ INCLUDE ../Helper.ink
 Oh, my! Look at those two pins! What are those for?
     *   [FBLA.]
         ~ xp += 20
-        Ah! Those are for BAA! I remember now!
+        Ah! Those are for BAA! I remember now! (Gained 20 xp)
     *   [DECA.]
         ~ xp -= 10
         We're not looking for marketers here. Goodbye. (Lost 10 XP) -> END

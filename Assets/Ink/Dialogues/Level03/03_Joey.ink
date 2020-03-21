@@ -1,4 +1,6 @@
 ﻿# joey
+# 20 
+# Minigame_Trash_Medium
 INCLUDE ../Helper.ink
 
 -> start

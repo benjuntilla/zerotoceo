@@ -1,4 +1,5 @@
-﻿using Ink.Runtime;
+﻿using System;
+using Ink.Runtime;
 using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
@@ -50,7 +51,7 @@ public class SaveManager : MonoBehaviour
         _loadFlag = false;
     }
 
-    [System.Serializable]
+    [Serializable]
     public class Data
     {
         public int level, lives, points;
@@ -108,8 +109,8 @@ public class SaveManager : MonoBehaviour
             lives = _playerController.lives,
             dialogueData = _dialogueManager.sessionDialogueData,
             characterPositions = characterPositions,
-            minigameId = MinigameManager.minigameId,
-            minigameStatus = MinigameManager.minigameStatus.ToString(),
+            minigameId = MinigameManager.minigameInfo.id,
+            minigameStatus = MinigameManager.minigameInfo.status.ToString(),
             minigameProgression = _minigameManager.minigameProgression,
             gameFlags = gameFlags
         };
@@ -134,12 +135,12 @@ public class SaveManager : MonoBehaviour
         if (data == null) return;
         
         // Apply data
+        var minigameStatus = (MinigameManager.Status) Enum.Parse(typeof(MinigameManager.Status), data.minigameStatus);
         _levelManager.scoreboard = data.scoreboard;
         _playerController.points = data.points;
         _playerController.lives = data.lives;
         _dialogueManager.sessionDialogueData = data.dialogueData;
-        _minigameManager.SetMinigameID(data.minigameId);
-        _minigameManager.SetMinigameStatus((MinigameManager.Status) System.Enum.Parse(typeof(MinigameManager.Status), data.minigameStatus));
+        MinigameManager.SetMinigame(data.minigameId, minigameStatus);
         _minigameManager.minigameProgression = data.minigameProgression;
 
         // Convert dictionary to InkList and apply
@@ -174,8 +175,7 @@ public class SaveManager : MonoBehaviour
     
     private void New ()
     {
-        _minigameManager.SetMinigameID("");
-        _minigameManager.SetMinigameStatus(MinigameManager.Status.None);
+        MinigameManager.ResetMinigame();
         _playerController.points = 0;
         _playerController.lives = 3;
     }

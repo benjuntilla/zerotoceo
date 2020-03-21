@@ -1,4 +1,6 @@
 ﻿# bartholemew
+# 0 
+# Minigame_Grandma_Medium
 INCLUDE ../Helper.ink
 
 -> start
