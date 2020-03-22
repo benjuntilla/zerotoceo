@@ -4,180 +4,143 @@ using System.Linq;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-public class MinigameGrandmaManager : Minigame
+namespace MinigameGrandma
 {
-	private GameObject _world, _roads, _characters;
-	private Collidable _playerCollidable;
-	private int _roadCount;
-	private int[] _roadPopulations;
-	private string[] _roadDirections;
-	private float[] _roadWaitingTimes;
-	private int _maxRoadPopulation;
-	private float _carDecayTime, _carWaitTime, _carMovementSpeed, _playerMovementSpeed;
+    public class MinigameGrandmaManager : Minigame
+	{
+		private GameObject _world, _roads, _characters;
+		private Vector2[] _roadSpawnVectors;
 
-	[Header("Game Config")]
-	public GameObject carPrefab;
-	public List<Sprite> carSprites;
-	#region public config classes
-	[System.Serializable]
-	public class EasyDifficultyConfig
-	{
-		public int maxRoadPopulation = 8;
-		public float playerMovementSpeed = 4;
-		public float carMovementSpeed = 4;
-		public float carDecayTime = 3f;
-		public float carWaitTime = 1f;
-	}
-	public EasyDifficultyConfig easyDifficultyConfig;
-	
-	[System.Serializable]
-	public class MediumDifficultyConfig
-	{
-		public int maxRoadPopulation = 8;
-		public float playerMovementSpeed = 4;
-		public float carMovementSpeed = 4;
-		public float carDecayTime = 3f;
-		public float carWaitTime = 1f;
-	}
-	public MediumDifficultyConfig mediumDifficultyConfig;
-	
-	[System.Serializable]
-	public class HardDifficultyConfig
-	{
-		public int maxRoadPopulation = 8;
-		public float playerMovementSpeed = 4;
-		public float carMovementSpeed = 4;
-		public float carDecayTime = 3f;
-		public float carWaitTime = 1f;
-	}
-	public HardDifficultyConfig hardDifficultyConfig;
-	#endregion
-
-	void Start()
-	{
-		_playerCollidable = GameObject.FindWithTag("Player").gameObject.GetComponent<Collidable>();
-		_characters = GameObject.Find("Characters");
-		_world = GameObject.FindWithTag("World");
-		_roads = _world.transform.Find("Roads").gameObject;
-		_roadCount = _roads.transform.childCount;
-		_roadPopulations = new int[_roadCount];
-		_roadDirections = new string[_roadCount];
-		_roadWaitingTimes = new float[_roadCount];
-		
-		// Randomize road directions
-		for (var i = 0; i < _roadDirections.Length; i++)
+		[Header("Public fields")]
+		public float carSpawnTime;
+		public float carMovementSpeed;
+		public float playerMovementSpeed;
+		public List<GameObject> cars = new List<GameObject>(), carTriggers = new List<GameObject>();
+		[Header("Game Config")] 
+		public float carSpeedMultiplier = 4f;
+		public float carSpawnMultiplier = 0.25f;
+		public float maxSpawnFluctuationPercentage = 0.25f;
+		public GameObject carPrefab;
+		public List<Sprite> carSprites;
+		#region public config classes
+		[System.Serializable]
+		public class EasyDifficultyConfig
 		{
-			if (Random.Range(0, 2) == 0)
-				_roadDirections[i] = "up";
-			else
-				_roadDirections[i] = "down";
+			public float playerMovementSpeed = 4;
+			public float carMovementSpeed = 4;
+			public float carSpawnTime = 1f;
 		}
+		public EasyDifficultyConfig easyDifficultyConfig;
 		
-		LoadDifficultyConfig();
-	}
-
-	private void LoadDifficultyConfig()
-	{
-		switch (MinigameManager.minigameDifficulty)
+		[System.Serializable]
+		public class MediumDifficultyConfig
 		{
-			case "Hard":
-				_maxRoadPopulation = hardDifficultyConfig.maxRoadPopulation;
-				_playerMovementSpeed = hardDifficultyConfig.playerMovementSpeed;
-				_carMovementSpeed = hardDifficultyConfig.carMovementSpeed;
-				_carDecayTime = hardDifficultyConfig.carDecayTime;
-				_carWaitTime = hardDifficultyConfig.carWaitTime;
-				break;
-			case "Medium":
-				_maxRoadPopulation = mediumDifficultyConfig.maxRoadPopulation;
-				_playerMovementSpeed = mediumDifficultyConfig.playerMovementSpeed;
-				_carMovementSpeed = mediumDifficultyConfig.carMovementSpeed;
-				_carDecayTime = mediumDifficultyConfig.carDecayTime;
-				_carWaitTime = mediumDifficultyConfig.carWaitTime;
-				break;
-			default: // "Easy"
-				_maxRoadPopulation = easyDifficultyConfig.maxRoadPopulation;
-				_playerMovementSpeed = easyDifficultyConfig.playerMovementSpeed;
-				_carMovementSpeed = easyDifficultyConfig.carMovementSpeed;
-				_carDecayTime = easyDifficultyConfig.carDecayTime;
-				_carWaitTime = easyDifficultyConfig.carWaitTime;
-				break;
+			public float playerMovementSpeed = 4;
+			public float carMovementSpeed = 4;
+			public float carSpawnTime = 1f;
 		}
+		public MediumDifficultyConfig mediumDifficultyConfig;
 		
-		minigamePlayer.movementSpeed = _playerMovementSpeed;
-	}
-
-	private IEnumerator InstantiateCar()
-	{
-		// Randomize road
-		var road = Random.Range(0, _roadCount);
-		while (_roadPopulations[road] >= _maxRoadPopulation) // Keep randomizing roads until the random road's population is less than the maximum count
-			road = Random.Range(0, _roadCount);
-		_roadPopulations[road]++;
-
-		// Determine spawn positions
-		var roadPosX = _roads.transform.GetChild(road).position.x;
-		var roadPosY = 0f;
-		switch (_roadDirections[road])
+		[System.Serializable]
+		public class HardDifficultyConfig
 		{
-			case "up":
-				roadPosY = -10f;
-				break;
-			case "down":
-				roadPosY = 10f;
-				break;
+			public float playerMovementSpeed = 4;
+			public float carMovementSpeed = 4;
+			public float carSpawnTime = 1f;
+		}
+		public HardDifficultyConfig hardDifficultyConfig;
+		#endregion
+
+		void Start()
+		{
+			_characters = GameObject.Find("Characters");
+			_world = GameObject.FindWithTag("World");
+			_roads = _world.transform.Find("Roads").gameObject;
+			
+			LoadDifficultyConfig();
+			RandomizeRoadDirections();
+			SpeedUpCars();
+			StartCoroutine(CarSpawnCoroutine());
 		}
 
-		// Wait between cars to create a gap
-		if (_roadPopulations[road] - 1 > 0) // Wait if the road population (not including this car) is greater than 0
+		private void LoadDifficultyConfig()
 		{
-			_roadWaitingTimes[road] += _carWaitTime;
-			var thisWaitingTime = _roadWaitingTimes[road];
-			yield return new WaitForSeconds(thisWaitingTime);
-			_roadWaitingTimes[road] -= _carWaitTime;
+			switch (MinigameManager.minigameInfo.difficulty)
+			{
+				case MinigameManager.Difficulty.Hard:
+					playerMovementSpeed = hardDifficultyConfig.playerMovementSpeed;
+					carMovementSpeed = hardDifficultyConfig.carMovementSpeed;
+					carSpawnTime = hardDifficultyConfig.carSpawnTime;
+					break;
+				case MinigameManager.Difficulty.Medium:
+					playerMovementSpeed = mediumDifficultyConfig.playerMovementSpeed;
+					carMovementSpeed = mediumDifficultyConfig.carMovementSpeed;
+					carSpawnTime = mediumDifficultyConfig.carSpawnTime;
+					break;
+				case MinigameManager.Difficulty.Easy:
+					playerMovementSpeed = easyDifficultyConfig.playerMovementSpeed;
+					carMovementSpeed = easyDifficultyConfig.carMovementSpeed;
+					carSpawnTime = easyDifficultyConfig.carSpawnTime;
+					break;
+			}
 		}
-		
-		// Instantiate car
-		var car = Instantiate(carPrefab, new Vector3(roadPosX, roadPosY, 0f), Quaternion.identity);
-		car.transform.parent = _characters.transform;
-		
-		// Add to the player's target collisions
-		_playerCollidable.secondaryCollisionObjects.Add(car);
 
-		// Set random sprite
-		car.GetComponent<SpriteRenderer>().sprite = carSprites[Random.Range(0, carSprites.Count)];
-		
-		// Move car & flip according to direction
-		var time = 0f;
-		switch (_roadDirections[road])
+		private void RandomizeRoadDirections()
 		{
-			case "up":
-				car.transform.localScale = new Vector3(car.transform.localScale.x, -car.transform.localScale.y, car.transform.localScale.z);
-				while (time < _carDecayTime)
+			_roadSpawnVectors = new Vector2[_roads.transform.childCount];
+			for (var i = 0; i < _roads.transform.childCount; i++)
+			{
+				var road = _roads.transform.GetChild(i).gameObject;
+				if (Random.Range(0, 2) == 0)
+					_roadSpawnVectors[i] = new Vector2(road.transform.position.x, 10);
+				else
+					_roadSpawnVectors[i] = _roadSpawnVectors[i] = new Vector2(road.transform.position.x, -10);
+			}
+		}
+
+		private void SpeedUpCars()
+		{
+			carMovementSpeed *= carSpeedMultiplier;
+			carSpawnTime *= carSpawnMultiplier;
+		}
+
+		private void SlowDownCars()
+		{
+			carMovementSpeed /= carSpeedMultiplier;
+			carSpawnTime /= carSpawnMultiplier;
+		}
+
+		public override void OnMinigameStart()
+		{
+			base.OnMinigameStart();
+			SlowDownCars();
+		}
+
+		private IEnumerator CarSpawnCoroutine()
+		{
+			while (true)
+			{
+				for (var i = 0; i < _roads.transform.childCount; i++)
 				{
-					time += Time.deltaTime;
-					car.transform.Translate(Vector3.up * Time.deltaTime * _carMovementSpeed);
-					yield return null;
+					StartCoroutine(SpawnCar(_roadSpawnVectors[i]));
 				}
-				_roadPopulations[road] -= 1;
-				Destroy(car);
-				break;
-			case "down":
-				while (time < _carDecayTime)
-				{
-					time += Time.deltaTime;
-					car.transform.Translate(Vector3.down * Time.deltaTime * _carMovementSpeed);
-					yield return null;
-				}
-				_roadPopulations[road] -= 1;
-				Destroy(car);
-				break;
+				yield return new WaitForSeconds(carSpawnTime);
+			}
 		}
-	}
 
-	void Update()
-	{
-		if (_roadPopulations.Sum() < _roadCount * _maxRoadPopulation)
-			StartCoroutine(InstantiateCar());
+		private IEnumerator SpawnCar(Vector2 position)
+		{
+			// Wait for a short, arbitrary duration to make the cars more random 
+			yield return new WaitForSeconds(Random.Range(0f, carSpawnTime * maxSpawnFluctuationPercentage));
+
+			var car = Instantiate(carPrefab, position, Quaternion.identity);
+			car.transform.parent = _characters.transform;
+			cars.Add(car);
+		}
+
+		private void Update()
+		{
+			carTriggers = cars.Select(x => x.transform.GetChild(0).gameObject).ToList();
+		}
 	}
 }
-

@@ -1,4 +1,5 @@
-﻿using Ink.Runtime;
+﻿using System;
+using Ink.Runtime;
 using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
@@ -10,9 +11,10 @@ using UnityEngine;
 [RequireComponent(typeof(DialogueManager))]
 public class SaveManager : MonoBehaviour
 {
-    public static bool loadFlag;
+    [HideInInspector] public bool loaded;
 
     private MinigameManager _minigameManager;
+    private Minigame _minigame;
     private LevelManager _levelManager;
     private DialogueManager _dialogueManager;
     private GameObject _player;
@@ -20,14 +22,14 @@ public class SaveManager : MonoBehaviour
     private Player _playerController;
     private Popup _popup;
     private string _savePath;
-    
+    private static bool _loadFlag;
+
     void Awake()
     {
         _savePath = Application.persistentDataPath + "/saveData";
-    }
-
-    void Start ()
-    {
+        loaded = _loadFlag;
+        
+        _minigame = GetComponent<Minigame>();
         _levelManager = GetComponent<LevelManager>();
         _minigameManager = GetComponent<MinigameManager>();
         _dialogueManager = GetComponent<DialogueManager>();
@@ -39,24 +41,34 @@ public class SaveManager : MonoBehaviour
         CheckLoadOrNew();
     }
 
-    [System.Serializable]
+    public void EnableLoadFlag()
+    {
+        _loadFlag = true;
+    }
+
+    public void DisableLoadFlag()
+    {
+        _loadFlag = false;
+    }
+
+    [Serializable]
     public class Data
     {
         public int level, lives, points;
         public Dictionary<string, float[]> characterPositions;
         public Dictionary<string, string> dialogueData;
         public Dictionary<string, int> scoreboard;
-        public string minigame, minigameStatus;
+        public string minigameId, minigameStatus;
         public int minigameProgression;
         public Dictionary<string, int> gameFlags;
     }
 
     private void CheckLoadOrNew()
     {
-        if (loadFlag)
+        if (_loadFlag)
         {
             Load();
-            loadFlag = false;
+            _loadFlag = false;
         } 
         else if (_levelManager.currentLevelType == LevelManager.LevelType.Level)
         {
@@ -66,7 +78,7 @@ public class SaveManager : MonoBehaviour
 
     public void Save ()
     {
-        if (_levelManager.currentLevelType == LevelManager.LevelType.Minigame) return;
+        if (_minigame) return;
         // Retrieve character positions
         var characters = new List<GameObject>(_npcList) { _player };
         var characterPositions = new Dictionary<string, float[]>();
@@ -97,8 +109,8 @@ public class SaveManager : MonoBehaviour
             lives = _playerController.lives,
             dialogueData = _dialogueManager.sessionDialogueData,
             characterPositions = characterPositions,
-            minigame = MinigameManager.minigameId,
-            minigameStatus = MinigameManager.minigameStatus.ToString(),
+            minigameId = MinigameManager.minigameInfo.id,
+            minigameStatus = MinigameManager.minigameInfo.status.ToString(),
             minigameProgression = _minigameManager.minigameProgression,
             gameFlags = gameFlags
         };
@@ -123,13 +135,12 @@ public class SaveManager : MonoBehaviour
         if (data == null) return;
         
         // Apply data
-        _levelManager.levelIndex = data.level;
+        var minigameStatus = (MinigameManager.Status) Enum.Parse(typeof(MinigameManager.Status), data.minigameStatus);
         _levelManager.scoreboard = data.scoreboard;
         _playerController.points = data.points;
         _playerController.lives = data.lives;
         _dialogueManager.sessionDialogueData = data.dialogueData;
-        MinigameManager.minigameId = data.minigame;
-        MinigameManager.minigameStatus = (MinigameManager.Status)System.Enum.Parse( typeof(MinigameManager.Status), data.minigameStatus );
+        MinigameManager.SetMinigame(data.minigameId, minigameStatus);
         _minigameManager.minigameProgression = data.minigameProgression;
 
         // Convert dictionary to InkList and apply
@@ -164,8 +175,7 @@ public class SaveManager : MonoBehaviour
     
     private void New ()
     {
-        MinigameManager.minigameId = "";
-        MinigameManager.minigameStatus = MinigameManager.Status.None;
+        MinigameManager.ResetMinigame();
         _playerController.points = 0;
         _playerController.lives = 3;
     }

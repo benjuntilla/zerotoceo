@@ -6,7 +6,7 @@ namespace UI
 {
     public class MenuFull : Fadeable
     {
-        public GameObject playerTwo, playerThree, playerFour, futureToken, businessToken, leaderToken, americaToken;
+        public GameObject playerTwo, playerThree, playerFour, futureToken, businessToken, leaderToken, americaToken, images;
         public TextMeshProUGUI titleText, bodyText, buttonText, controlsText;
         [TextArea(3, 10)]
         public string closingMenuText, openingMenuText, gameOverText, grandmaMinigameText, coinMinigameText, trashMinigameText;
@@ -19,7 +19,7 @@ namespace UI
         private MinigameManager _minigameManager;
         private Coroutine _typeCoroutine;
         private Player _player;
-        private GameObject _imagesObject;
+        private SaveManager _saveManager;
         
         void Start()
         {
@@ -27,18 +27,18 @@ namespace UI
             _levelManager = FindObjectOfType<LevelManager>();
             _minigameManager = FindObjectOfType<MinigameManager>();
             _player = FindObjectOfType<Player>();
-            _imagesObject = GetComponentInChildren<Image>().gameObject.transform.parent.gameObject;
+            _saveManager = FindObjectOfType<SaveManager>();
             
             TriggerAppropriateMenu();
         }
 
         private void TriggerAppropriateMenu()
         {
-            if (_levelManager.levelIndex == 1 && !SaveManager.loadFlag)
+            if (_levelManager.levelIndex == 1 && !_saveManager.loaded)
                 Trigger("opening");
-            else if (_levelManager.currentLevelType == LevelManager.LevelType.Minigame && MinigameManager.minigameId != "")
-                Trigger(MinigameManager.minigameName);
-            else if (_levelManager.currentLevelType == LevelManager.LevelType.Minigame && MinigameManager.minigameId == "")
+            else if (_levelManager.currentLevelType == LevelManager.LevelType.Minigame && MinigameManager.minigameInfo.id != null)
+                Trigger(MinigameManager.minigameInfo.name);
+            else if (_levelManager.currentLevelType == LevelManager.LevelType.Minigame && MinigameManager.minigameInfo.id == null)
                 Trigger(_minigameManager.ResolveEmptyMinigame()); 
         }
 
@@ -76,8 +76,13 @@ namespace UI
                     buttonText.SetText("Main Menu");
                     break;
                 case "levelEnd":
-                    Time.timeScale = 0f;
+                    FadeIn(() =>
+                    {
+                        Time.timeScale = 0f;
+                    });
                     titleText.SetText("Level Up!");
+                    bodyText.alignment = TextAlignmentOptions.Center;
+                    bodyText.alignment = TextAlignmentOptions.Top;
                     bodyText.SetText($"Good job completing level {_levelManager.levelIndex}!");
                     buttonText.SetText("Continue");
                     break;
@@ -104,13 +109,13 @@ namespace UI
             _counter++;
             if (_action == "levelEnd")
             {
-                foreach (Transform child in _imagesObject.transform)
-                    child.gameObject.SetActive(false);
+                Helper.DisableChildren(images);
                 switch (_counter)
                 {
                     case 1: // Scoreboard page
                         titleText.SetText("Scoreboard");
                         bodyText.SetText(
+                            $"\n" +
                             $"Dialogue bonus: {_levelManager.scoreboard["dialogueBonus"]}\n" +
                             $"Dialogue penalty: {_levelManager.scoreboard["dialoguePenalty"]}\n" +
                             $"Minigame bonus: {_levelManager.scoreboard["minigameBonus"]}\n" +
@@ -121,6 +126,7 @@ namespace UI
                         break;
                     case 2: // Show new clothing
                         titleText.SetText("Got new clothing!");
+                        bodyText.alignment = TextAlignmentOptions.Left;
                         bodyText.SetText("");
                         switch (_levelManager.levelIndex)
                         {
@@ -157,12 +163,13 @@ namespace UI
                     case 4: // Either advance level or end the game
                         if (_levelManager.levelIndex != 4)
                         {
+                            _levelManager.LoadNextLevel();
                             Time.timeScale = 1f;
-                            StopAllCoroutines();
+                            blocksRaycasts = false;
                             _fade.FadeIn(() =>
                             {
                                 Disable();
-                                _levelManager.LoadNextLevel();
+                                blocksRaycasts = true;
                             });
                             break;
                         }
@@ -183,14 +190,16 @@ namespace UI
                         controlsText.enabled = true;
                         break;
                     case 2:
+                        _levelManager.InitializeNextLevel();
                         Time.timeScale = 1f;
+                        blocksRaycasts = false;
                         FadeOut(() =>
                         {
                             Disable();
+                            blocksRaycasts = true;
                             bodyText.enabled = true;
                             controlsText.enabled = false;
                         });
-                        _levelManager.InitializeNextLevel();
                         break;
                 }
             }
@@ -222,10 +231,11 @@ namespace UI
                 case "Minigame_Coin":
                 case "Minigame_Trash":
                 case "Minigame_Grandma":
-                    FadeOut(() =>
-                    {
+                    _minigameManager.InitializeMinigame();
+                    blocksRaycasts = false;
+                    FadeOut(() => { 
                         Disable();
-                        _minigameManager.InitializeMinigame();
+                        blocksRaycasts = true;
                     });
                     break;
             }

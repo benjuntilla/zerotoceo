@@ -5,14 +5,14 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-	public int points { get { return _points; } set { _points = value; } }
+	public int points;
 	public int lives { get { return _lives; } set { _lives = value <= 3 ? value : 3; } }
 
 	[Header("Movement config")]
 	public float movementSpeed = 1.75f, jumpHeight = 1f;
 	public GameObject indicatorTarget;
 
-	private static int _lives = 3, _points;
+	private int _lives = 3;
     private DialogueManager _dialogueManager;
     private Interactable[] _interactables;
     private Dictionary<Interactable, float> _interactablesDistances = new Dictionary<Interactable, float>();

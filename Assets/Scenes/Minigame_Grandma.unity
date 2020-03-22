@@ -164,12 +164,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &628269628 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1078275456256098400, guid: debd9a9bc3a9de4fd9b9dd08de8baded,
-    type: 3}
-  m_PrefabInstance: {fileID: 1078275457166695193}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &677344092 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1323987721387217297, guid: 111cefa5bd480be1da3f3525f66ea721,
@@ -936,6 +930,11 @@ PrefabInstance:
       propertyPath: m_SizeDelta.x
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2440361373130561412, guid: 353226fa01a9fec84852e24c24765e2e,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2954752101801551995, guid: 353226fa01a9fec84852e24c24765e2e,
         type: 3}
       propertyPath: m_Alpha
@@ -1419,19 +1418,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1078275456256098457, guid: debd9a9bc3a9de4fd9b9dd08de8baded,
+    - target: {fileID: 5759841388078292267, guid: debd9a9bc3a9de4fd9b9dd08de8baded,
         type: 3}
       propertyPath: primaryCollisionObjects.Array.data[0]
       value: 
       objectReference: {fileID: 677344092}
-    - target: {fileID: 1078275456256098457, guid: debd9a9bc3a9de4fd9b9dd08de8baded,
+    - target: {fileID: 5759841388078292267, guid: debd9a9bc3a9de4fd9b9dd08de8baded,
         type: 3}
       propertyPath: primaryCollisionEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 104369758}
-    - target: {fileID: 1078275456256098457, guid: debd9a9bc3a9de4fd9b9dd08de8baded,
-        type: 3}
-      propertyPath: secondaryCollisionEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 104369758}
     m_RemovedComponents: []
@@ -1512,10 +1506,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 104369757, guid: 7d7fb507abc01de72b0924791bcb6d3a, type: 3}
-      propertyPath: player
-      value: 
-      objectReference: {fileID: 628269628}
     - target: {fileID: 5578106329376830034, guid: 7d7fb507abc01de72b0924791bcb6d3a,
         type: 3}
       propertyPath: m_Name
@@ -1575,11 +1565,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5578106330623315208, guid: 7d7fb507abc01de72b0924791bcb6d3a,
-        type: 3}
-      propertyPath: defaultDifficulty
-      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7d7fb507abc01de72b0924791bcb6d3a, type: 3}

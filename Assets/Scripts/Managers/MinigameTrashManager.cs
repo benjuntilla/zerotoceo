@@ -63,21 +63,21 @@ public class MinigameTrashManager : Minigame
 
     private void LoadDifficultyConfig()
     {
-        switch (MinigameManager.minigameDifficulty)
+        switch (MinigameManager.minigameInfo.difficulty)
         {
-            case "Hard":
+            case MinigameManager.Difficulty.Hard:
                 trashGravity = hardDifficultyConfig.trashGravity;
                 _playerMovementSpeed = hardDifficultyConfig.playerMovementSpeed;
                 _instantiateDelay = hardDifficultyConfig.instantiateDelay;
                 timerStartTime = hardDifficultyConfig.timer;
                 break;
-            case "Medium":
+            case MinigameManager.Difficulty.Medium:
                 trashGravity = mediumDifficultyConfig.trashGravity;
                 _playerMovementSpeed = mediumDifficultyConfig.playerMovementSpeed;
                 _instantiateDelay = mediumDifficultyConfig.instantiateDelay;
                 timerStartTime = mediumDifficultyConfig.timer;
                 break;
-            default: // "Easy"
+            case MinigameManager.Difficulty.Easy:
                 trashGravity = easyDifficultyConfig.trashGravity;
                 _playerMovementSpeed = easyDifficultyConfig.playerMovementSpeed;
                 _instantiateDelay = easyDifficultyConfig.instantiateDelay;

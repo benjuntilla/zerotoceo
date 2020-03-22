@@ -7,7 +7,6 @@ public class MinigameCoinManager : Minigame
 {
     private GameObject _characters;
     private Coroutine _instantiateLoop;
-    // Config
     private float _instantiateDelay;
 
     [Header("Game Config")]
@@ -53,17 +52,17 @@ public class MinigameCoinManager : Minigame
 
     private void LoadDifficultyConfig()
     {
-        switch (MinigameManager.minigameDifficulty)
+        switch (MinigameManager.minigameInfo.difficulty)
         {
-            case "Hard":
+            case MinigameManager.Difficulty.Hard:
                 _instantiateDelay = hardDifficultyConfig.instantiateDelay;
                 timerStartTime = hardDifficultyConfig.timer;
                 break;
-            case "Medium":
+            case MinigameManager.Difficulty.Medium:
                 _instantiateDelay = mediumDifficultyConfig.instantiateDelay;
                 timerStartTime = mediumDifficultyConfig.timer;
                 break;
-            default: // case "Easy":
+            case MinigameManager.Difficulty.Easy:
                 _instantiateDelay = easyDifficultyConfig.instantiateDelay;
                 timerStartTime = easyDifficultyConfig.timer;
                 break;

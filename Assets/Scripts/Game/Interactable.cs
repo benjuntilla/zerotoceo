@@ -1,5 +1,4 @@
-﻿using UI;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.Events;
 
 public class Interactable : MonoBehaviour
@@ -8,22 +7,22 @@ public class Interactable : MonoBehaviour
     private DialogueManager _dialogueManager;
     private CharactersManager _charactersManager;
     private GameObject _indicator;
-    private Player _player;
-    private Modal _modal;
-    private MenuFull _menuFull;
+    private MinigameManager _minigameManager;
     
     public UnityEvent interactionMethods;
     public TextAsset dialogue;
 
-    void Start()
+    private void Awake()
+    {
+        _indicator = gameObject.transform.Find("Indicator").gameObject;
+    }
+
+    private void Start()
     {
         _dialogueManager = FindObjectOfType<DialogueManager>();
         _levelManager = FindObjectOfType<LevelManager>();
         _charactersManager = FindObjectOfType<CharactersManager>();
-        _indicator = gameObject.transform.Find("Indicator").gameObject;
-        _player = FindObjectOfType<Player>();
-        _modal = FindObjectOfType<Modal>();
-        _menuFull = FindObjectOfType<MenuFull>();
+        _minigameManager = FindObjectOfType<MinigameManager>();
     }
 
     public void Interact()
@@ -31,20 +30,14 @@ public class Interactable : MonoBehaviour
         interactionMethods.Invoke();
     }
 
-    public void TestIfMinigame()
+    public void TryTriggerMinigame()
     {
-        if (MinigameManager.minigameId != "")
-            _modal.Trigger("minigame");
-        else
-            TriggerDialogue();
+        _minigameManager.TryTriggerMinigame(TriggerDialogue);
     }
     
-    public void TestIfCanLevelUp()
+    public void TryLevelUp()
     {
-        if (_player.points >= _levelManager.nextLevelRequirements[_levelManager.levelIndex])
-            _menuFull.Trigger("levelEnd");
-        else
-            TriggerDialogue();
+        _levelManager.TryLevelUp(TriggerDialogue);
     }
 
     public void TriggerDialogue()

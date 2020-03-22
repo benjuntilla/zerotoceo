@@ -58,7 +58,7 @@ namespace UI
                     _primaryButtonText.SetText("ok");
                     secondaryButton.SetActive(false);
                     modalText.SetText(
-                        $"You passed the minigame. (Gained {_minigameManager.minigamePoints[MinigameManager.minigameId]} points)");
+                        $"You passed the minigame. (Gained {_minigameManager.CurrentPotentialPointGain()} points)");
                     break;
                 case "save":
                     modalText.SetText("Are you sure you want to save? This will overwrite current save data!");
@@ -80,6 +80,11 @@ namespace UI
                     modalText.SetText(
                         "Are you sure you want to exit to the main menu? This will discard unsaved game data!");
                     break;
+                case "softLock":
+                    modalText.SetText("You have lost too many points for the level to continue. Reverting to the last save.");
+                    _primaryButtonText.SetText("Continue");
+                    secondaryButton.SetActive(false);
+                    break;
             }
         }
 
@@ -92,7 +97,7 @@ namespace UI
                     _minigameManager.PrepareMinigame();
                     _fade.FadeIn(() =>
                     {
-                        _levelManager.LoadLevel(MinigameManager.minigameName);
+                        _levelManager.LoadLevel(MinigameManager.minigameInfo.name);
                     });
                     break;
                 case "minigameFail":
@@ -135,6 +140,12 @@ namespace UI
                     break;
                 case "quit":
                     Application.Quit();
+                    break;
+                case "softLock":
+                    _fade.FadeIn(() =>
+                    {
+                        _levelManager.LoadSavedLevel();
+                    });
                     break;
             }
             action = null;

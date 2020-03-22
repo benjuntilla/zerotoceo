@@ -180,7 +180,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 2146051371749369499}
-        m_MethodName: TestIfCanLevelUp
+        m_MethodName: TryLevelUp
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1695,7 +1695,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 2146051372347712302}
-        m_MethodName: TestIfMinigame
+        m_MethodName: TryTriggerMinigame
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1705,7 +1705,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  dialogue: {fileID: 4900000, guid: c3c032aad782211f09eef4a11d786753, type: 3}
+  dialogue: {fileID: 4900000, guid: a543e8f4a4668d11bbfda13c0b8c6630, type: 3}
 --- !u!1 &2146051372434611751
 GameObject:
   m_ObjectHideFlags: 0
