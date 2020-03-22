@@ -15,6 +15,7 @@ public class LevelManager : MonoBehaviour
     private MinigameManager _minigameManager;
     private MenuFull _menuFull;
     private int _potentialExperience;
+    private bool _triggeredSoftLock;
     private static bool _nextLevelFlag;
 
     public Dictionary<string, int> scoreboard = new Dictionary<string, int>()
@@ -121,6 +122,10 @@ public class LevelManager : MonoBehaviour
 
     private void Update()
     {
-        if (_potentialExperience - scoreboard["dialoguePenalty"] < nextLevelRequirements[levelIndex]) _modal.Trigger("softLock");
+        if (_player && !_triggeredSoftLock && _potentialExperience - scoreboard["dialoguePenalty"] < nextLevelRequirements[levelIndex])
+        {
+            _triggeredSoftLock = true;
+            _modal.Trigger("softLock");
+        }
     }
 }

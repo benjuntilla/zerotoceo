@@ -81,8 +81,8 @@ namespace UI
                         "Are you sure you want to exit to the main menu? This will discard unsaved game data!");
                     break;
                 case "softLock":
-                    modalText.SetText("You have lost too many points for the level to continue. Try again.");
-                    _primaryButtonText.SetText("Restart");
+                    modalText.SetText("You have lost too many points for the level to continue. Reverting to the last save.");
+                    _primaryButtonText.SetText("Continue");
                     secondaryButton.SetActive(false);
                     break;
             }

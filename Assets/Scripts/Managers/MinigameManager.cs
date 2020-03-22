@@ -32,10 +32,10 @@ public class MinigameManager : MonoBehaviour
         {
             status = set; 
         }
-        public MinigameInfo(string id = "", Status status = Status.None)
+        public MinigameInfo(string id = null, Status status = Status.None)
         {
             this.status = status;
-            if (id == "") return;
+            if (string.IsNullOrEmpty(id)) return;
             var split = id.Split('_');
             this.id = id;
             name = $"{split[0]}_{split[1]}";
